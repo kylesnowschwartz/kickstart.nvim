@@ -25,6 +25,12 @@ vim.keymap.set('n', '<leader>bR', ':edit<CR>', { desc = '[B]uffer [R]eload curre
 -- Edit Neovim config (replace with your actual init.lua path, if desired)
 vim.keymap.set('n', '<leader>fed', ':e $MYVIMRC<CR>', { desc = '/init.lua' })
 
+-- Edit Neovim config (replace with your actual init.lua path, if desired)
+vim.keymap.set('n', '<leader>fec', ':e /Users/kyle/.config/nvim/lua/custom/keymaps.lua<CR>', { desc = 'custom/keymaps.lua' })
+
+-- Edit Neovim config (replace with your actual init.lua path, if desired)
+vim.keymap.set('n', '<leader>fep', ':e /Users/kyle/.config/nvim/lua/custom/plugins.lua<CR>', { desc = 'custom/plugins/init.lua' })
+
 -- Reloading not supported with lazy.nvim
 -- vim.keymap.set('n', '<leader>feR', ':source $MYVIMRC', { desc = 'reload init.lua' })
 
@@ -37,6 +43,12 @@ vim.keymap.set('n', '<leader>fs', ':write<CR>', { desc = '[F]ile [s]ave' })
 
 -- Write all open files
 vim.keymap.set('n', '<leader>fS', ':wall<CR>', { desc = '[F]ile [S]ave all' })
+
+-- Yank relative file path
+vim.keymap.set('n', '<leader>fy', ':let @+ = expand("%")<CR>', { desc = '[F]ile [Y]ank rel path' })
+
+-- Yank absolute file path
+vim.keymap.set('n', '<leader>fY', ':let @+ = expand("%:p")<CR>', { desc = '[F]ile [Y]ank abs path' })
 
 --------------------------------------------------------------------------------
 -- QUITTING (leader + q)
