@@ -338,9 +338,12 @@ require('lazy').setup({
         { '<leader>W', group = '[W]orkspace' },
         { '<leader>w', group = '[W]indow' },
         { '<leader>T', group = '[T]oggle' },
-        { '<leader>t', group = '[T]terminal' },
+        { '<leader>t', group = '[T]termnal' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        -- File
         { '<leader>f', group = '[F]ile' },
+        { '<leader>fe', group = '[E]dit' },
+        --
         { '<leader>F', group = '[F]ormat' },
         { '<leader>q', group = '[Q]uit' },
         { '<leader>e', group = '[E]rror/Location' },
@@ -411,6 +414,10 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          sorting_strategy = 'descending',
+          initial_mode = 'insert',
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -911,6 +918,11 @@ require('lazy').setup({
         styles = {
           comments = { italic = false }, -- Disable italics in comments
         },
+        on_highlights = function(highlights, colors)
+          -- Override the WinSeparator highlight group to be more visible
+          -- WinSeparator = { fg = c.border, bold = true }
+          highlights.WinSeparator = { fg = colors.border_highlight, bg = 'none' }
+        end,
       }
 
       -- Load the colorscheme here.
