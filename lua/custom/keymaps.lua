@@ -112,3 +112,9 @@ vim.keymap.set('n', '<leader>sc', ':nohlsearch<CR>', { desc = '[S]earch [c]lear 
 
 -- (Optionally) if you still want <Tab> to switch buffers:
 -- vim.keymap.set('n', '<Tab>', '<C-^>', { desc = 'Switch to previous buffer' })
+--
+--------------------------------------------------------------------------------
+-- MINI: mini.surround
+--------------------------------------------------------------------------------
+-- Remap adding surrounding to Visual mode selection
+vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
