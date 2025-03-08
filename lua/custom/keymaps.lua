@@ -3,8 +3,8 @@
 ----------------------------------------------------------------------------------
 -- TERMINAL COMMANDS (leader + t)
 --------------------------------------------------------------------------------
--- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close terminal' })
-vim.keymap.set('t', '<leader><Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close terminal' })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close [T]erminal' })
+-- vim.keymap.set('n', '<leader><Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close terminal' })
 
 --------------------------------------------------------------------------------
 -- BUFFER COMMANDS (leader + b)
@@ -23,7 +23,7 @@ vim.keymap.set('n', '<leader>bR', ':edit<CR>', { desc = '[B]uffer [R]eload curre
 -- FILE COMMANDS (leader + f)
 --------------------------------------------------------------------------------
 -- Edit Neovim config (replace with your actual init.lua path, if desired)
-vim.keymap.set('n', '<leader>fed', ':e $MYVIMRC<CR>', { desc = 'open init.lua' })
+vim.keymap.set('n', '<leader>fed', ':e $MYVIMRC<CR>', { desc = '/init.lua' })
 
 -- Reloading not supported with lazy.nvim
 -- vim.keymap.set('n', '<leader>feR', ':source $MYVIMRC', { desc = 'reload init.lua' })
@@ -36,7 +36,7 @@ vim.keymap.set('n', '<leader>fed', ':e $MYVIMRC<CR>', { desc = 'open init.lua' }
 vim.keymap.set('n', '<leader>fs', ':write<CR>', { desc = '[F]ile [s]ave' })
 
 -- Write all open files
-vim.keymap.set('n', '<leader>fS', ':wall<CR>', { desc = '[F]ile save [A]ll' })
+vim.keymap.set('n', '<leader>fS', ':wall<CR>', { desc = '[F]ile [S]ave all' })
 
 --------------------------------------------------------------------------------
 -- QUITTING (leader + q)
