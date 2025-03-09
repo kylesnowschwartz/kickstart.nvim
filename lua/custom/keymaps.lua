@@ -19,6 +19,21 @@ vim.keymap.set('n', '<leader>bp', ':bp<CR>', { desc = '[B]uffer [p]revious' })
 -- Reload current buffer (like re-edit)
 vim.keymap.set('n', '<leader>bR', ':edit<CR>', { desc = '[B]uffer [R]eload current file' })
 
+-- Open scratch buffer
+vim.keymap.set('n', '<leader>bs', function()
+  vim.cmd 'enew' -- Create a new empty buffer.
+  -- Set scratch buffer options.
+  vim.opt_local.buftype = 'nofile'
+  vim.opt_local.bufhidden = 'wipe'
+  vim.opt_local.swapfile = false
+  -- Generate a unique buffer name, e.g., using the current date/time.
+  local name = 'Scratch-' .. os.date '%m%d-%H:%M:%S'
+  vim.cmd('file ' .. name)
+end, { desc = '[B]uffer [S]cratch' })
+
+-- Save scratch buffer
+vim.keymap.set('n', '<leader>bw', ':setlocal buftype= | w<CR>', { desc = '[B]uffer [W]rite Scratch' })
+
 --------------------------------------------------------------------------------
 -- FILE COMMANDS (leader + f)
 --------------------------------------------------------------------------------
