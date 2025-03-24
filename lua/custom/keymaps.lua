@@ -25,11 +25,24 @@ vim.keymap.set('n', '<leader>bs', function()
   vim.cmd 'enew' -- Create a new empty buffer.
   -- Set scratch buffer options.
   vim.opt_local.buftype = 'nofile'
-  vim.opt_local.bufhidden = 'wipe'
+  vim.opt_local.bufhidden = 'hide' -- Keeps buffer in memory when switching.
   vim.opt_local.swapfile = false
+  -- Prevent auto-session from saving this buffer.
+  vim.b.auto_session_enabled = false
   -- Generate a unique buffer name, e.g., using the current date/time.
   local name = 'Scratch-' .. os.date '%m%d-%H:%M:%S'
   vim.cmd('file ' .. name)
+
+  -- Custom variable to track scratch buffers
+  vim.b.scratch_buffer = true
+  -- Autocmd to change bufhidden to 'wipe' only when exiting Neovim.
+  vim.api.nvim_create_autocmd('VimLeavePre', {
+    buffer = 0, -- Apply to the current buffer
+    callback = function()
+      vim.opt_local.bufhidden = 'delete'
+      vim.cmd 'bdelete!'
+    end,
+  })
 end, { desc = '[B]uffer [S]cratch' })
 
 -- Save scratch buffer
