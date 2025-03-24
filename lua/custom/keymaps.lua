@@ -11,6 +11,7 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close [T]ermi
 --------------------------------------------------------------------------------
 -- Delete (kill) current buffer
 vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
+vim.keymap.set('n', '<ESC><ESC>', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
 
 -- Go to next/previous buffer
 vim.keymap.set('n', '<leader>bn', ':bn<CR>', { desc = '[B]uffer [n]ext' })
@@ -44,7 +45,7 @@ vim.keymap.set('n', '<leader>fed', ':e $MYVIMRC<CR>', { desc = '/init.lua' })
 vim.keymap.set('n', '<leader>fec', ':e /Users/kyle/.config/nvim/lua/custom/keymaps.lua<CR>', { desc = 'custom/keymaps.lua' })
 
 -- Edit Neovim config (replace with your actual init.lua path, if desired)
-vim.keymap.set('n', '<leader>fep', ':e /Users/kyle/.config/nvim/lua/custom/plugins.lua<CR>', { desc = 'custom/plugins/init.lua' })
+vim.keymap.set('n', '<leader>fep', ':e /Users/kyle/.config/nvim/lua/custom/plugins/init.lua<CR>', { desc = 'custom/plugins/init.lua' })
 
 -- Reloading not supported with lazy.nvim
 -- vim.keymap.set('n', '<leader>feR', ':source $MYVIMRC', { desc = 'reload init.lua' })
