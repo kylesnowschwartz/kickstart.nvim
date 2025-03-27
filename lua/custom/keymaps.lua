@@ -13,6 +13,18 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close [T]ermi
 vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
 vim.keymap.set('n', '<ESC><ESC>', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
 
+-- Remap Macros
+vim.keymap.set('n', 'q', '<Nop>', { noremap = true, desc = 'Disabled default macro key' })
+vim.keymap.set('n', '<leader>m', 'q', { noremap = true, desc = 'Start recording macro' })
+
+-- Quick kill help menus
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'help',
+  callback = function()
+    vim.keymap.set('n', 'q', ':q<CR>', { buffer = true, desc = '[Q]uit help window' })
+  end,
+})
+
 -- Go to next/previous buffer
 vim.keymap.set('n', '<leader>bn', ':bn<CR>', { desc = '[B]uffer [n]ext' })
 vim.keymap.set('n', '<leader>bp', ':bp<CR>', { desc = '[B]uffer [p]revious' })
