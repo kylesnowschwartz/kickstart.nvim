@@ -159,3 +159,25 @@ vim.keymap.set('n', '<leader>sc', ':nohlsearch<CR>', { desc = '[S]earch [c]lear 
 --------------------------------------------------------------------------------
 -- Remap adding surrounding to Visual mode selection
 vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
+
+--------------------------------------------------------------------------------
+-- TROUBLE
+--------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>tt', ':Trouble<CR>', { desc = '[T]rouble [T]oggle' })
+vim.keymap.set('n', '<leader>tq', ':Trouble quickfix<CR>', { desc = '[T]rouble [Q]uickfix' })
+vim.keymap.set('n', '<leader>tl', ':Trouble loclist<CR>', { desc = '[T]rouble [L]ocation List' })
+vim.keymap.set('n', '<leader>tr', ':Trouble lsp_references<CR>', { desc = '[T]rouble [R]eferences (LSP)' })
+vim.keymap.set('n', '<leader>td', ':Trouble document_diagnostics<CR>', { desc = '[T]rouble [D]ocument Diagnostics' })
+vim.keymap.set('n', '<leader>tD', ':Trouble workspace_diagnostics<CR>', { desc = '[T]rouble Workspace [D]iagnostics' })
+vim.keymap.set('n', '<leader>tx', ':TroubleRefresh<CR>', { desc = '[T]rouble Refre[X]h' })
+-- vim.keymap.set('n', '<leader>to', ':Trouble fold_open_all<CR>', { desc = '[T]rouble Fold [O]pen All' })
+-- vim.keymap.set('n', '<leader>tc', ':Trouble fold_close_all<CR>', { desc = '[T]rouble Fold [C]lose All' })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'trouble',
+  callback = function()
+    vim.keymap.set('n', '<Tab>', function()
+      require('trouble').fold_toggle()
+    end, { buffer = true, desc = 'Trouble: Fold Toggle' })
+  end,
+})
