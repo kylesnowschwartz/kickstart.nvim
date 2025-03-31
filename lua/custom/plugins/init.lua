@@ -134,4 +134,22 @@ return {
     },
     opts_extend = { 'sources.default' },
   },
+  {
+    'folke/trouble.nvim',
+    opts = {
+      focus = true,
+      win = {
+        type = 'split',
+        position = 'right',
+        size = 0.5, -- Proportion of the editor's width
+        -- type = 'float', -- Use a floating window
+        -- position = 'bottom', -- Position of the floating window
+        -- height = 10, -- Height of the floating window
+        -- width = 50, -- Width of the floating window
+        -- border = 'rounded', -- Border style: "single", "double", "rounded", "shadow", or a table of border characters
+      },
+    }, -- for default options, refer to the configuration section for custom setup.
+    cmd = 'Trouble',
+    keys = {},
+  },
 }

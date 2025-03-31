@@ -307,6 +307,11 @@ require('lazy').setup({
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+      --
+      local open_with_trouble = require('trouble.sources.telescope').open
+
+      -- Use this to add more results without clearing the trouble list
+      -- local add_to_trouble = require('trouble.sources.telescope').add
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
@@ -336,6 +341,10 @@ require('lazy').setup({
           },
         },
         defaults = {
+          mappings = {
+            i = { ['<c-t>'] = open_with_trouble }, -- Insert mode mapping
+            n = { ['<c-t>'] = open_with_trouble }, -- Normal mode mapping
+          },
           sorting_strategy = 'descending',
           -- initial_mode = 'insert',
           initial_mode = 'insert',
