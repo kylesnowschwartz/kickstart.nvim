@@ -86,10 +86,10 @@ vim.keymap.set('n', '<leader>fs', ':write<CR>', { desc = '[F]ile [s]ave' })
 vim.keymap.set('n', '<leader>fS', ':wall<CR>', { desc = '[F]ile [S]ave all' })
 
 -- Yank relative file path
-vim.keymap.set('n', '<leader>fy', ':let @+ = expand("%")<CR>', { desc = '[F]ile [Y]ank rel path' })
+vim.keymap.set('n', '<leader>fyy', ':let @+ = expand("%")<CR>', { desc = '[F]ile [Y]ank rel path' })
 
 -- Yank absolute file path
-vim.keymap.set('n', '<leader>fY', ':let @+ = expand("%:p")<CR>', { desc = '[F]ile [Y]ank abs path' })
+vim.keymap.set('n', '<leader>fyY', ':let @+ = expand("%:p")<CR>', { desc = '[F]ile [Y]ank abs path' })
 
 --------------------------------------------------------------------------------
 -- QUITTING (leader + q)
