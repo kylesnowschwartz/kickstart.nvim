@@ -316,10 +316,30 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          -- live_grep = { initial_mode = 'insert' },
+          -- builtin = { initial_mode = 'insert' },
+          -- current_buffer_fuzzy_find = { initial_mode = 'insert' },
+
+          git_commits = {
+            git_command = { 'git', 'log', '--no-merges', '--pretty=oneline', '--abbrev-commit', '--', '.' },
+          },
+          buffers = {
+            sort_lastused = true,
+            sort_mru = true,
+            initial_mode = 'normal',
+          },
+          find_files = {
+            hidden = true,
+            -- Optional: don't ignore .gitignore rules
+            -- no_ignore = true,
+          },
+        },
         defaults = {
           sorting_strategy = 'descending',
+          -- initial_mode = 'insert',
           initial_mode = 'insert',
+          wrap_results = true,
         },
         extensions = {
           ['ui-select'] = {
@@ -363,6 +383,10 @@ require('lazy').setup({
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
           previewer = false,
+          layout_config = {
+            width = 0.9,
+            height = 0.6,
+          },
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
