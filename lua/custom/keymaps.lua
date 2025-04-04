@@ -158,7 +158,7 @@ vim.keymap.set('n', '<leader>sc', ':nohlsearch<CR>', { desc = '[S]earch [c]lear 
 -- MINI: mini.surround
 --------------------------------------------------------------------------------
 -- Remap adding surrounding to Visual mode selection
-vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
+vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { desc = '[S]urround' })
 
 --------------------------------------------------------------------------------
 -- TROUBLE
