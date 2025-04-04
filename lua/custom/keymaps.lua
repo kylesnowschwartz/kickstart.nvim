@@ -19,7 +19,13 @@ vim.keymap.set('n', '<leader>m', 'q', { noremap = true, desc = 'Start recording 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'help',
   callback = function()
-    vim.keymap.set('n', 'q', ':q<CR>', { buffer = true, desc = '[Q]uit help window' })
+    vim.keymap.set('n', 'q', ':q<CR>', { buffer = true, desc = '[Q]uit help window', silent = true })
+  end,
+})
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'help',
+  callback = function()
+    vim.keymap.set('n', '<ESC><ESC>', ':q<CR>', { buffer = true, desc = '[Q]uit help window', silent = true })
   end,
 })
 
