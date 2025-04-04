@@ -317,41 +317,43 @@ require('lazy').setup({
 
       -- Use this to add more results without clearing the trouble list
       -- local add_to_trouble = require('trouble.sources.telescope').add
+      local actions = require 'telescope.actions'
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
         pickers = {
-          -- live_grep = { initial_mode = 'insert' },
-          -- builtin = { initial_mode = 'insert' },
-          -- current_buffer_fuzzy_find = { initial_mode = 'insert' },
-
           git_commits = {
             git_command = { 'git', 'log', '--no-merges', '--pretty=oneline', '--abbrev-commit', '--', '.' },
           },
           buffers = {
             sort_lastused = true,
             sort_mru = true,
-            initial_mode = 'normal',
+            -- initial_mode = 'normal',
           },
           find_files = {
             hidden = true,
             -- Optional: don't ignore .gitignore rules
             -- no_ignore = true,
           },
+          current_buffer_fuzzy_find = {
+            -- sorting_strategy = 'ascending',
+            prompt_title = false,
+          },
         },
         defaults = {
           mappings = {
-            i = { ['<c-t>'] = open_with_trouble }, -- Insert mode mapping
-            n = { ['<c-t>'] = open_with_trouble }, -- Normal mode mapping
+            i = { -- Insert mode mapping
+              ['<C-T>'] = open_with_trouble,
+              ['<C-F>'] = 'to_fuzzy_refine',
+            },
+            n = { -- Normal mode mapping
+              ['<C-T>'] = open_with_trouble,
+              ['<C-K>'] = 'preview_scrolling_up',
+              ['<C-J>'] = actions.preview_scrolling_down,
+            },
           },
           sorting_strategy = 'descending',
-          -- initial_mode = 'insert',
           initial_mode = 'insert',
           wrap_results = true,
         },
@@ -391,18 +393,18 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>gB', builtin.git_branches, { desc = '[G]it [B]ranches (checkout)' })
       vim.keymap.set('n', '<leader>gS', builtin.git_stash, { desc = '[G]it [S]tash (apply/view)' })
 
-      -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
+      -- Swiper <3
+      local function swiper()
+        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy {
+          previewer = true,
           layout_config = {
-            width = 0.9,
             height = 0.6,
+            prompt_position = 'bottom',
           },
         })
-      end, { desc = '[/] Fuzzily search in current buffer' })
+      end
+      vim.keymap.set('n', '<leader>/', swiper, { desc = '[/] Fuzzy search in buffer', silent = true })
+      vim.keymap.set('n', '<leader>ss', swiper, { desc = 'Swiper <3', silent = true })
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
