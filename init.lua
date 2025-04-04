@@ -250,6 +250,12 @@ require('lazy').setup({
         { '<leader>F', group = '[F]ormat' },
         { '<leader>q', group = '[Q]uit' },
         { '<leader>e', group = '[E]rror/Location' },
+
+        -- 🔧 New non-leader mappings:
+        { 'c', group = '[C]hange' },
+        { 'd', group = '[D]elete' },
+        { 'cs', desc = 'Change [S]urround' },
+        { 'ds', desc = 'Delete [S]urround' },
       },
     },
   },
@@ -1003,6 +1009,7 @@ require('lazy').setup({
       require('mini.surround').setup {
         mappings = {
           replace = 'cs',
+          delete = 'ds',
         },
       }
 
