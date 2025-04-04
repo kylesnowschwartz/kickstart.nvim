@@ -4,14 +4,12 @@
 -- TERMINAL COMMANDS (leader + t)
 --------------------------------------------------------------------------------
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close [T]erminal' })
--- vim.keymap.set('n', '<leader><Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close terminal' })
 
 --------------------------------------------------------------------------------
 -- BUFFER COMMANDS (leader + b)
 --------------------------------------------------------------------------------
 -- Delete (kill) current buffer
 vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
-vim.keymap.set('n', '<ESC><ESC>', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
 
 -- Remap Macros
 vim.keymap.set('n', 'q', '<Nop>', { noremap = true, desc = 'Disabled default macro key' })
