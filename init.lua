@@ -349,8 +349,9 @@ require('lazy').setup({
             },
             n = { -- Normal mode mapping
               ['<C-T>'] = open_with_trouble,
-              ['<C-K>'] = 'preview_scrolling_up',
+              ['<C-K>'] = actions.preview_scrolling_up,
               ['<C-J>'] = actions.preview_scrolling_down,
+              ['<C-F>'] = 'to_fuzzy_refine',
             },
           },
           sorting_strategy = 'descending',
