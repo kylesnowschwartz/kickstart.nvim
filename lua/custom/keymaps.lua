@@ -193,3 +193,19 @@ vim.api.nvim_create_autocmd('FileType', {
     end, { buffer = true, desc = 'Trouble: Fold Toggle' })
   end,
 })
+
+--------------------------------------------------------------------------------
+-- GIT LINKER
+--------------------------------------------------------------------------------
+vim.keymap.set(
+  'n',
+  '<leader>gyY',
+  '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+  { silent = true }
+)
+vim.keymap.set(
+  'v',
+  '<leader>gyY',
+  '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
+  { silent = true }
+)

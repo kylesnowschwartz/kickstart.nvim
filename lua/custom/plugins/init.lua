@@ -98,4 +98,13 @@ return {
     cmd = 'Trouble',
     keys = {},
   },
+  {
+    'ruifm/gitlinker.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {
+      mappings = '<leader>gyy',
+    },
+  },
 }
