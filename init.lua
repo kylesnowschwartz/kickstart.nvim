@@ -867,9 +867,11 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup {
         mappings = {
+          find = 'sf', -- Find surrounding (to the right)
           replace = 'cs',
           delete = 'ds',
         },
+        search_method = 'cover_or_nearest',
       }
 
       -- Simple and easy statusline.
