@@ -269,7 +269,8 @@ require('lazy').setup({
   --
 
   -- Fuzzy Find
-  require 'custom.plugins.telescope.init',
+  -- require 'custom.plugins.telescope.init',
+  -- require 'custom.plugins.snacks.picker.init',
 
   -- LSP Plugins
   {
@@ -345,7 +346,7 @@ require('lazy').setup({
           end
 
           -- If using Telescope as our interface to LSP references
-          require('custom.plugins.telescope.lsp_keymaps').setup_lsp_keymaps(event.buf)
+          -- require('custom.plugins.telescope.lsp_keymaps').setup_lsp_keymaps(event.buf)
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
