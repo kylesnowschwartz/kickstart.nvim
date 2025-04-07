@@ -90,8 +90,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
           git_command = { 'git', 'log', '--no-merges', '--pretty=oneline', '--abbrev-commit', '--', '.' },
         },
         buffers = {
-          sort_lastused = true,
+          -- sort_lastused = true,
           sort_mru = true,
+          -- sorting_strategy = 'ascending',
           -- initial_mode = 'normal',
         },
         find_files = {
