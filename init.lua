@@ -442,6 +442,21 @@ require('lazy').setup({
         },
       }
 
+      -- TODO: Add comment explaining why we can't use Mason
+      -- Ensure the lspconfig plugin is required
+      -- local lspconfig = require 'lspconfig'
+      --
+      -- -- Configure the RuboCop LSP
+      -- lspconfig.rubocop.setup {
+      --   cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+      --   filetypes = { 'ruby' },
+      --   root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
+      --   on_attach = function(client, bufnr)
+      --     -- Your on_attach function here, if you have one
+      --   end,
+      --   capabilities = vim.lsp.protocol.make_client_capabilities(),
+      -- }
+
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -470,6 +485,12 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
         --
+        -- rubocop = {
+        --   mason = false, -- prevent Mason from managing this LSP
+        --   cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
+        --   filetypes = { 'ruby' },
+        --   root_dir = require('lspconfig.util').root_pattern('Gemfile', '.git'),
+        -- },
 
         ruby_lsp = {},
         lua_ls = {
@@ -565,7 +586,7 @@ require('lazy').setup({
         javascriptreact = { 'eslint_d' },
         typescript = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
-        ruby = { 'rubocop' },
+        -- ruby = { },
         yaml = { 'prettierd' },
         json = { 'prettierd' },
       },
