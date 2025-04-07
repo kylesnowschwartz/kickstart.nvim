@@ -117,7 +117,10 @@ return {
     {
       '<leader>bb',
       function()
-        Snacks.picker.buffers()
+        Snacks.picker.buffers {
+          sort_lastused = true,
+          hidden = true,
+        }
       end,
       desc = '[B]uffers Find existing buffers',
     },
@@ -187,7 +190,12 @@ return {
     {
       '<leader>/',
       function()
-        Snacks.picker.lines()
+        Snacks.picker.lines {
+          layout = {
+            preview = 'file',
+            preset = 'ivy',
+          },
+        }
       end,
       desc = '[/] Fuzzy search in buffer',
       silent = true,
@@ -195,7 +203,12 @@ return {
     {
       '<leader>ss',
       function()
-        Snacks.picker.lines()
+        Snacks.picker.lines {
+          layout = {
+            preview = 'file',
+            preset = 'ivy',
+          },
+        }
       end,
       desc = 'Swiper <3',
       silent = true,
