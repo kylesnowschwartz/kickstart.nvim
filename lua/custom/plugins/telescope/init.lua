@@ -60,28 +60,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
     },
   },
   config = function()
-    -- Telescope is a fuzzy finder that comes with a lot of different things that
-    -- it can fuzzy find! It's more than just a "file finder", it can search
-    -- many different aspects of Neovim, your workspace, LSP, and more!
-    --
-    -- The easiest way to use Telescope, is to start by doing something like:
-    --  :Telescope help_tags
-    --
-    -- After running this command, a window will open up and you're able to
-    -- type in the prompt window. You'll see a list of `help_tags` options and
-    -- a corresponding preview of the help.
-    --
-    -- Two important keymaps to use while in Telescope are:
-    --  - Insert mode: <c-/>
-    --  - Normal mode: ?
-    --
-    -- This opens a window that shows you all of the keymaps for the current
-    -- Telescope picker. This is really useful to discover what Telescope can
-    -- do as well as how to actually do it!
-
-    -- [[ Configure Telescope ]]
-    -- See `:help telescope` and `:help telescope.setup()`
-    --
     local open_with_trouble = require('trouble.sources.telescope').open
 
     -- Use this to add more results without clearing the trouble list
@@ -96,24 +74,24 @@ return { -- Fuzzy Finder (files, lsp, etc)
           git_command = { 'git', 'log', '--no-merges', '--pretty=oneline', '--abbrev-commit', '--', '.' },
         },
         buffers = {
-          -- sort_lastused = true,
           sort_mru = true,
+          -- ignore_current_buffer = true, -- optional, hides current buffer from the list
           -- sorting_strategy = 'ascending',
-          -- initial_mode = 'normal',
         },
         find_files = {
-          hidden = true,
+          -- hidden = true,
           -- Optional: don't ignore .gitignore rules
           -- no_ignore = true,
         },
         live_grep = {
           hidden = true,
+
           -- Optional: don't ignore .gitignore rules
           -- no_ignore = true,
         },
         current_buffer_fuzzy_find = {
           -- sorting_strategy = 'ascending',
-          prompt_title = false,
+          prompt_title = 'Swiper <3',
         },
       },
       defaults = {
@@ -131,7 +109,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         },
         sorting_strategy = 'descending',
         initial_mode = 'insert',
-        wrap_results = true,
+        wrap_results = false,
       },
       extensions = {
         ['ui-select'] = {
