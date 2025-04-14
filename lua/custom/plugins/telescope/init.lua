@@ -142,6 +142,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Git Telescope keymaps
     vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = '[G]it [F]iles (tracked)' })
+    vim.keymap.set('n', '<leader>pf', builtin.git_files, { desc = '[G]it [F]iles (tracked)' }) -- Alias for muscle memory
     vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus (changed files)' })
     vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[G]it [C]ommits (repo history)' })
     vim.keymap.set('n', '<leader>gb', builtin.git_bcommits, { desc = '[G]it [B]uffer Commits (current file)' })
