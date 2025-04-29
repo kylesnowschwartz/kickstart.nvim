@@ -89,4 +89,13 @@ return {
       { '<leader>gl', '<cmd>Neogit log<cr>', desc = 'Neogit Log (project)' },
     },
   },
+  {
+    'greggh/claude-code.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- Required for git operations
+    },
+    config = function()
+      require('claude-code').setup()
+    end,
+  },
 }
