@@ -1,7 +1,7 @@
 -- Custom Keymaps
 --
 ----------------------------------------------------------------------------------
--- TERMINAL COMMANDS (leader + t)
+-- TERMINAL COMMANDS
 --------------------------------------------------------------------------------
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close [T]erminal' })
 
@@ -128,25 +128,22 @@ vim.keymap.set('n', '<leader>w=', '<C-W>=', { desc = '[W]indow resize [=]' })
 -- Close current split
 vim.keymap.set('n', '<leader>wd', ':q<CR>', { desc = '[W]indow [d]elete' })
 
--- Jump among splits
-vim.keymap.set('n', '<leader>wh', '<C-W>h', { desc = '[W]indow left' })
-vim.keymap.set('n', '<leader>wj', '<C-W>j', { desc = '[W]indow down' })
-vim.keymap.set('n', '<leader>wk', '<C-W>k', { desc = '[W]indow up' })
-vim.keymap.set('n', '<leader>wl', '<C-W>l', { desc = '[W]indow right' })
+-- Jump among splits (via vim-tmux-navigator plugin)
+-- These are now defined in lua/custom/plugins/init.lua
 
 -- Switch split windows (rotate focus)
 vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { desc = '[W]indow cycle' })
 
--- Maximize current windows
-vim.keymap.set('n', '<leader>wm', ':only<CR>', { desc = '[W]indow cycle' })
+-- Maximize current window
+vim.keymap.set('n', '<leader>wm', ':only<CR>', { desc = '[W]indow [m]aximize' })
 --------------------------------------------------------------------------------
--- TOGGLES (leader + t)
+-- TOGGLES (leader + T for global toggles)
 --------------------------------------------------------------------------------
 -- Toggle line numbers
-vim.keymap.set('n', '<leader>tn', ':set number!<CR>', { desc = '[T]oggle [n]umber' })
+vim.keymap.set('n', '<leader>Tn', ':set number!<CR>', { desc = '[T]oggle [n]umber' })
 
 -- Toggle line wrapping
-vim.keymap.set('n', '<leader>tl', ':set wrap!<CR>', { desc = '[T]oggle [l]ine wrap' })
+vim.keymap.set('n', '<leader>Tl', ':set wrap!<CR>', { desc = '[T]oggle [l]ine wrap' })
 
 --------------------------------------------------------------------------------
 -- ERROR/LOCATION LIST NAVIGATION (leader + e)
@@ -173,17 +170,17 @@ vim.keymap.set('n', '<leader>sc', ':nohlsearch<CR>', { desc = '[S]earch [c]lear 
 vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { desc = '[S]urround' })
 
 --------------------------------------------------------------------------------
--- TROUBLE
+-- TROUBLE (leader + x for diagnostic)
 --------------------------------------------------------------------------------
-vim.keymap.set('n', '<leader>tt', ':Trouble<CR>', { desc = '[T]rouble [T]oggle' })
-vim.keymap.set('n', '<leader>tq', ':Trouble quickfix<CR>', { desc = '[T]rouble [Q]uickfix' })
-vim.keymap.set('n', '<leader>tl', ':Trouble loclist<CR>', { desc = '[T]rouble [L]ocation List' })
-vim.keymap.set('n', '<leader>tr', ':Trouble lsp_references<CR>', { desc = '[T]rouble [R]eferences (LSP)' })
-vim.keymap.set('n', '<leader>td', ':Trouble document_diagnostics<CR>', { desc = '[T]rouble [D]ocument Diagnostics' })
-vim.keymap.set('n', '<leader>tD', ':Trouble workspace_diagnostics<CR>', { desc = '[T]rouble Workspace [D]iagnostics' })
-vim.keymap.set('n', '<leader>tx', ':TroubleRefresh<CR>', { desc = '[T]rouble Refre[X]h' })
--- vim.keymap.set('n', '<leader>to', ':Trouble fold_open_all<CR>', { desc = '[T]rouble Fold [O]pen All' })
--- vim.keymap.set('n', '<leader>tc', ':Trouble fold_close_all<CR>', { desc = '[T]rouble Fold [C]lose All' })
+vim.keymap.set('n', '<leader>xx', ':Trouble<CR>', { desc = 'Trouble Toggle' })
+vim.keymap.set('n', '<leader>xq', ':Trouble quickfix<CR>', { desc = 'Trouble [Q]uickfix' })
+vim.keymap.set('n', '<leader>xl', ':Trouble loclist<CR>', { desc = 'Trouble [L]oclist' })
+vim.keymap.set('n', '<leader>xr', ':Trouble lsp_references<CR>', { desc = 'Trouble [R]eferences (LSP)' })
+vim.keymap.set('n', '<leader>xd', ':Trouble document_diagnostics<CR>', { desc = 'Trouble [D]ocument Diagnostics' })
+vim.keymap.set('n', '<leader>xw', ':Trouble workspace_diagnostics<CR>', { desc = 'Trouble [W]orkspace Diagnostics' })
+vim.keymap.set('n', '<leader>xf', ':TroubleRefresh<CR>', { desc = 'Trouble Re[f]resh' })
+-- vim.keymap.set('n', '<leader>xo', ':Trouble fold_open_all<CR>', { desc = 'Trouble Fold [O]pen All' })
+-- vim.keymap.set('n', '<leader>xc', ':Trouble fold_close_all<CR>', { desc = 'Trouble Fold [C]lose All' })
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'trouble',
@@ -201,11 +198,16 @@ vim.keymap.set(
   'n',
   '<leader>gyY',
   '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
-  { silent = true }
+  { silent = true, desc = 'Git [Y]ank and browse URL (current line)' }
 )
 vim.keymap.set(
   'v',
   '<leader>gyY',
   '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
-  { silent = true }
+  { silent = true, desc = 'Git [Y]ank and browse URL (selection)' }
 )
+
+--------------------------------------------------------------------------------
+-- CLAUDE CODE
+--------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })

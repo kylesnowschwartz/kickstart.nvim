@@ -14,7 +14,23 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
+-- relative numbers only in Normal mode and absolute numbers while typing
+local autocmd = vim.api.nvim_create_autocmd -- define the helper *first*
+local number_toggle = vim.api.nvim_create_augroup('number_toggle', { clear = true })
+autocmd('InsertEnter', {
+  group = number_toggle,
+  callback = function()
+    vim.opt.relativenumber = false
+  end,
+})
+
+autocmd('InsertLeave', {
+  group = number_toggle,
+  callback = function()
+    vim.opt.relativenumber = true
+  end,
+})
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -256,8 +272,10 @@ require('lazy').setup({
         { '<leader>W', group = '[W]orkspace' },
         { '<leader>w', group = '[W]indow' },
         { '<leader>T', group = '[T]oggle' },
-        { '<leader>t', group = '[T]termnal' },
+        { '<leader>t', group = '[T]erminal' },
+        { '<leader>x', group = 'Trouble/Diagnostics' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>gy', group = 'Git [Y]ank URL', mode = { 'n', 'v' } },
         -- File
         { '<leader>f', group = '[F]ile' },
         { '<leader>fe', group = '[E]dit' },
