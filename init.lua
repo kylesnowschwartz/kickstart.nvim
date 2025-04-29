@@ -618,7 +618,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'standardrb', -- Ruby formatter
+        'rubocop', -- Ruby formatter
         'prettier', -- YAML/JSON formatter
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -665,7 +665,7 @@ require('lazy').setup({
           return nil
         else
           return {
-            timeout_ms = 500,
+            timeout_ms = 5000, -- Increased timeout to 5 seconds for large files
             lsp_format = 'fallback',
           }
         end
@@ -681,9 +681,22 @@ require('lazy').setup({
         javascriptreact = { 'eslint_d' },
         typescript = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
-        ruby = { 'standardrb' },
+        ruby = { 'rubocop' },
         yaml = { 'prettier' },
         json = { 'prettier' },
+      },
+      -- Formatter-specific configurations
+      formatters = {
+        -- Configure rubocop to use bundler and increase timeout
+        rubocop = {
+          command = "bundle",
+          prepend_args = { "exec", "rubocop" },
+          args = { "-A", "--stderr", "--stdin", "$FILENAME" },
+          -- Allow both 0 (no offenses) and 1 (offenses auto-corrected) as success codes
+          exit_codes = { 0, 1 },
+          -- Additional timeout for large codebases
+          timeout_ms = 10000,
+        },
       },
     },
   },
