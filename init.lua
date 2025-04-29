@@ -516,10 +516,13 @@ require('lazy').setup({
             rubocop = {
               -- Use bundled rubocop if available
               useBundler = true,
+              -- Respect project's .rubocop.yml
+              configPath = ".rubocop.yml",
             },
             formatter = {
-              -- Use bundled standard if available
+              -- Use bundled RuboCop for formatting
               useBundler = true,
+              name = "rubocop",
             },
             -- Enable experimental features for better definition finding
             experimentalFeaturesEnabled = true,

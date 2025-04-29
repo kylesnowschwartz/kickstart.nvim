@@ -10,8 +10,9 @@
           "configPath": ".rubocop.yml"
         },
         "formatter": {
-          // Use standardrb through bundler
-          "useBundler": true
+          // Use RuboCop through bundler for formatting
+          "useBundler": true,
+          "name": "rubocop"
         },
         
         // Enable experimental features for better functionality
