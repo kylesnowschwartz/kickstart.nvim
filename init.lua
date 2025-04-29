@@ -475,20 +475,10 @@ require('lazy').setup({
         },
       }
 
-      -- TODO: Add comment explaining why we can't use Mason
-      -- Ensure the lspconfig plugin is required
-      -- local lspconfig = require 'lspconfig'
-      --
-      -- -- Configure the RuboCop LSP
-      -- lspconfig.rubocop.setup {
-      --   cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
-      --   filetypes = { 'ruby' },
-      --   root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
-      --   on_attach = function(client, bufnr)
-      --     -- Your on_attach function here, if you have one
-      --   end,
-      --   capabilities = vim.lsp.protocol.make_client_capabilities(),
-      -- }
+      -- Ruby Config: We use Ruby LSP through Mason, but some Ruby LSPs need special handling
+      -- If needing other bundled executables like solargraph, standardrb, etc:
+      -- 1. They need to be invoked with 'bundle exec'
+      -- 2. They need to be configured outside Mason to use the project's bundled gems
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -518,14 +508,17 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
         --
-        -- rubocop = {
-        --   mason = false, -- prevent Mason from managing this LSP
-        --   cmd = { 'bundle', 'exec', 'rubocop', '--lsp' },
-        --   filetypes = { 'ruby' },
-        --   root_dir = require('lspconfig.util').root_pattern('Gemfile', '.git'),
-        -- },
-
-        ruby_lsp = {},
+        ruby_lsp = {
+          -- Ruby LSP is maintained by Shopify and works well with Rails projects
+          -- For advanced Rails functionality, consider additional configuration:
+          -- https://github.com/Shopify/ruby-lsp/blob/main/EDITORS.md#neovim-lsp
+          settings = {
+            rubocop = {
+              -- Use bundled rubocop if available
+              useBundler = true,
+            },
+          },
+        },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -558,6 +551,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'standardrb', -- Ruby formatter
+        'prettier', -- YAML/JSON formatter
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -619,9 +614,9 @@ require('lazy').setup({
         javascriptreact = { 'eslint_d' },
         typescript = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
-        -- ruby = { },
-        -- yaml = { 'prettierd' },
-        -- json = { 'prettierd' },
+        ruby = { 'standardrb' },
+        yaml = { 'prettier' },
+        json = { 'prettier' },
       },
     },
   },

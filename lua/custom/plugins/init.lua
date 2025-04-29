@@ -62,9 +62,21 @@ return {
         -- width = 50, -- Width of the floating window
         -- border = 'rounded', -- Border style: "single", "double", "rounded", "shadow", or a table of border characters
       },
-    }, -- for default options, refer to the configuration section for custom setup.
+      auto_preview = true,
+      fold_open = "▾",
+      fold_closed = "▸",
+      indent_lines = true,
+      use_diagnostic_signs = true,
+    },
     cmd = 'Trouble',
-    keys = {},
+    keys = {
+      { "<leader>xx", "<cmd>Trouble<cr>", desc = "Trouble Toggle" },
+      { "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", desc = "Trouble Workspace Diagnostics" },
+      { "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", desc = "Trouble Document Diagnostics" },
+      { "<leader>xl", "<cmd>Trouble loclist<cr>", desc = "Trouble Location List" },
+      { "<leader>xq", "<cmd>Trouble quickfix<cr>", desc = "Trouble Quickfix" },
+      { "<leader>xr", "<cmd>Trouble lsp_references<cr>", desc = "Trouble References" },
+    },
   },
   {
     'ruifm/gitlinker.nvim',

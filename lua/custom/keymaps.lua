@@ -3,7 +3,12 @@
 ----------------------------------------------------------------------------------
 -- TERMINAL COMMANDS
 --------------------------------------------------------------------------------
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Close [T]erminal' })
+-- Single ESC to enter normal mode, <Esc><Esc> to close terminal
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Terminal: Enter normal mode' })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Terminal: Close terminal' })
+
+-- Open a terminal buffer
+vim.keymap.set('n', '<leader>tt', ':terminal<CR>i', { desc = '[T]erminal: Open [t]erminal' })
 
 --------------------------------------------------------------------------------
 -- BUFFER COMMANDS (leader + b)
@@ -79,9 +84,8 @@ vim.keymap.set('n', '<leader>fep', ':e /Users/kyle/.config/nvim/lua/custom/plugi
 -- Reloading not supported with lazy.nvim
 -- vim.keymap.set('n', '<leader>feR', ':source $MYVIMRC', { desc = 'reload init.lua' })
 
--- Prompt to open/edit a new file (substituting current directory path, etc.)
--- TODO: Figure out find file vs format
--- vim.keymap.set('n', '<leader>ff', ':edit <C-R>=substitute(expand("%:p:h"), $HOME, "~", "")<CR>/', { desc = '[F]ile [f]ind file prompt' })
+-- Note: We use Telescope for file finding with <leader>ff and <leader>pf
+-- so this keybinding is unnecessary
 
 -- Write (save) current file
 vim.keymap.set('n', '<leader>fs', ':write<CR>', { desc = '[F]ile [s]ave' })
