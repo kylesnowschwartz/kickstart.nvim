@@ -1,0 +1,45 @@
+{
+  "lspconfig": {
+    "ruby_lsp": {
+      "settings": {
+        "rubocop": {
+          // Use project's Rubocop configuration
+          "useBundler": true,
+          
+          // Project-specific path to .rubocop.yml
+          "configPath": ".rubocop.yml"
+        },
+        "formatter": {
+          // Use standardrb through bundler
+          "useBundler": true
+        },
+        
+        // Enable experimental features for better functionality
+        "experimentalFeaturesEnabled": true,
+        
+        // Project-specific gem paths (optional - will be auto-detected)
+        "bundleGemPaths": [
+          // Uncomment and fill if auto-detection doesn't work correctly
+          // "/path/to/specific/gem"
+        ],
+        
+        // Specific LSP features to enable
+        "enabledFeatures": [
+          "documentHighlights",
+          "documentSymbols", 
+          "foldingRanges",
+          "selectionRanges",
+          "semanticHighlighting",
+          "formatting",
+          "codeActions",
+          "hover",
+          "inlayHint",
+          "onTypeFormatting",
+          "diagnostics",
+          "completion",
+          "codeLens"
+        ]
+      }
+    }
+  }
+}
