@@ -1,7 +1,6 @@
 return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
-  branch = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
     { -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -168,9 +167,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
             preview_width = 0.55,
             prompt_position = 'bottom',
           },
-          previewer = require('custom.plugins.telescope.previewers.terminal'):new({
-            bufnr = current_bufnr
-          })
+          previewer = require('custom.plugins.telescope.previewers.terminal'):new {
+            bufnr = current_bufnr,
+          },
         }
 
         -- Run with our custom previewer
