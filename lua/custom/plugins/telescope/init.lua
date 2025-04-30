@@ -90,7 +90,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
           -- no_ignore = true,
         },
         current_buffer_fuzzy_find = {
-          -- sorting_strategy = 'ascending',
+          sorting_strategy = 'ascending', -- Enable ascending sort for consistency
           prompt_title = 'Swiper <3',
         },
       },
@@ -161,6 +161,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- For terminal buffers, use a horizontal layout like grep preview
         local config = {
           layout_strategy = 'horizontal',
+          sorting_strategy = 'ascending', -- Make results go from top to bottom
           layout_config = {
             width = 0.95,
             height = 0.85,
@@ -177,6 +178,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
       else
         -- For normal buffers, use the default ivy theme
         local config = {
+          sorting_strategy = 'ascending', -- Make results go from top to bottom for consistency
           layout_config = {
             height = 0.6,
             prompt_position = 'bottom',
