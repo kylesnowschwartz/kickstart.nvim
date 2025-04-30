@@ -10,6 +10,15 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Terminal: Clo
 -- Open a terminal buffer
 vim.keymap.set('n', '<leader>tt', ':terminal<CR>i', { desc = '[T]erminal: Open [t]erminal' })
 
+-- Disable line numbers in terminal buffers
+vim.api.nvim_create_autocmd('TermOpen', {
+  group = vim.api.nvim_create_augroup('terminal_settings', { clear = true }),
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+  end,
+})
+
 --------------------------------------------------------------------------------
 -- BUFFER COMMANDS (leader + b)
 --------------------------------------------------------------------------------
@@ -222,28 +231,28 @@ vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude
 -- Add a keymap to copy from :messages buffer to clipboard
 vim.keymap.set('n', '<leader>cm', function()
   -- Create a new split and redirect messages into it
-  vim.cmd('botright new')
-  vim.cmd('redir @a')
-  vim.cmd('silent messages')
-  vim.cmd('redir END')
-  vim.cmd('put a')
-  vim.cmd('normal! ggdd')
-  vim.cmd('setlocal buftype=nofile bufhidden=wipe noswapfile nomodified')
-  vim.cmd('file Messages')
+  vim.cmd 'botright new'
+  vim.cmd 'redir @a'
+  vim.cmd 'silent messages'
+  vim.cmd 'redir END'
+  vim.cmd 'put a'
+  vim.cmd 'normal! ggdd'
+  vim.cmd 'setlocal buftype=nofile bufhidden=wipe noswapfile nomodified'
+  vim.cmd 'file Messages'
 
   -- Set local options for this buffer
   vim.opt_local.number = false
   vim.opt_local.relativenumber = false
-  
+
   -- Add a helpful mapping to copy all messages
   vim.keymap.set('n', 'yG', function()
     -- Yank from start to end
-    vim.cmd('normal! ggVGy')
-    print('Messages copied to clipboard')
+    vim.cmd 'normal! ggVGy'
+    print 'Messages copied to clipboard'
   end, { buffer = true, desc = 'Yank all messages' })
-  
+
   -- Add quit mapping
   vim.keymap.set('n', 'q', ':q<CR>', { buffer = true, desc = 'Close messages window', silent = true })
 
-  print('Press yG to copy all messages to clipboard, q to close')
+  print 'Press yG to copy all messages to clipboard, q to close'
 end, { desc = 'Open [M]essages buffer with copy support' })

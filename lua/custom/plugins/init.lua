@@ -63,19 +63,19 @@ return {
         -- border = 'rounded', -- Border style: "single", "double", "rounded", "shadow", or a table of border characters
       },
       auto_preview = true,
-      fold_open = "▾",
-      fold_closed = "▸",
+      fold_open = '▾',
+      fold_closed = '▸',
       indent_lines = true,
       use_diagnostic_signs = true,
     },
     cmd = 'Trouble',
     keys = {
-      { "<leader>xx", "<cmd>Trouble<cr>", desc = "Trouble Toggle" },
-      { "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", desc = "Trouble Workspace Diagnostics" },
-      { "<leader>xd", "<cmd>Trouble document_diagnostics<cr>", desc = "Trouble Document Diagnostics" },
-      { "<leader>xl", "<cmd>Trouble loclist<cr>", desc = "Trouble Location List" },
-      { "<leader>xq", "<cmd>Trouble quickfix<cr>", desc = "Trouble Quickfix" },
-      { "<leader>xr", "<cmd>Trouble lsp_references<cr>", desc = "Trouble References" },
+      { '<leader>xx', '<cmd>Trouble<cr>', desc = 'Trouble Toggle' },
+      { '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>', desc = 'Trouble Workspace Diagnostics' },
+      { '<leader>xd', '<cmd>Trouble document_diagnostics<cr>', desc = 'Trouble Document Diagnostics' },
+      { '<leader>xl', '<cmd>Trouble loclist<cr>', desc = 'Trouble Location List' },
+      { '<leader>xq', '<cmd>Trouble quickfix<cr>', desc = 'Trouble Quickfix' },
+      { '<leader>xr', '<cmd>Trouble lsp_references<cr>', desc = 'Trouble References' },
     },
   },
   {
@@ -107,7 +107,14 @@ return {
       'nvim-lua/plenary.nvim', -- Required for git operations
     },
     config = function()
-      require('claude-code').setup()
+      require('claude-code').setup {
+        command = '/Users/kyle/.claude-wrapper',
+        window = {
+          position = 'vsplit',
+          split_ratio = 0.4,
+          hide_numbers = true,
+        },
+      }
     end,
   },
 }
