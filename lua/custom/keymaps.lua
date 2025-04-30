@@ -215,3 +215,26 @@ vim.keymap.set(
 -- CLAUDE CODE
 --------------------------------------------------------------------------------
 vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })
+
+--------------------------------------------------------------------------------
+-- MESSAGES
+--------------------------------------------------------------------------------
+-- Add a keymap to copy from :messages buffer to clipboard
+vim.keymap.set('n', '<leader>cm', function()
+  -- Open messages in a split
+  vim.cmd('botright split')
+  vim.cmd('messages')
+  
+  -- Set local options for this buffer
+  vim.opt_local.number = false
+  vim.opt_local.relativenumber = false
+  
+  -- Add a helpful mapping to copy all messages
+  vim.keymap.set('n', 'yG', function()
+    -- Yank from start to end
+    vim.cmd('normal! ggVGy')
+    print('Messages copied to clipboard')
+  end, { buffer = true, desc = 'Yank all messages' })
+  
+  print('Press yG to copy all messages to clipboard')
+end, { desc = 'Open [M]essages in split with copy support' })

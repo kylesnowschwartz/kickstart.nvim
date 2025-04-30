@@ -150,13 +150,22 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Swiper <3
     local function swiper()
-      require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy {
-        previewer = true,
+      -- Detect if we're in a terminal buffer
+      local is_terminal = vim.bo.buftype == 'terminal'
+
+      -- Apply different configurations based on buffer type
+      local config = {
+        __hide_previewer = is_terminal, -- This is the key parameter that hides the previewer
         layout_config = {
-          height = 0.6,
+          height = is_terminal and 0.85 or 0.6,
+          width = is_terminal and 0.9 or nil,
           prompt_position = 'bottom',
+          -- Ivy theme uses bottom_pane layout which doesn't support preview_height
+          preview_width = is_terminal and 0.7 or 0.5,
         },
-      })
+      }
+
+      require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy(config))
     end
     vim.keymap.set('n', '<leader>/', swiper, { desc = '[/] Fuzzy search in buffer', silent = true })
     vim.keymap.set('n', '<leader>ss', swiper, { desc = 'Swiper <3', silent = true })
