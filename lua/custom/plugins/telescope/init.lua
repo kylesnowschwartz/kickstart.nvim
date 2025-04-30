@@ -62,7 +62,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
   config = function()
     local open_with_trouble = require('trouble.sources.telescope').open
 
-    -- Use this to add more results without clearing the trouble list
+    -- Use this to add more results without clearing the trouble lis
     -- local add_to_trouble = require('trouble.sources.telescope').add
     local actions = require 'telescope.actions'
     require('telescope').setup {
@@ -75,7 +75,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         },
         buffers = {
           sort_mru = true,
-          -- ignore_current_buffer = true, -- optional, hides current buffer from the list
+          -- ignore_current_buffer = true, -- optional, hides current buffer from the lis
           -- sorting_strategy = 'ascending',
         },
         find_files = {
@@ -172,7 +172,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
             bufnr = current_bufnr
           })
         }
-        
+
         -- Run with our custom previewer
         require('telescope.builtin').current_buffer_fuzzy_find(config)
       else
@@ -184,7 +184,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
             prompt_position = 'bottom',
           },
         }
-        
+
         -- Run with standard configuration
         require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy(config))
       end
