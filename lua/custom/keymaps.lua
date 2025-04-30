@@ -221,10 +221,16 @@ vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude
 --------------------------------------------------------------------------------
 -- Add a keymap to copy from :messages buffer to clipboard
 vim.keymap.set('n', '<leader>cm', function()
-  -- Open messages in a split
-  vim.cmd('botright split')
-  vim.cmd('messages')
-  
+  -- Create a new split and redirect messages into it
+  vim.cmd('botright new')
+  vim.cmd('redir @a')
+  vim.cmd('silent messages')
+  vim.cmd('redir END')
+  vim.cmd('put a')
+  vim.cmd('normal! ggdd')
+  vim.cmd('setlocal buftype=nofile bufhidden=wipe noswapfile nomodified')
+  vim.cmd('file Messages')
+
   -- Set local options for this buffer
   vim.opt_local.number = false
   vim.opt_local.relativenumber = false
@@ -236,5 +242,8 @@ vim.keymap.set('n', '<leader>cm', function()
     print('Messages copied to clipboard')
   end, { buffer = true, desc = 'Yank all messages' })
   
-  print('Press yG to copy all messages to clipboard')
-end, { desc = 'Open [M]essages in split with copy support' })
+  -- Add quit mapping
+  vim.keymap.set('n', 'q', ':q<CR>', { buffer = true, desc = 'Close messages window', silent = true })
+
+  print('Press yG to copy all messages to clipboard, q to close')
+end, { desc = 'Open [M]essages buffer with copy support' })
