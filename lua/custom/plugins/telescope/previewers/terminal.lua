@@ -4,6 +4,12 @@ local previewers = require "telescope.previewers"
 local putils = require "telescope.previewers.utils"
 local conf = require("telescope.config").values
 
+-- Helper function to strip ANSI color codes for display
+local function strip_ansi_colors(str)
+  -- This pattern matches ANSI escape sequences for colors
+  return str:gsub("\27%[[0-9;]*m", "")
+end
+
 -- Terminal buffer previewer for Telescope
 local TerminalBufferPreviewer = {}
 
@@ -61,7 +67,12 @@ function TerminalBufferPreviewer:new(opts)
       for i, line in ipairs(context_lines) do
         local ctx_lnum = start_line + i
         local prefix = ctx_lnum == lnum and "➤" or " "
-        table.insert(output, string.format("%s %3d │ %s", prefix, ctx_lnum, line))
+        
+        -- Strip ANSI color codes for display
+        local display_line = strip_ansi_colors(line)
+        
+        -- Format with nice line numbers and separator
+        table.insert(output, string.format("%s %3d │ %s", prefix, ctx_lnum, display_line))
       end
       
       -- Set the output to the preview buffer
@@ -89,14 +100,47 @@ function TerminalBufferPreviewer:new(opts)
         )
       end
       
-      -- Set the filetype to get syntax highlighting
-      vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", "terminal")
+      -- Set the filetype for better highlighting
+      -- Try to detect if this is a shell terminal or other type
+      local term_content = table.concat(context_lines, "\n")
+      
+      -- Detect filetype from content
+      local detected_ft = "terminal"
+      if term_content:match("bash") or term_content:match("zsh") then
+        detected_ft = "bash"
+      elseif term_content:match("irb") or term_content:match("pry") then
+        detected_ft = "ruby"
+      end
+      
+      -- Apply detected filetype
+      vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", detected_ft)
       
       -- Apply the same highlighting as the grep preview window
       vim.api.nvim_win_set_option(status.preview_win, "winhl", "Normal:TelescopePreviewNormal")
       vim.api.nvim_win_set_option(status.preview_win, "signcolumn", "no")
       vim.api.nvim_win_set_option(status.preview_win, "foldlevel", 100)
       vim.api.nvim_win_set_option(status.preview_win, "wrap", false)
+      
+      -- Add syntax highlighting for common terminal elements
+      local namespace = vim.api.nvim_create_namespace("telescope_terminal_preview")
+      
+      -- Apply highlighting to line numbers and separators
+      for i, line in ipairs(output) do
+        -- Highlight line numbers
+        vim.api.nvim_buf_add_highlight(self.state.bufnr, namespace, "Comment", i - 1, 2, 6)
+        
+        -- Highlight separator
+        vim.api.nvim_buf_add_highlight(self.state.bufnr, namespace, "TelescopePreviewBorder", i - 1, 6, 8)
+        
+        -- Highlight command prompts like $, >, etc.
+        if line:match("│%s*[%$#>]%s") then
+          local prompt_start = line:find("│") + 1
+          local prompt_end = line:find("[%$#>]", prompt_start) + 1
+          if prompt_start and prompt_end then
+            vim.api.nvim_buf_add_highlight(self.state.bufnr, namespace, "TelescopePromptPrefix", i - 1, prompt_start, prompt_end)
+          end
+        end
+      end
     end,
   }
 end
