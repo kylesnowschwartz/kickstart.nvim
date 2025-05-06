@@ -147,4 +147,16 @@ return {
       }
     end,
   },
+  {
+    'fabridamicelli/cronex.nvim',
+    config = function()
+      require('cronex').setup {
+        file_patterns = { '*.yaml', '*.yml', '*.tf', '*.cfg', '*.config', '*.conf', '*.crontab' },
+        extractor = {
+          cron_from_line = require('cronex.cron_from_line').cron_from_line_crontab,
+          extract = require('cronex.extract').extract,
+        },
+      }
+    end,
+  },
 }
