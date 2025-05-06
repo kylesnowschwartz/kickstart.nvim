@@ -268,8 +268,8 @@ require('lazy').setup({
         { '<leader>b', group = '[b]uffer' },
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename/[R]uby', },
-        { '<leader>rt', group = '[R]uby [T]esting', },
+        { '<leader>r', group = '[R]ename/[R]uby' },
+        { '<leader>rt', group = '[R]uby [T]esting' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>W', group = '[W]orkspace' },
         { '<leader>w', group = '[W]indow' },
@@ -518,30 +518,30 @@ require('lazy').setup({
               -- Use bundled rubocop if available
               useBundler = true,
               -- Respect project's .rubocop.yml
-              configPath = ".rubocop.yml",
+              configPath = '.rubocop.yml',
             },
             formatter = {
               -- Use bundled RuboCop for formatting
               useBundler = true,
-              name = "rubocop",
+              name = 'rubocop',
             },
             -- Enable experimental features for better definition finding
             experimentalFeaturesEnabled = true,
             -- Enable Rails-specific intelligence
             enabledFeatures = {
-              "documentHighlights",
-              "documentSymbols", 
-              "foldingRanges",
-              "selectionRanges",
-              "semanticHighlighting",
-              "formatting",
-              "codeActions",
-              "hover",
-              "inlayHint",
-              "onTypeFormatting",
-              "diagnostics",
-              "completion",
-              "codeLens",
+              'documentHighlights',
+              'documentSymbols',
+              'foldingRanges',
+              'selectionRanges',
+              'semanticHighlighting',
+              'formatting',
+              'codeActions',
+              'hover',
+              'inlayHint',
+              'onTypeFormatting',
+              'diagnostics',
+              'completion',
+              'codeLens',
             },
           },
           -- Enhanced Ruby LSP setup for better gem path handling
@@ -551,39 +551,43 @@ require('lazy').setup({
             if vim.fn.filereadable(bundle_gemfile) == 1 then
               -- We'll just use the globally installed ruby-lsp for consistency
               -- This approach is most practical for large projects like Marketplace
-              
+
               -- Get the gem paths from bundler
               local status, gem_paths_output = pcall(function()
-                local handle = io.popen("cd " .. vim.fn.getcwd() .. " && bundle show --paths 2>/dev/null")
+                local handle = io.popen('cd ' .. vim.fn.getcwd() .. ' && bundle show --paths 2>/dev/null')
                 if handle then
-                  local output = handle:read("*a")
+                  local output = handle:read '*a'
                   handle:close()
                   return output
                 end
-                return ""
+                return ''
               end)
-              
+
               -- Process gem paths safely
-              if status and gem_paths_output ~= "" then
+              if status and gem_paths_output ~= '' then
                 -- Split the gem paths into a table and validate paths
                 local paths = {}
-                for path in string.gmatch(gem_paths_output, "[^\r\n]+") do
+                for path in string.gmatch(gem_paths_output, '[^\r\n]+') do
                   -- Only add paths that exist
                   if vim.fn.isdirectory(path) == 1 then
                     table.insert(paths, path)
                   end
                 end
-                
+
                 -- Add gem paths to the LSP configuration if any valid paths found
                 if #paths > 0 then
-                  if not new_config.settings then new_config.settings = {} end
-                  if not new_config.settings.ruby_lsp then new_config.settings.ruby_lsp = {} end
-                  
+                  if not new_config.settings then
+                    new_config.settings = {}
+                  end
+                  if not new_config.settings.ruby_lsp then
+                    new_config.settings.ruby_lsp = {}
+                  end
+
                   -- Set gem path configuration
                   new_config.settings.ruby_lsp.bundleGemPaths = paths
-                  
+
                   -- Log success message
-                  vim.notify("Ruby LSP: Added " .. #paths .. " bundled gems to LSP configuration", vim.log.levels.INFO)
+                  vim.notify('Ruby LSP: Added ' .. #paths .. ' bundled gems to LSP configuration', vim.log.levels.INFO)
                 end
               end
             end
@@ -693,9 +697,9 @@ require('lazy').setup({
       formatters = {
         -- Configure rubocop to use bundler and increase timeout
         rubocop = {
-          command = "bundle",
-          prepend_args = { "exec", "rubocop" },
-          args = { "-A", "--stderr", "--stdin", "$FILENAME" },
+          command = 'bundle',
+          prepend_args = { 'exec', 'rubocop' },
+          args = { '-A', '--stderr', '--stdin', '$FILENAME' },
           -- Allow both 0 (no offenses) and 1 (offenses auto-corrected) as success codes
           exit_codes = { 0, 1 },
           -- Additional timeout for large codebases
@@ -894,11 +898,11 @@ require('lazy').setup({
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-  
+
   -- Project-specific configuration loader
   {
-    "folke/neoconf.nvim",
-    cmd = "Neoconf",
+    'folke/neoconf.nvim',
+    cmd = 'Neoconf',
     opts = {
       -- Simplified configuration focused on Ruby development
       import = {
@@ -912,40 +916,45 @@ require('lazy').setup({
         enabled = true,
         -- Look for .neoconf.json first, then fallback to these
         filetype = {
-          ruby = { ".neoconf.ruby.json", ".ruby-lsp.json" },
+          ruby = { '.neoconf.ruby.json', '.ruby-lsp.json' },
         },
       },
     },
     config = function(_, opts)
-      require("neoconf").setup(opts)
+      require('neoconf').setup(opts)
       -- Load neoconf before LSP setup
-      require("neoconf").load()
+      require('neoconf').load()
     end,
   },
-  
+
   -- Rails development enhancements
   {
-    "tpope/vim-rails",
-    ft = {"ruby", "eruby", "haml", "slim"},
+    'tpope/vim-rails',
+    ft = { 'ruby', 'eruby', 'haml', 'slim' },
     cmd = {
-      "Emodel", "Eview", "Econtroller", "Ehelper",
-      "Einitializer", "Emigration", "Eschema"
+      'Emodel',
+      'Eview',
+      'Econtroller',
+      'Ehelper',
+      'Einitializer',
+      'Emigration',
+      'Eschema',
     },
   },
-  
+
   -- Add test runner for Ruby
   {
-    "vim-test/vim-test",
+    'vim-test/vim-test',
     keys = {
-      { "<leader>rt", "<cmd>TestFile<cr>", desc = "[R]uby [T]est File" },
-      { "<leader>rs", "<cmd>TestNearest<cr>", desc = "[R]uby Test [S]ingle" },
-      { "<leader>rl", "<cmd>TestLast<cr>", desc = "[R]uby Test [L]ast" },
-      { "<leader>ra", "<cmd>TestSuite<cr>", desc = "[R]uby Test [A]ll" },
+      { '<leader>rt', '<cmd>TestFile<cr>', desc = '[R]uby [T]est File' },
+      { '<leader>rs', '<cmd>TestNearest<cr>', desc = '[R]uby Test [S]ingle' },
+      { '<leader>rl', '<cmd>TestLast<cr>', desc = '[R]uby Test [L]ast' },
+      { '<leader>ra', '<cmd>TestSuite<cr>', desc = '[R]uby Test [A]ll' },
     },
     config = function()
-      vim.g["test#strategy"] = "neovim"
-      vim.g["test#ruby#bundle_exec"] = 1
-      vim.g["test#ruby#use_binstubs"] = 0
+      vim.g['test#strategy'] = 'neovim'
+      vim.g['test#ruby#bundle_exec'] = 1
+      vim.g['test#ruby#use_binstubs'] = 0
     end,
   },
 
