@@ -126,6 +126,7 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 
 --  Uncomment the following line and add your keymaps to `lua/custom/keymaps/*.lua` to get going.
 require 'custom.keymaps'
+require 'custom.ghostty'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
