@@ -144,6 +144,16 @@ return {
           split_ratio = 0.4,
           hide_numbers = true,
         },
+        keymaps = {
+          toggle = {
+            normal = '<leader>cc', -- Normal mode keymap for toggling Claude Code, false to disable
+            variants = {
+              continue = '<leader>cC', -- Normal mode keymap for Claude Code with continue flag
+              resume = '<leader>cR', -- Normal mode keymap for Claude Code with verbose flag
+              verbose = '<leader>cV', -- Normal mode keymap for Claude Code with verbose flag
+            },
+          },
+        },
       }
     end,
   },
