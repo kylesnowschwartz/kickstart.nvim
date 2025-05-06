@@ -23,7 +23,9 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- BUFFER COMMANDS (leader + b)
 --------------------------------------------------------------------------------
 -- Delete (kill) current buffer
-vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
+-- vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = '[B]uffer [d]elete' })
+-- Close buffer without closing window (cycles to previous buffer)
+vim.keymap.set('n', '<leader>bd', ':bp | bd #<CR>', { desc = '[B]uffer [k]ill (preserve window)' })
 
 -- Remap Macros
 vim.keymap.set('n', 'q', '<Nop>', { noremap = true, desc = 'Disabled default macro key' })
@@ -152,6 +154,35 @@ vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { desc = '[W]indow cycle' })
 
 -- Maximize current window
 vim.keymap.set('n', '<leader>wm', ':only<CR>', { desc = '[W]indow [m]aximize' })
+
+--------------------------------------------------------------------------------
+-- SPACEMACS WINDOW COMMANDS (leader + w)
+--------------------------------------------------------------------------------
+-- Window movement (not navigation)
+vim.keymap.set('n', '<leader>wH', '<C-w>H', { desc = '[W]indow move window to left' })
+vim.keymap.set('n', '<leader>wJ', '<C-w>J', { desc = '[W]indow move window to bottom' })
+vim.keymap.set('n', '<leader>wK', '<C-w>K', { desc = '[W]indow move window to top' })
+vim.keymap.set('n', '<leader>wL', '<C-w>L', { desc = '[W]indow move window to right' })
+
+-- Window maximize (alternative)
+vim.keymap.set('n', '<leader>w_', '<C-w>_', { desc = '[W]indow maximize horizontally' })
+vim.keymap.set('n', '<leader>w|', '<C-w>|', { desc = '[W]indow maximize vertically' })
+
+-- Tab alternate window
+vim.keymap.set('n', '<leader><Tab>', '<C-^>', { desc = 'Switch to alternate window' })
+-- Toggle between current and previous window (like 'last' on a remote)
+vim.keymap.set('n', '<leader>w<Tab>', '<C-w>p', { desc = '[W]indow toggle to previous' })
+
+-- Window resize
+vim.keymap.set('n', '<leader>w[', ':vertical resize -5<CR>', { desc = '[W]indow shrink horizontally' })
+vim.keymap.set('n', '<leader>w]', ':vertical resize +5<CR>', { desc = '[W]indow enlarge horizontally' })
+vim.keymap.set('n', '<leader>w{', ':resize -5<CR>', { desc = '[W]indow shrink vertically' })
+vim.keymap.set('n', '<leader>w}', ':resize +5<CR>', { desc = '[W]indow enlarge vertically' })
+
+-- Window rotation
+vim.keymap.set('n', '<leader>wr', '<C-w>r', { desc = '[W]indow [r]otate forward' })
+vim.keymap.set('n', '<leader>wR', '<C-w>R', { desc = '[W]indow [R]otate backward' })
+
 --------------------------------------------------------------------------------
 -- TOGGLES (leader + T for global toggles)
 --------------------------------------------------------------------------------
