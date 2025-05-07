@@ -1,7 +1,3 @@
--- You can add your own plugins here or in other files in this directory!
---  I promise not to create any merge conflicts in this directory :)
---
--- See the kickstart.nvim README for more information
 return {
   {
     'rmagatti/auto-session',
@@ -12,17 +8,37 @@ return {
     ---@type AutoSession.Config
     opts = {
       suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '~/Code', '/' },
+      -- log_level = 'debug',
+
       pre_save_cmds = {
         function()
-          -- Remove scratch buffers before saving the session
-          for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.api.nvim_buf_is_valid(bufnr) and vim.b[bufnr] and vim.b[bufnr].scratch_buffer then
-              vim.api.nvim_buf_delete(bufnr, { force = true })
-            end
+          return require('custom.plugins.auto-session.helpers').cleanup_scratch_buffers()
+        end,
+      },
+
+      -- Save whether claude-code terminal exists
+      save_extra_cmds = {
+        function()
+          local helpers = require 'custom.plugins.auto-session.helpers'
+
+          local has_claude, _ = helpers.detect_claude_code_terminal()
+
+          -- Return Vim commands to be saved in the extra session file
+          if has_claude then
+            return { 'let g:had_claude_code_buffer = 1' }
+          else
+            return { 'let g:had_claude_code_buffer = 0' }
           end
         end,
       },
-      -- log_level = 'debug',
+
+      -- Restore claude-code terminal after session load
+      post_restore_cmds = {
+        function()
+          local helpers = require 'custom.plugins.auto-session.helpers'
+          return helpers.restore_claude_code()
+        end,
+      },
     },
   },
   {
