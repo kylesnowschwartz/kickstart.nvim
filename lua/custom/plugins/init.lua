@@ -20,36 +20,6 @@ return {
               vim.api.nvim_buf_delete(bufnr, { force = true })
             end
           end
-
-          -- Store Claude Code state before closing session
-          if vim.fn.exists 'g:claude_code_was_active' == 1 and vim.g.claude_code_was_active then
-            -- Record that Claude Code was active
-            vim.g.saved_claude_code_active = true
-
-            -- Now close Claude Code terminal buffers to avoid session issues
-            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-              if vim.api.nvim_buf_is_valid(bufnr) then
-                local buf_name = vim.api.nvim_buf_get_name(bufnr)
-                if string.match(buf_name, 'claude%-code') then
-                  vim.api.nvim_buf_delete(bufnr, { force = true })
-                end
-              end
-            end
-          else
-            vim.g.saved_claude_code_active = false
-          end
-        end,
-      },
-      post_restore_cmds = {
-        function()
-          -- Delay slightly to allow session to fully restore
-          vim.defer_fn(function()
-            -- Check if Claude Code was active in previous session
-            if vim.g.saved_claude_code_active then
-              -- Restart Claude Code with continue flag
-              vim.cmd 'ClaudeCode --continue'
-            end
-          end, 300)
         end,
       },
       -- log_level = 'debug',
