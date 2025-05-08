@@ -287,7 +287,7 @@ require('lazy').setup({
   -- Fuzzy Find
   require 'custom.plugins.telescope.init',
 
-  -- LSP Plugins
+  -- START LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -307,8 +307,8 @@ require('lazy').setup({
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { 'williamboman/mason.nvim', opts = {} },
-      'williamboman/mason-lspconfig.nvim',
+      { 'mason-org/mason.nvim', version = '1.11.0', opts = {} },
+      { 'mason-org/mason-lspconfig.nvim', version = '1.32.0' },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
@@ -492,6 +492,7 @@ require('lazy').setup({
         ts_ls = {},
         --
         ruby_lsp = {
+          cmd = { 'bundle', 'exec', 'ruby-lsp' },
           -- Ruby LSP (Shopify's) is our primary Ruby development tool
           settings = {
             -- Configure diagnostics and formatting
@@ -607,7 +608,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'rubocop', -- Ruby formatter
         'prettier', -- YAML/JSON formatter
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -680,7 +680,7 @@ require('lazy').setup({
         rubocop = {
           command = 'bundle',
           prepend_args = { 'exec', 'rubocop' },
-          args = { '-A', '--stderr', '--stdin', '$FILENAME' },
+          args = { '-A', '--stderr', '--stdin', '$FILENAME', '--format', 'quiet' },
           -- Allow both 0 (no offenses) and 1 (offenses auto-corrected) as success codes
           exit_codes = { 0, 1 },
           -- Additional timeout for large codebases
@@ -760,6 +760,8 @@ require('lazy').setup({
     },
     opts_extend = { 'sources.default' },
   },
+  -- END LSP Plugins
+
   {
     'EdenEast/nightfox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -859,34 +861,6 @@ require('lazy').setup({
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  -- Project-specific configuration loader
-  {
-    'folke/neoconf.nvim',
-    cmd = 'Neoconf',
-    opts = {
-      -- Simplified configuration focused on Ruby development
-      import = {
-        -- Disable imports we don't need
-        vscode = false,
-        coc = false,
-        nlsp = false,
-      },
-      -- Enable local project configuration
-      local_settings = {
-        enabled = true,
-        -- Look for .neoconf.json first, then fallback to these
-        filetype = {
-          ruby = { '.neoconf.ruby.json', '.ruby-lsp.json' },
-        },
-      },
-    },
-    config = function(_, opts)
-      require('neoconf').setup(opts)
-      -- Load neoconf before LSP setup
-      require('neoconf').load()
-    end,
-  },
 
   -- Rails development enhancements
   {

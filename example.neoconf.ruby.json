@@ -5,7 +5,7 @@
         "rubocop": {
           // Use project's Rubocop configuration
           "useBundler": true,
-          
+
           // Project-specific path to .rubocop.yml
           "configPath": ".rubocop.yml"
         },
@@ -14,20 +14,20 @@
           "useBundler": true,
           "name": "rubocop"
         },
-        
+
         // Enable experimental features for better functionality
         "experimentalFeaturesEnabled": true,
-        
+
         // Project-specific gem paths (optional - will be auto-detected)
         "bundleGemPaths": [
           // Uncomment and fill if auto-detection doesn't work correctly
           // "/path/to/specific/gem"
         ],
-        
+
         // Specific LSP features to enable
         "enabledFeatures": [
           "documentHighlights",
-          "documentSymbols", 
+          "documentSymbols",
           "foldingRanges",
           "selectionRanges",
           "semanticHighlighting",
@@ -44,3 +44,4 @@
     }
   }
 }
+
