@@ -166,120 +166,101 @@ return {
         end,
       })
 
-      -- Initialize language servers with Neovim's built-in LSP client
+      -- Pre-compute bundle gem paths outside the LSP config
+      local bundle_gem_paths = {}
+      local bundle_gemfile = vim.fn.getcwd() .. '/Gemfile'
+      if vim.fn.filereadable(bundle_gemfile) == 1 then
+        local status, gem_paths_output = pcall(function()
+          local handle = io.popen('cd ' .. vim.fn.getcwd() .. ' && bundle show --paths 2>/dev/null')
+          if handle then
+            local output = handle:read '*a'
+            handle:close()
+            return output
+          end
+          return ''
+        end)
 
+        if status and gem_paths_output ~= '' then
+          for path in string.gmatch(gem_paths_output, '[^\r\n]+') do
+            if vim.fn.isdirectory(path) == 1 then
+              table.insert(bundle_gem_paths, path)
+            end
+          end
+
+          if #bundle_gem_paths > 0 then
+            vim.notify('Ruby LSP: Added ' .. #bundle_gem_paths .. ' bundled gems to LSP configuration', vim.log.levels.INFO)
+          end
+        end
+      end
+
+      -- Configure LSP servers using the new vim.lsp.config API
+      
       -- Lua LSP Configuration
-      vim.lsp.start {
-        name = 'lua_ls',
+      vim.lsp.config['lua_ls'] = {
         cmd = vim.fn.exepath 'lua-language-server' and { vim.fn.exepath 'lua-language-server' }
           or { vim.fn.stdpath 'data' .. '/mason/bin/lua-language-server' },
-        root_dir = vim.fs.dirname(vim.fs.find({ 'init.lua', '.git' }, { upward = true })[1]),
+        filetypes = { 'lua' },
+        root_markers = { '.luarc.json', '.luarc.jsonc', 'init.lua', '.git' },
         settings = {
           Lua = {
+            runtime = {
+              version = 'LuaJIT',
+            },
             completion = {
               callSnippet = 'Replace',
             },
-            diagnostics = { disable = { 'missing-fields' } },
+            diagnostics = {
+              disable = { 'missing-fields' },
+            },
           },
         },
       }
 
       -- TypeScript LSP Configuration
-      if vim.fn.executable 'typescript-language-server' == 1 then
-        vim.lsp.start {
-          name = 'ts_ls',
-          cmd = { 'typescript-language-server', '--stdio' },
-          root_dir = vim.fs.dirname(vim.fs.find({
-            'tsconfig.json',
-            'package.json',
-            'jsconfig.json',
-            '.git',
-          }, { upward = true })[1] or '.'),
-        }
-      end
+      vim.lsp.config['tsserver'] = {
+        cmd = { 'typescript-language-server', '--stdio' },
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+        root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
+      }
 
       -- Ruby LSP Configuration
-      if vim.fn.executable 'ruby-lsp' == 1 or vim.fn.filereadable(vim.fn.getcwd() .. '/Gemfile') == 1 then
-        local ruby_cmd = { 'bundle', 'exec', 'ruby-lsp' }
-        vim.lsp.start {
-          name = 'ruby_lsp',
-          cmd = ruby_cmd,
-          root_dir = vim.fs.dirname(vim.fs.find({
-            'Gemfile',
-            '.git',
-          }, { upward = true })[1] or '.'),
-          settings = {
-            rubocop = {
-              useBundler = true,
-              configPath = '.rubocop.yml',
-            },
-            formatter = {
-              useBundler = true,
-              name = 'rubocop',
-            },
-            experimentalFeaturesEnabled = true,
-            enabledFeatures = {
-              'documentHighlights',
-              'documentSymbols',
-              'foldingRanges',
-              'selectionRanges',
-              'semanticHighlighting',
-              'formatting',
-              'codeActions',
-              'hover',
-              'inlayHint',
-              'onTypeFormatting',
-              'diagnostics',
-              'completion',
-              'codeLens',
-            },
+      vim.lsp.config['ruby_ls'] = {
+        cmd = { 'bundle', 'exec', 'ruby-lsp' },
+        filetypes = { 'ruby' },
+        root_markers = { 'Gemfile', '.git' },
+        settings = {
+          rubocop = {
+            useBundler = true,
+            configPath = '.rubocop.yml',
           },
-          before_start = function(params)
-            -- Check if Bundler is available
-            local bundle_gemfile = vim.fn.getcwd() .. '/Gemfile'
-            if vim.fn.filereadable(bundle_gemfile) == 1 then
-              -- Get the gem paths from bundler
-              local status, gem_paths_output = pcall(function()
-                local handle = io.popen('cd ' .. vim.fn.getcwd() .. ' && bundle show --paths 2>/dev/null')
-                if handle then
-                  local output = handle:read '*a'
-                  handle:close()
-                  return output
-                end
-                return ''
-              end)
+          formatter = {
+            useBundler = true,
+            name = 'rubocop',
+          },
+          experimentalFeaturesEnabled = true,
+          enabledFeatures = {
+            'documentHighlights',
+            'documentSymbols',
+            'foldingRanges',
+            'selectionRanges',
+            'semanticHighlighting',
+            'formatting',
+            'codeActions',
+            'hover',
+            'inlayHint',
+            'onTypeFormatting',
+            'diagnostics',
+            'completion',
+            'codeLens',
+          },
+          bundleGemPaths = bundle_gem_paths,
+        },
+      }
 
-              -- Process gem paths safely
-              if status and gem_paths_output ~= '' then
-                -- Split the gem paths into a table and validate paths
-                local paths = {}
-                for path in string.gmatch(gem_paths_output, '[^\r\n]+') do
-                  -- Only add paths that exist
-                  if vim.fn.isdirectory(path) == 1 then
-                    table.insert(paths, path)
-                  end
-                end
-
-                -- Add gem paths to the LSP configuration if any valid paths found
-                if #paths > 0 then
-                  if not params.settings then
-                    params.settings = {}
-                  end
-                  if not params.settings.ruby_lsp then
-                    params.settings.ruby_lsp = {}
-                  end
-
-                  -- Set gem path configuration
-                  params.settings.ruby_lsp.bundleGemPaths = paths
-
-                  -- Log success message
-                  vim.notify('Ruby LSP: Added ' .. #paths .. ' bundled gems to LSP configuration', vim.log.levels.INFO)
-                end
-              end
-            end
-          end,
-        }
-      end
+      -- Enable LSP configurations
+      vim.lsp.enable('lua_ls')
+      vim.lsp.enable('tsserver')
+      vim.lsp.enable('ruby_ls')
     end,
   },
 
