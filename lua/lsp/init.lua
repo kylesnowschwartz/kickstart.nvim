@@ -166,101 +166,40 @@ return {
         end,
       })
 
-      -- Pre-compute bundle gem paths outside the LSP config
-      local bundle_gem_paths = {}
-      local bundle_gemfile = vim.fn.getcwd() .. '/Gemfile'
-      if vim.fn.filereadable(bundle_gemfile) == 1 then
-        local status, gem_paths_output = pcall(function()
-          local handle = io.popen('cd ' .. vim.fn.getcwd() .. ' && bundle show --paths 2>/dev/null')
-          if handle then
-            local output = handle:read '*a'
-            handle:close()
-            return output
-          end
-          return ''
-        end)
-
-        if status and gem_paths_output ~= '' then
-          for path in string.gmatch(gem_paths_output, '[^\r\n]+') do
-            if vim.fn.isdirectory(path) == 1 then
-              table.insert(bundle_gem_paths, path)
-            end
-          end
-
-          if #bundle_gem_paths > 0 then
-            vim.notify('Ruby LSP: Added ' .. #bundle_gem_paths .. ' bundled gems to LSP configuration', vim.log.levels.INFO)
-          end
-        end
-      end
-
-      -- Configure LSP servers using the new vim.lsp.config API
-      
-      -- Lua LSP Configuration
-      vim.lsp.config['lua_ls'] = {
-        cmd = vim.fn.exepath 'lua-language-server' and { vim.fn.exepath 'lua-language-server' }
-          or { vim.fn.stdpath 'data' .. '/mason/bin/lua-language-server' },
-        filetypes = { 'lua' },
-        root_markers = { '.luarc.json', '.luarc.jsonc', 'init.lua', '.git' },
-        settings = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT',
-            },
+      vim.notify('Loading lua LSP config', vim.log.levels.INFO)
+      -- Set global configuration for all language servers
+      vim.lsp.config('*', {
+        -- Default root marker for all LSP servers
+        root_markers = { '.git' },
+        -- Common capabilities for all servers
+        capabilities = {
+          textDocument = {
             completion = {
-              callSnippet = 'Replace',
-            },
-            diagnostics = {
-              disable = { 'missing-fields' },
+              completionItem = {
+                snippetSupport = true,
+                commitCharactersSupport = true,
+                deprecatedSupport = true,
+                tagSupport = {
+                  valueSet = { 1 }, -- Deprecated
+                },
+                preselectSupport = true,
+                resolveSupport = {
+                  properties = {
+                    'documentation',
+                    'detail',
+                    'additionalTextEdits',
+                  },
+                },
+              },
             },
           },
         },
-      }
+      })
 
-      -- TypeScript LSP Configuration
-      vim.lsp.config['tsserver'] = {
-        cmd = { 'typescript-language-server', '--stdio' },
-        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
-        root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
-      }
-
-      -- Ruby LSP Configuration
-      vim.lsp.config['ruby_ls'] = {
-        cmd = { 'bundle', 'exec', 'ruby-lsp' },
-        filetypes = { 'ruby' },
-        root_markers = { 'Gemfile', '.git' },
-        settings = {
-          rubocop = {
-            useBundler = true,
-            configPath = '.rubocop.yml',
-          },
-          formatter = {
-            useBundler = true,
-            name = 'rubocop',
-          },
-          experimentalFeaturesEnabled = true,
-          enabledFeatures = {
-            'documentHighlights',
-            'documentSymbols',
-            'foldingRanges',
-            'selectionRanges',
-            'semanticHighlighting',
-            'formatting',
-            'codeActions',
-            'hover',
-            'inlayHint',
-            'onTypeFormatting',
-            'diagnostics',
-            'completion',
-            'codeLens',
-          },
-          bundleGemPaths = bundle_gem_paths,
-        },
-      }
-
-      -- Enable LSP configurations
-      vim.lsp.enable('lua_ls')
-      vim.lsp.enable('tsserver')
-      vim.lsp.enable('ruby_ls')
+      -- Enable LSP configurations - these will use the runtime path loaded configurations
+      vim.lsp.enable 'lua_ls'
+      vim.lsp.enable 'ts_ls'
+      vim.lsp.enable 'ruby_ls'
     end,
   },
 
@@ -313,3 +252,4 @@ return {
     },
   },
 }
+

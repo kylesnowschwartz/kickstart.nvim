@@ -288,7 +288,7 @@ require('lazy').setup({
   require 'custom.plugins.telescope.init',
 
   -- Native LSP Config for Neovim 0.11+
-  require 'lsp.lsp-native',
+  require 'lsp',
 
   {
     'EdenEast/nightfox.nvim',
