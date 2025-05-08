@@ -14,7 +14,6 @@ return {
   {
     -- Mason for installing language servers
     'mason-org/mason.nvim',
-    version = '1.11.0',
     opts = {},
   },
   {
@@ -200,6 +199,10 @@ return {
       vim.lsp.enable 'lua_ls'
       vim.lsp.enable 'ts_ls'
       vim.lsp.enable 'ruby_ls'
+      vim.lsp.enable 'bash_ls'
+      vim.lsp.enable 'html_ls'
+      -- TODO: vim.lsp.enable({ "ts_ls", "cssls", "tailwindcssls" })
+      -- https://github.com/Rishabh672003/Neovim/blob/main/lua/rj/lsp.lua
     end,
   },
 
@@ -252,4 +255,3 @@ return {
     },
   },
 }
-
