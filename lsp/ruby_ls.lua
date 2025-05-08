@@ -1,6 +1,3 @@
--- Ruby LSP configuration
-vim.notify("Loading Ruby LSP configuration from lsp/ruby_ls.lua", vim.log.levels.INFO)
-
 -- Pre-compute bundle gem paths outside the LSP config
 local bundle_gem_paths = {}
 local bundle_gemfile = vim.fn.getcwd() .. '/Gemfile'
@@ -36,7 +33,7 @@ return {
   -- Handler for determining if we should start the server
   on_new_config = function(new_config, new_root_dir)
     -- Don't start if no Gemfile exists and ruby-lsp is not available
-    if vim.fn.filereadable(new_root_dir .. '/Gemfile') ~= 1 and vim.fn.executable('ruby-lsp') ~= 1 then
+    if vim.fn.filereadable(new_root_dir .. '/Gemfile') ~= 1 and vim.fn.executable 'ruby-lsp' ~= 1 then
       return false
     end
     return true
@@ -69,3 +66,4 @@ return {
     bundleGemPaths = bundle_gem_paths,
   },
 }
+
