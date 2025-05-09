@@ -1,8 +1,5 @@
--- Return the configuration table for ruby_ls
--- Cache to store detected LSP configurations by root directory
-local lsp_config_cache = {}
-
 local function collect_bundle_gem_paths(root_dir)
+  vim.notify('Collecting bundle gem paths for: ' .. root_dir, vim.log.levels.INFO)
   local gem_paths = {}
   if vim.fn.filereadable(root_dir .. '/Gemfile') == 1 then
     local gem_paths_cmd = 'cd ' .. root_dir .. ' && bundle show --paths 2>/dev/null'
@@ -19,99 +16,19 @@ local function collect_bundle_gem_paths(root_dir)
   return gem_paths
 end
 
--- Initialize with current working directory (will be updated when on_new_config runs)
-local cwd = vim.fn.getcwd()
-local initial_gem_paths = collect_bundle_gem_paths(cwd)
-
 return {
-  cmd = { 'ruby-lsp' }, -- Default command, will be overridden in on_new_config if needed
+  cmd = { 'ruby-lsp' }, -- Do not use bundle exec to allow for Mason or Bundled installations interchangebly
   filetypes = { 'ruby' },
   root_markers = { 'Gemfile', '.git' },
 
-  -- Handler for determining if we should start the server
-  on_new_config = function(new_config, new_root_dir)
-    -- Check cache first to avoid repeated detection
-    if lsp_config_cache[new_root_dir] then
-      local cached = lsp_config_cache[new_root_dir]
-      new_config.cmd = cached.cmd
-      new_config.settings = cached.settings
-      return true
+  -- Update bundleGemPaths based on the detected root directory
+  on_init = function(client, _)
+    local root = client.config.root_dir
+    if root then
+      client.config.settings = client.config.settings or {}
+      client.config.settings.bundleGemPaths = collect_bundle_gem_paths(root)
     end
-
-    -- Initialize settings safely
-    new_config.settings = new_config.settings or {}
-    new_config.settings.rubocop = new_config.settings.rubocop or {}
-    new_config.settings.formatter = new_config.settings.formatter or {}
-
-    -- Fast path: Check for bundled ruby-lsp
-    if vim.fn.filereadable(new_root_dir .. '/Gemfile') == 1 then
-      -- Use vim.fn.system instead of io.popen for better performance
-      local bundle_check_cmd = 'cd ' .. new_root_dir .. ' && bundle show ruby-lsp 2>/dev/null'
-      local output = vim.fn.system(bundle_check_cmd)
-
-      if output and output ~= '' then
-        -- Using bundled ruby-lsp
-        new_config.cmd = { 'bundle', 'exec', 'ruby-lsp' }
-        new_config.settings.rubocop.useBundler = true
-        new_config.settings.formatter.useBundler = true
-
-        -- Cache this configuration
-        lsp_config_cache[new_root_dir] = {
-          cmd = new_config.cmd,
-          settings = vim.deepcopy(new_config.settings),
-        }
-
-        -- Get gem paths for this specific root directory
-        local bundle_gem_paths = collect_bundle_gem_paths(new_root_dir)
-
-        -- Add the gem paths to settings
-        if #bundle_gem_paths > 0 then
-          new_config.settings.bundleGemPaths = bundle_gem_paths
-
-          -- Update cache with gem paths
-          if lsp_config_cache[new_root_dir] then
-            lsp_config_cache[new_root_dir].settings.bundleGemPaths = bundle_gem_paths
-          end
-        end
-
-        return true
-      end
-    end
-
-    -- Check for installations in order of preference
-    local mason_ruby_lsp = vim.fn.expand '~/.local/share/nvim/mason/bin/ruby-lsp'
-
-    if vim.fn.executable(mason_ruby_lsp) == 1 then
-      -- Use Mason installation
-      new_config.cmd = { mason_ruby_lsp }
-      new_config.settings.rubocop.useBundler = false
-      new_config.settings.formatter.useBundler = false
-
-      -- Cache this configuration
-      lsp_config_cache[new_root_dir] = {
-        cmd = new_config.cmd,
-        settings = vim.deepcopy(new_config.settings),
-      }
-
-      return true
-    elseif vim.fn.executable 'ruby-lsp' == 1 then
-      -- Use system installation
-      new_config.cmd = { 'ruby-lsp' }
-      new_config.settings.rubocop.useBundler = false
-      new_config.settings.formatter.useBundler = false
-
-      -- Cache this configuration
-      lsp_config_cache[new_root_dir] = {
-        cmd = new_config.cmd,
-        settings = vim.deepcopy(new_config.settings),
-      }
-
-      return true
-    end
-
-    -- No ruby-lsp found
-    vim.notify('Ruby LSP: No ruby-lsp installation found', vim.log.levels.ERROR)
-    return false
+    return true
   end,
 
   settings = {
@@ -138,7 +55,7 @@ return {
       'selectionRanges',
       'codeLens',
     },
-    -- Include initial gem paths from the current working directory
-    bundleGemPaths = initial_gem_paths,
+    -- This will be dynamically updated in on_init with the correct paths for the project root
+    bundleGemPaths = {},
   },
 }
