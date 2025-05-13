@@ -49,6 +49,7 @@ return {
   },
   {
     'christoomey/vim-tmux-navigator',
+    enabled = false, -- Disable until the day I try Tmux again
     cmd = {
       'TmuxNavigateLeft',
       'TmuxNavigateDown',
@@ -118,7 +119,7 @@ return {
     },
   },
   -- Import toggleterm configuration for claude-code
-  require('custom.plugins.toggleterm'),
+  require 'custom.plugins.toggleterm',
   -- Keep claude-code plugin disabled but available for reference
   {
     'greggh/claude-code.nvim',
