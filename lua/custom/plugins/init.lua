@@ -118,7 +118,7 @@ return {
     },
   },
   -- Import toggleterm configuration for claude-code
-  require('custom.plugins.toggleterm-config'),
+  require('custom.plugins.toggleterm'),
   -- Keep claude-code plugin disabled but available for reference
   {
     'greggh/claude-code.nvim',
