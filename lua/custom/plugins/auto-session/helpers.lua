@@ -42,6 +42,7 @@ function M.restore_claude_code()
         vim.api.nvim_buf_delete(bufnr, { force = true })
       end
 
+      -- Use ToggleTerm to create a new claude-code terminal with continue flag
       vim.cmd 'ClaudeCodeContinue'
 
       -- Verify that the terminal was created successfully
@@ -49,6 +50,9 @@ function M.restore_claude_code()
         local success, new_bufnr = M.detect_claude_code_terminal()
         if success then
           log_debug('Claude Code terminal successfully restored with buffer: ' .. new_bufnr)
+
+          -- Ensure it's in normal mode
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, true, true), "n", false)
         else
           log_debug 'Failed to restore Claude Code terminal'
         end

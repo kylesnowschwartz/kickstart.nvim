@@ -117,31 +117,15 @@ return {
       { '<leader>gl', '<cmd>Neogit log<cr>', desc = 'Neogit Log (project)' },
     },
   },
+  -- Import toggleterm configuration for claude-code
+  require('custom.plugins.toggleterm-config'),
+  -- Keep claude-code plugin disabled but available for reference
   {
     'greggh/claude-code.nvim',
+    enabled = false, -- Disabled in favor of ToggleTerm
     dependencies = {
       'nvim-lua/plenary.nvim', -- Required for git operations
     },
-    config = function()
-      require('claude-code').setup {
-        command = '/Users/kyle/.claude-wrapper',
-        window = {
-          position = 'vsplit',
-          split_ratio = 0.4,
-          hide_numbers = true,
-        },
-        keymaps = {
-          toggle = {
-            normal = '<leader>cc', -- Normal mode keymap for toggling Claude Code, false to disable
-            variants = {
-              continue = '<leader>cC', -- Normal mode keymap for Claude Code with continue flag
-              resume = '<leader>cR', -- Normal mode keymap for Claude Code with verbose flag
-              verbose = '<leader>cV', -- Normal mode keymap for Claude Code with verbose flag
-            },
-          },
-        },
-      }
-    end,
   },
   {
     -- 'fabridamicelli/cronex.nvim',
