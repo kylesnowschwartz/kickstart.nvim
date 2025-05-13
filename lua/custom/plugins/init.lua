@@ -49,7 +49,7 @@ return {
   },
   {
     'christoomey/vim-tmux-navigator',
-    enabled = false, -- Disable until the day I try Tmux again
+    enabled = true,
     cmd = {
       'TmuxNavigateLeft',
       'TmuxNavigateDown',
