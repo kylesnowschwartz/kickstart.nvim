@@ -76,6 +76,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
           sort_mru = true,
           -- ignore_current_buffer = true, -- optional, hides current buffer from the lis
           -- sorting_strategy = 'ascending',
+          mappings = {
+            i = {
+              ["<c-d>"] = "delete_buffer",
+            },
+            n = {
+              ["d"] = "delete_buffer",
+            }
+          }
         },
         find_files = {
           -- hidden = true,
