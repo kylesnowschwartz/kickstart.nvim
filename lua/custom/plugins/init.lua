@@ -119,7 +119,8 @@ return {
     },
   },
   {
-    'greggh/claude-code.nvim',
+    -- 'greggh/claude-code.nvim',
+    dir = '/Users/kyle/Code/claude-code.nvim/', -- Path to your local repository
     dependencies = {
       'nvim-lua/plenary.nvim', -- Required for git operations
     },
@@ -127,6 +128,7 @@ return {
       require('claude-code').setup {
         command = '/Users/kyle/.claude-wrapper',
         window = {
+          start_in_normal_mode = true, -- Start the terminal in normal mode instead of insert mode
           position = 'vsplit',
           split_ratio = 0.4,
           hide_numbers = true,
