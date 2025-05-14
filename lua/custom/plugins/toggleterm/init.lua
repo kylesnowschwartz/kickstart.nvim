@@ -24,7 +24,8 @@
 return {
   'akinsho/toggleterm.nvim',
   version = '*',
-  lazy = false,
+  enabled = false, -- Disabled in favor of claude-code.nvim
+  lazy = true,
   config = function()
     local status_ok, toggleterm = pcall(require, 'toggleterm')
     if not status_ok then
