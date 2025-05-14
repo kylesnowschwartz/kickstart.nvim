@@ -252,6 +252,7 @@ return {
         ruby = { 'rubocop' },
         yaml = { 'prettier' },
         json = { 'prettier' },
+        markdown = { 'prettier' },
       },
       formatters = {
         rubocop = {
