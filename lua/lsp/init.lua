@@ -45,6 +45,12 @@ return {
           {
             'rafamadriz/friendly-snippets',
             config = function()
+              -- Disable autosnippets first
+              require('luasnip').config.set_config({
+                enable_autosnippets = false,
+                store_selection_keys = nil,
+              })
+              -- Then load snippets for completion dropdown only
               require('luasnip.loaders.from_vscode').lazy_load()
             end,
           },
@@ -87,7 +93,7 @@ return {
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           if client and client:supports_method 'textDocument/completion' then
             vim.lsp.completion.enable(true, client.id, args.buf, {
-              autotrigger = true,
+              autotrigger = false, -- Changed to false to require manual triggering
             })
           end
         end,
