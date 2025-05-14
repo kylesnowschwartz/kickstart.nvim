@@ -80,8 +80,18 @@ return {
       -- Initialize blink.cmp
       require('blink.cmp').setup(opts)
 
-      -- Enable Vim's native LSP completion
-      vim.lsp.completion.enable()
+      -- Enable Vim's native LSP completion for all attached LSP clients
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('lsp-completion', { clear = true }),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client:supports_method 'textDocument/completion' then
+            vim.lsp.completion.enable(true, client.id, args.buf, {
+              autotrigger = true,
+            })
+          end
+        end,
+      })
 
       -- Configure diagnostic display
       vim.diagnostic.config {
@@ -165,7 +175,7 @@ return {
         end,
       })
 
-      vim.notify('Loading lua LSP config', vim.log.levels.INFO)
+      vim.notify('Loading LSP configuration', vim.log.levels.INFO)
       -- Set global configuration for all language servers
       vim.lsp.config('*', {
         -- Default root marker for all LSP servers
