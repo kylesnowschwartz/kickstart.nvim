@@ -119,8 +119,7 @@ return {
     },
   },
   {
-    -- 'greggh/claude-code.nvim',
-    dir = '/Users/kyle/Code/claude-code.nvim/', -- Path to your local repository
+    'greggh/claude-code.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim', -- Required for git operations
     },
@@ -147,8 +146,7 @@ return {
     end,
   },
   {
-    -- 'fabridamicelli/cronex.nvim',
-    dir = '/Users/kyle/Code/cronex.nvim', -- Path to your local repository
+    'fabridamicelli/cronex.nvim',
     config = function()
       require('cronex').setup {
         file_patterns = { '*.yaml', '*.yml', '*.tf', '*.cfg', '*.config', '*.conf', '*.crontab' },
