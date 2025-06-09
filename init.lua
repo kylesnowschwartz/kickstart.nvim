@@ -326,6 +326,14 @@ require('lazy').setup({
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   { import = 'custom.plugins' },
 
+  -- Local development: prompt-tower-nvim plugin
+  {
+    'kylesnowschwartz/prompt-tower.nvim',
+    -- dir = '/Users/kyle/Code/prompt-tower.nvim',
+    -- name = 'prompt-tower-nvim',
+    -- dev = true,
+  },
+
   -- Rails development enhancements
   {
     'tpope/vim-rails',

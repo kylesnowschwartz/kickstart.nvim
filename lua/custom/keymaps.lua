@@ -109,7 +109,7 @@ vim.keymap.set('n', '<leader>fS', ':wall<CR>', { desc = '[F]ile [S]ave all' })
 
 -- Yank relative file path
 vim.keymap.set('n', '<leader>fyy', function()
-  local path = vim.fn.expand '%'
+  local path = vim.fn.fnamemodify(vim.fn.expand '%:p', ':.')
   vim.fn.setreg('+', path)
   vim.api.nvim_echo({ { path, 'Normal' } }, false, {})
 end, { desc = '[F]ile [Y]ank rel path' })
