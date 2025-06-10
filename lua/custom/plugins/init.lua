@@ -16,27 +16,17 @@ return {
         end,
       },
 
-      -- Save whether claude-code terminal exists
+      -- Save claude-code instances state
       save_extra_cmds = {
         function()
-          local helpers = require 'custom.plugins.auto-session.helpers'
-
-          local has_claude, _ = helpers.detect_claude_code_terminal()
-
-          -- Return Vim commands to be saved in the extra session file
-          if has_claude then
-            return { 'let g:had_claude_code_buffer = 1' }
-          else
-            return { 'let g:had_claude_code_buffer = 0' }
-          end
+          return require('custom.plugins.auto-session.helpers').save_claude_code_state()
         end,
       },
 
       -- Restore claude-code terminal after session load
       post_restore_cmds = {
         function()
-          local helpers = require 'custom.plugins.auto-session.helpers'
-          return helpers.restore_claude_code()
+          return require('custom.plugins.auto-session.helpers').restore_claude_code()
         end,
       },
     },
