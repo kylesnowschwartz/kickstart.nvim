@@ -46,10 +46,10 @@ return {
             'rafamadriz/friendly-snippets',
             config = function()
               -- Disable autosnippets first
-              require('luasnip').config.set_config({
+              require('luasnip').config.set_config {
                 enable_autosnippets = false,
                 store_selection_keys = nil,
-              })
+              }
               -- Then load snippets for completion dropdown only
               require('luasnip.loaders.from_vscode').lazy_load()
             end,
@@ -228,12 +228,12 @@ return {
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>F',
+        '<leader>FF',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
         mode = '',
-        desc = '[F]ormat buffer',
+        desc = '[F]ormat [F]ile',
       },
     },
     opts = {
