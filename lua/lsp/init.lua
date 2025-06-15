@@ -261,6 +261,7 @@ return {
     },
     opts = {
       notify_on_error = false,
+      -- log_level = vim.log.levels.DEBUG, -- Uncomment for debugging
       format_on_save = function(bufnr)
         local disable_filetypes = { c = true, cpp = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
@@ -274,14 +275,21 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        javascript = { 'eslint_d' },
-        javascriptreact = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
+        python = { 'isort', 'black' },
+        javascript = { { 'eslint_d', 'prettier' } },
+        javascriptreact = { { 'eslint_d', 'prettier' } },
+        typescript = { { 'eslint_d', 'prettier' } },
+        typescriptreact = { { 'eslint_d', 'prettier' } },
         ruby = { 'rubocop' },
         yaml = { 'prettier' },
         json = { 'prettier' },
-        markdown = { 'prettier' },
+        markdown = { 'prettier_markdown' },
+        css = { 'prettier' },
+        scss = { 'prettier' },
+        html = { 'prettier' },
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
+        zsh = { 'shfmt' },
       },
       formatters = {
         rubocop = {
@@ -291,6 +299,18 @@ return {
           exit_codes = { 0, 1 },
           timeout_ms = 10000,
         },
+        prettier_markdown = function()
+          local prettier_base = require 'conform.formatters.prettier'
+          local tw = vim.api.nvim_get_option_value('textwidth', { buf = 0 })
+
+          if tw > 0 then
+            return vim.tbl_deep_extend('force', prettier_base, {
+              args = { '--stdin-filepath', '$FILENAME', '--prose-wrap', 'always', '--print-width', tostring(tw) },
+            })
+          else
+            return prettier_base
+          end
+        end,
       },
     },
   },

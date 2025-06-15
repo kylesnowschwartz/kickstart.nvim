@@ -199,6 +199,84 @@ vim.keymap.set('n', '<leader>en', ':lnext<CR>', { desc = '[E]rror [n]ext (locati
 vim.keymap.set('n', '<leader>ep', ':lprev<CR>', { desc = '[E]rror [p]revious (location list)' })
 
 --------------------------------------------------------------------------------
+-- FORMATTING (leader + F)
+--------------------------------------------------------------------------------
+-- Text formatting with gq (for which-key popup)
+vim.keymap.set('n', '<leader>Fp', 'gqap', { desc = '[F]ormat [p]aragraph' })
+vim.keymap.set('n', '<leader>Fl', 'gqq', { desc = '[F]ormat [l]ine' })
+vim.keymap.set('v', '<leader>Fs', 'gq', { desc = '[F]ormat [s]election' })
+vim.keymap.set('n', '<leader>Ff', 'mzggVGgq`z', { desc = '[F]ormat entire [f]ile (gq)' })
+vim.keymap.set('n', '<leader>Fi', 'gqip', { desc = '[F]ormat [i]nner paragraph' })
+
+-- Reflow paragraph (join lines then reformat to new width)
+vim.keymap.set('n', '<leader>Fr', 'vipJgwap', { desc = '[F]ormat [r]eflow paragraph' })
+vim.keymap.set('v', '<leader>Fr', function()
+  local tw = vim.bo.textwidth > 0 and vim.bo.textwidth or 80
+  vim.cmd("'<,'>!fmt -w " .. tw)
+end, { desc = '[F]ormat [r]eflow selection (exact)' })
+
+-- Prettier formatting (preserves Markdown structure)
+vim.keymap.set('n', '<leader>FP', function()
+  local file = vim.fn.expand '%'
+  if file == '' then
+    print 'No file to format'
+    return
+  end
+  local tw = vim.bo.textwidth > 0 and vim.bo.textwidth or 80
+  vim.cmd('silent !prettier --write --prose-wrap always --print-width ' .. tw .. ' ' .. vim.fn.shellescape(file))
+  vim.cmd 'edit!'
+end, { desc = '[F]ormat with [P]rettier' })
+
+vim.keymap.set('v', '<leader>FP', function()
+  vim.cmd("'<,'>!prettier --stdin-filepath=" .. vim.fn.shellescape(vim.fn.expand '%'))
+end, { desc = '[F]ormat selection with [P]rettier' })
+
+-- Helper function to get appropriate comment syntax for modelines
+local function get_modeline_comment(content)
+  local ft = vim.bo.filetype
+  local comment_map = {
+    markdown = '<!-- ' .. content .. ' -->',
+    html = '<!-- ' .. content .. ' -->',
+    xml = '<!-- ' .. content .. ' -->',
+    lua = '-- ' .. content,
+    python = '# ' .. content,
+    ruby = '# ' .. content,
+    bash = '# ' .. content,
+    sh = '# ' .. content,
+    zsh = '# ' .. content,
+    fish = '# ' .. content,
+    vim = '" ' .. content,
+    javascript = '// ' .. content,
+    typescript = '// ' .. content,
+    c = '// ' .. content,
+    cpp = '// ' .. content,
+    rust = '// ' .. content,
+    go = '// ' .. content,
+    java = '// ' .. content,
+  }
+
+  -- Default to # for unknown types (works for txt, conf, etc.)
+  return comment_map[ft] or '# ' .. content
+end
+
+-- Modeline insertion for text wrapping
+vim.keymap.set('n', '<leader>Fm', function()
+  local content = 'vim: set textwidth=80 wrap linebreak:'
+  local line = get_modeline_comment(content)
+  vim.api.nvim_put({ line }, 'l', true, true)
+end, { desc = '[F]ormat add [m]odeline (wrap 80)' })
+
+vim.keymap.set('n', '<leader>FM', function()
+  local tw = vim.fn.input 'Textwidth (default 80): '
+  if tw == '' then
+    tw = '80'
+  end
+  local content = string.format('vim: set textwidth=%s wrap linebreak:', tw)
+  local line = get_modeline_comment(content)
+  vim.api.nvim_put({ line }, 'l', true, true)
+end, { desc = '[F]ormat add custom [M]odeline' })
+
+--------------------------------------------------------------------------------
 -- MISC
 --------------------------------------------------------------------------------
 -- Re-indent entire buffer
