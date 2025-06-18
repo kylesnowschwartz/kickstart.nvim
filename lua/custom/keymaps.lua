@@ -80,6 +80,13 @@ end, { desc = '[B]uffer [S]cratch' })
 -- Save scratch buffer
 vim.keymap.set('n', '<leader>bw', ':setlocal buftype= | w<CR>', { desc = '[B]uffer [W]rite Scratch' })
 
+-- Yank buffer qualified name (full path)
+vim.keymap.set('n', '<leader>byy', function()
+  local path = vim.fn.expand '%:p'
+  vim.fn.setreg('+', path)
+  vim.api.nvim_echo({ { path, 'Normal' } }, false, {})
+end, { desc = '[B]uffer [Y]ank qualified name' })
+
 --------------------------------------------------------------------------------
 -- FILE COMMANDS (leader + f)
 --------------------------------------------------------------------------------
