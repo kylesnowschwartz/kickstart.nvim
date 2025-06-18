@@ -104,6 +104,21 @@ function M.restore_claude_code_instance(instance_id, should_be_visible)
   if should_be_visible then
     -- Use vim.schedule to ensure this happens after session restoration is complete
     vim.schedule(function()
+      -- Check if session restoration created a buffer with the expected name
+      -- If so, we need to clean it up before the plugin tries to create its own
+      local expected_buffer_name = 'claude-code-' .. instance_id:gsub('[^%w%-_]', '-')
+
+      for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(bufnr) then
+          local bufname = vim.api.nvim_buf_get_name(bufnr)
+          -- Check if this is a session-restored buffer with the expected name
+          if bufname:find(expected_buffer_name, 1, true) and vim.bo[bufnr].buftype ~= 'terminal' then
+            log_debug('Removing session-restored buffer that conflicts with claude-code naming: ' .. bufname)
+            vim.api.nvim_buf_delete(bufnr, { force = true })
+          end
+        end
+      end
+
       -- Use ClaudeCodeContinue command to resume with --continue flag
       vim.cmd 'ClaudeCodeContinue'
     end)
