@@ -95,8 +95,7 @@ function M.restore_claude_code_instance(instance_id, should_be_visible)
     return
   end
 
-  -- Remove any dead claude-code buffers that might have been restored by the session
-  M.cleanup_dead_claude_code_buffers()
+  -- Let claude-code plugin handle its own buffer management
 
   -- Set the current instance to the one we're restoring
   claude_code.claude_code.current_instance = instance_id
@@ -111,24 +110,8 @@ function M.restore_claude_code_instance(instance_id, should_be_visible)
   end
 end
 
----Clean up dead claude-code buffers that were restored by the session
-function M.cleanup_dead_claude_code_buffers()
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_valid(bufnr) then
-      local bufname = vim.api.nvim_buf_get_name(bufnr)
-      -- Check if this looks like a claude-code buffer but isn't a real terminal
-      if bufname:match 'claude%-code' and vim.bo[bufnr].buftype ~= 'terminal' then
-        log_debug('Removing dead claude-code buffer: ' .. bufnr .. ' (' .. bufname .. ')')
-        vim.api.nvim_buf_delete(bufnr, { force = true })
-      end
-    end
-  end
-end
-
 function M.restore_claude_code()
   log_debug 'restore_claude_code called - restoration handled by saved commands'
-
-  M.cleanup_dead_claude_code_buffers()
 
   if vim.g.claude_code_restore_current_instance then
     local ok, claude_code = pcall(require, 'claude-code')
