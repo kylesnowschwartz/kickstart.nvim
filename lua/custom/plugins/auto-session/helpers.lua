@@ -104,17 +104,37 @@ function M.restore_claude_code_instance(instance_id, should_be_visible)
   if should_be_visible then
     -- Use vim.schedule to ensure this happens after session restoration is complete
     vim.schedule(function()
-      -- Check if session restoration created a buffer with the expected name
-      -- If so, we need to clean it up before the plugin tries to create its own
+      -- Check if session restoration created a buffer with the expected claude-code name
+      -- Session restoration can create non-terminal buffers that conflict with
+      -- the claude-code plugin's terminal buffer naming
       local expected_buffer_name = 'claude-code-' .. instance_id:gsub('[^%w%-_]', '-')
 
       for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(bufnr) then
           local bufname = vim.api.nvim_buf_get_name(bufnr)
-          -- Check if this is a session-restored buffer with the expected name
-          if bufname:find(expected_buffer_name, 1, true) and vim.bo[bufnr].buftype ~= 'terminal' then
-            log_debug('Removing session-restored buffer that conflicts with claude-code naming: ' .. bufname)
-            vim.api.nvim_buf_delete(bufnr, { force = true })
+
+          -- Only remove buffers that:
+          -- 1. Have exactly the expected claude-code buffer name as filename (not path)
+          -- 2. Are not terminal buffers (session artifacts)
+          -- 3. Are not already managed by claude-code plugin
+          local filename = vim.fn.fnamemodify(bufname, ':t')
+          if filename == expected_buffer_name and vim.bo[bufnr].buftype ~= 'terminal' then
+            -- Double-check this buffer is not in the plugin's instances table
+            local ok, claude_code = pcall(require, 'claude-code')
+            local is_managed = false
+            if ok and claude_code.claude_code and claude_code.claude_code.instances then
+              for _, managed_bufnr in pairs(claude_code.claude_code.instances) do
+                if managed_bufnr == bufnr then
+                  is_managed = true
+                  break
+                end
+              end
+            end
+
+            if not is_managed then
+              log_debug('Removing session-restored buffer that conflicts with claude-code naming: ' .. bufname)
+              vim.api.nvim_buf_delete(bufnr, { force = true })
+            end
           end
         end
       end
