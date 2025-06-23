@@ -3,7 +3,7 @@
 -- Optimizations for large-scale marketplace application
 -- ============================================================================
 
-local base = require 'ruby_configs.base'
+local base = require 'lsp.ruby_configs.base'
 local M = {}
 
 -- Marketplace-specific priority gems (extends base)

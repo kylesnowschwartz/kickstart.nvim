@@ -1,33 +1,46 @@
 -- ============================================================================
--- Enhanced Ruby LSP Configuration
--- Optimized for large-scale Rails applications (especially Marketplace)
+-- Modular Ruby LSP Configuration
+-- Dynamically loads project-specific configurations
 -- ============================================================================
 
--- Helper function to collect bundle gem paths with IntelliJ-level smart prioritization
+-- Load project-specific configurations
+local configs = {
+  standard = require 'lsp.ruby_configs.standard',
+  marketplace = require 'lsp.ruby_configs.marketplace',
+}
+
+-- Project detection logic
+local project_detectors = {
+  marketplace = function(root_dir)
+    return root_dir and (root_dir:match '/marketplace$' or root_dir:match '/marketplace/')
+  end,
+  -- Add more project detectors here as needed
+}
+
+local function detect_project_config(root_dir)
+  for project_name, detector in pairs(project_detectors) do
+    if detector(root_dir) then
+      return project_name, configs[project_name]
+    end
+  end
+  return 'standard', configs.standard
+end
+
+-- Helper function to collect bundle gem paths with project-specific prioritization
 local function collect_bundle_gem_paths(root_dir)
   vim.notify('Collecting bundle gem paths for: ' .. root_dir, vim.log.levels.INFO)
   local all_gem_paths = {}
   local priority_gem_paths = {}
+
+  -- Get project-specific configuration
+  local project_name, project_config = detect_project_config(root_dir)
+  local priority_gems = project_config.priority_gems
 
   if vim.fn.filereadable(root_dir .. '/Gemfile') == 1 then
     local gem_paths_cmd = 'cd ' .. root_dir .. ' && bundle show --paths 2>/dev/null'
     local gem_paths_output = vim.fn.system(gem_paths_cmd)
 
     if gem_paths_output and gem_paths_output ~= '' then
-      -- Core gems that should be indexed immediately for best navigation experience
-      local priority_gems = {
-        'rails',
-        'activerecord',
-        'actionpack',
-        'activesupport',
-        'actionview',
-        'actionmailer',
-        'activejob',
-        'railties',
-        'rake',
-        'bundler',
-      }
-
       local priority_pattern = '(' .. table.concat(priority_gems, '|') .. ')'
 
       for path in string.gmatch(gem_paths_output, '[^\r\n]+') do
@@ -47,7 +60,13 @@ local function collect_bundle_gem_paths(root_dir)
   local priority_gems = #priority_gem_paths
 
   vim.notify(
-    string.format('Found %d gems (%d priority, %d others) - using smart indexing', total_gems, priority_gems, total_gems - priority_gems),
+    string.format(
+      '[%s] Found %d gems (%d priority, %d others) - using smart indexing',
+      project_name:upper(),
+      total_gems,
+      priority_gems,
+      total_gems - priority_gems
+    ),
     vim.log.levels.INFO
   )
 
@@ -90,101 +109,26 @@ local function monitor_lsp_performance(client, root_dir)
   end, 5000)
 end
 
--- Get Marketplace-optimized configuration
-local function get_marketplace_config(root_dir)
-  return {
-    -- Rails add-on integration with runtime introspection
-    addonSettings = {
-      ['Ruby LSP Rails'] = {
-        enableRuntimeIntrospection = true, -- Key for scope resolution
-      },
-    },
+-- Get project-specific LSP configuration
+local function get_project_config(root_dir)
+  local project_name, project_config = detect_project_config(root_dir)
 
-    -- Enable all experimental features for better resolution
+  local lsp_config = vim.tbl_deep_extend('force', {
+    -- Base LSP settings
+    addonSettings = project_config.config.addonSettings,
     enabledFeatureFlags = {
       all = true,
       experimentalFeaturesEnabled = true,
     },
-
-    -- Enhanced initialization options
-    initializationOptions = {
-      -- Experimental features for scope/constant resolution
-      experimental = {
-        constantResolution = true,
-        scopeResolution = true,
-        metaprogrammingAnalysis = true,
-        railsIntegration = true,
-      },
-
-      -- Performance optimizations for large codebase with IntelliJ-level gem handling
-      indexing = {
-        strategy = 'progressive', -- Index core files first, then priority gems
-        enableSmartGemIndexing = true, -- Enable priority-based gem indexing
-        excludedPatterns = {
-          -- Exclude heavy directories that slow indexing
-          '**/node_modules/**/*',
-          '**/tmp/**/*',
-          '**/vendor/**/*',
-          '**/log/**/*',
-          '**/coverage/**/*',
-          '**/public/webpack/**/*',
-          '**/results/**/*',
-          '**/screenshots/**/*',
-
-          -- Initially exclude all tests for faster startup
-          '**/spec/**/*_spec.rb',
-          '**/test/**/*_test.rb',
-          '**/features/**/*.feature',
-          '**/engines/*/spec/**/*',
-          '**/engines/*/test/**/*',
-
-          -- Exclude large generated files
-          'db/structure.sql',
-          '**/Gemfile.lock',
-        },
-
-        -- Prioritize business logic for indexing
-        includedPatterns = {
-          'app/models/**/*.rb',
-          'app/controllers/**/*.rb',
-          'app/services/**/*.rb',
-          'app/lib/**/*.rb',
-          'lib/**/*.rb',
-          'engines/*/app/models/**/*.rb',
-          'engines/*/app/controllers/**/*.rb',
-          'engines/*/app/services/**/*.rb',
-        },
-
-        -- Performance limits
-        maxFileSize = 50000, -- Skip massive files (50KB limit)
-        maxIndexingTime = 30000, -- 30 second limit for initial indexing
-      },
-    },
-
-    -- Enhanced formatter configuration
-    formatter = 'rubocop', -- Explicitly set formatter
-
-    -- Enhanced linter configuration
-    linters = { 'rubocop' },
-  }
-end
-
--- Get standard configuration for non-marketplace projects
-local function get_standard_config(root_dir)
-  return {
-    addonSettings = {
-      ['Ruby LSP Rails'] = {
-        enablePendingMigrationsPrompt = true,
-      },
-    },
-    enabledFeatureFlags = {
-      all = true,
-    },
+    initializationOptions = project_config.config,
     formatter = 'rubocop',
-  }
+    linters = project_config.config.formatting.rubyLsp.linters,
+  }, {})
+
+  return lsp_config, project_name
 end
 
--- Enhanced on_init function with marketplace optimizations
+-- Enhanced on_init function with project-specific optimizations
 local function enhanced_on_init(client, initialize_result)
   local root = client.config.root_dir
   if not root then
@@ -195,8 +139,8 @@ local function enhanced_on_init(client, initialize_result)
   client.config.settings = client.config.settings or {}
   client.config.settings.bundleGemPaths = collect_bundle_gem_paths(root)
 
-  -- Apply marketplace-specific or standard configuration
-  local config_updates = is_marketplace_project(root) and get_marketplace_config(root) or get_standard_config(root)
+  -- Apply project-specific configuration
+  local config_updates, project_name = get_project_config(root)
 
   -- Update client configuration
   for key, value in pairs(config_updates) do
@@ -229,11 +173,9 @@ local function enhanced_on_init(client, initialize_result)
   monitor_lsp_performance(client, root)
 
   -- Debug information for troubleshooting
-  if is_marketplace_project(root) then
-    vim.defer_fn(function()
-      vim.notify('Marketplace optimizations applied - check .ruby-lsp/config.yml for project-specific settings', vim.log.levels.INFO)
-    end, 2000)
-  end
+  vim.defer_fn(function()
+    vim.notify(string.format('[%s] Project-specific optimizations applied', project_name:upper()), vim.log.levels.INFO)
+  end, 2000)
 
   return true
 end

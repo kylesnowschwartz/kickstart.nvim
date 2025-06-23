@@ -3,7 +3,7 @@
 -- Configuration for typical Rails projects
 -- ============================================================================
 
-local base = require 'ruby_configs.base'
+local base = require 'lsp.ruby_configs.base'
 local M = {}
 
 -- Standard priority gems (just the base ones)

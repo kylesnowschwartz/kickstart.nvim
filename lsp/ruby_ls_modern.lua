@@ -5,8 +5,8 @@
 
 -- Load project-specific configurations
 local configs = {
-  standard = require 'ruby_configs.standard',
-  marketplace = require 'ruby_configs.marketplace',
+  standard = require 'lsp.ruby_configs.standard',
+  marketplace = require 'lsp.ruby_configs.marketplace',
 }
 
 -- Project detection logic
