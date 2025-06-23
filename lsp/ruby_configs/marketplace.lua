@@ -3,7 +3,7 @@
 -- Optimizations for large-scale marketplace application
 -- ============================================================================
 
-local base = require 'lsp.ruby_configs.base'
+local base = dofile(vim.fn.stdpath 'config' .. '/lsp/ruby_configs/base.lua')
 local M = {}
 
 -- Marketplace-specific priority gems (extends base)

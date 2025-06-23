@@ -3,10 +3,11 @@
 -- Dynamically loads project-specific configurations
 -- ============================================================================
 
--- Load project-specific configurations
+-- Load project-specific configurations using dofile for lsp/ directory
+local config_dir = vim.fn.stdpath 'config' .. '/lsp/ruby_configs/'
 local configs = {
-  standard = require 'lsp.ruby_configs.standard',
-  marketplace = require 'lsp.ruby_configs.marketplace',
+  standard = dofile(config_dir .. 'standard.lua'),
+  marketplace = dofile(config_dir .. 'marketplace.lua'),
 }
 
 -- Project detection logic

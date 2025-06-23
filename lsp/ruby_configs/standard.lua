@@ -3,7 +3,7 @@
 -- Configuration for typical Rails projects
 -- ============================================================================
 
-local base = require 'lsp.ruby_configs.base'
+local base = dofile(vim.fn.stdpath 'config' .. '/lsp/ruby_configs/base.lua')
 local M = {}
 
 -- Standard priority gems (just the base ones)
