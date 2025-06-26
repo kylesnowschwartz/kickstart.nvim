@@ -48,6 +48,30 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
+-- Auto-reload files when changed externally
+vim.opt.autoread = true
+
+-- Auto-refresh files when they change externally
+local autorefresh_group = vim.api.nvim_create_augroup('autorefresh', { clear = true })
+
+-- Check for external file changes on various events
+autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  group = autorefresh_group,
+  callback = function()
+    if vim.fn.mode() ~= 'c' then
+      vim.cmd 'checktime'
+    end
+  end,
+})
+
+-- Auto-reload when file changes externally (without prompting)
+autocmd('FileChangedShell', {
+  group = autorefresh_group,
+  callback = function()
+    vim.v.fcs_choice = 'reload'
+  end,
+})
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
