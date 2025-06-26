@@ -19,14 +19,14 @@ return {
       -- Save claude-code instances state
       save_extra_cmds = {
         function()
-          return require('custom.plugins.auto-session.helpers').save_claude_code_state()
+          -- return require('custom.plugins.auto-session.helpers').save_claude_code_state()
         end,
       },
 
       -- Restore claude-code terminal after session load
       post_restore_cmds = {
         function()
-          return require('custom.plugins.auto-session.helpers').restore_claude_code()
+          -- return require('custom.plugins.auto-session.helpers').restore_claude_code()
         end,
       },
     },
@@ -135,32 +135,58 @@ return {
       { '<leader>gl', '<cmd>Neogit log<cr>', desc = 'Neogit Log (project)' },
     },
   },
+  -- {
+  --   'greggh/claude-code.nvim',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim', -- Required for git operations
+  --   },
+  --   config = function()
+  --     require('claude-code').setup {
+  --       command = '/Users/kyle/.claude-wrapper',
+  --       window = {
+  --         start_in_normal_mode = true, -- Start the terminal in normal mode instead of insert mode
+  --         position = 'vsplit',
+  --         split_ratio = 0.4,
+  --         hide_numbers = true,
+  --       },
+  --       keymaps = {
+  --         toggle = {
+  --           normal = '<leader>cc', -- Normal mode keymap for toggling Claude Code, false to disable
+  --           variants = {
+  --             continue = '<leader>cC', -- Normal mode keymap for Claude Code with continue flag
+  --             resume = '<leader>cR', -- Normal mode keymap for Claude Code with verbose flag
+  --             verbose = '<leader>cV', -- Normal mode keymap for Claude Code with verbose flag
+  --           },
+  --         },
+  --       },
+  --     }
+  --   end,
+  -- },
+  --
   {
-    'greggh/claude-code.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim', -- Required for git operations
+    'coder/claudecode.nvim',
+    dependencies = { 'folke/snacks.nvim' },
+    opts = {
+      log_level = 'debug',
     },
-    config = function()
-      require('claude-code').setup {
-        command = '/Users/kyle/.claude-wrapper',
-        window = {
-          start_in_normal_mode = true, -- Start the terminal in normal mode instead of insert mode
-          position = 'vsplit',
-          split_ratio = 0.4,
-          hide_numbers = true,
-        },
-        keymaps = {
-          toggle = {
-            normal = '<leader>cc', -- Normal mode keymap for toggling Claude Code, false to disable
-            variants = {
-              continue = '<leader>cC', -- Normal mode keymap for Claude Code with continue flag
-              resume = '<leader>cR', -- Normal mode keymap for Claude Code with verbose flag
-              verbose = '<leader>cV', -- Normal mode keymap for Claude Code with verbose flag
-            },
-          },
-        },
-      }
-    end,
+    keys = {
+      { '<leader>a', nil, desc = 'AI/Claude Code' },
+      { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
+      { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
+      { '<leader>aR', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
+      { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
+      { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
+      { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
+      {
+        '<leader>as',
+        '<cmd>ClaudeCodeTreeAdd<cr>',
+        desc = 'Add file',
+        ft = { 'NvimTree', 'neo-tree', 'oil' },
+      },
+      -- Diff management
+      { '<leader>aa', '<cmd>ClaudeCodeDiffAccept<cr>', desc = 'Accept diff' },
+      { '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', desc = 'Deny diff' },
+    },
   },
   {
     'fabridamicelli/cronex.nvim',
