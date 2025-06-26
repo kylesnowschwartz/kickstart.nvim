@@ -41,6 +41,7 @@ lsp/                       # Legacy LSP configs (individual server files)
 The configuration uses a structured keybinding approach with `<Space>` as the leader key, organized by functional categories:
 
 ### File Operations (`<leader>f`)
+
 - `<leader>fed` - Edit init.lua
 - `<leader>fec` - Edit custom/keymaps.lua
 - `<leader>fep` - Edit custom/plugins/init.lua
@@ -50,6 +51,7 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - `<leader>fyY` - Yank absolute file path
 
 ### Buffer Management (`<leader>b`)
+
 - `<leader>bd` - Kill buffer (preserve window)
 - `<leader>bn` - Next buffer
 - `<leader>bp` - Previous buffer
@@ -58,6 +60,7 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - `<leader>bb` - Telescope buffer picker
 
 ### Search Operations (`<leader>s`)
+
 - `<leader>sf` / `<leader>ff` - Find files
 - `<leader>sg` / `<leader>s/` - Live grep with args
 - `<leader>ss` / `<leader>/` - Search in current buffer (Swiper)
@@ -67,6 +70,7 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - `<leader>sk` - Keymaps
 
 ### Window Management (`<leader>w`)
+
 - `<leader>w-` - Horizontal split
 - `<leader>w/` - Vertical split
 - `<leader>wh/j/k/l` - Navigate windows (tmux-navigator)
@@ -75,6 +79,7 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - `<leader>wm` - Maximize window
 
 ### Git Operations (`<leader>g`)
+
 - `<leader>gf` / `<leader>pf` - Git files
 - `<leader>gs` - Git status
 - `<leader>gc` - Git commits
@@ -84,12 +89,14 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - `<leader>gyy` - Git yank URL
 
 ### Ruby Development (`<leader>r`)
+
 - `<leader>rt` - Run test file
 - `<leader>rs` - Run single test
 - `<leader>rl` - Run last test
 - `<leader>ra` - Run all tests
 
 ### Diagnostics/Trouble (`<leader>x`)
+
 - `<leader>xx` - Toggle Trouble
 - `<leader>xd` - Document diagnostics
 - `<leader>xw` - Workspace diagnostics
@@ -98,6 +105,7 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 ## LSP Configuration
 
 ### Enabled Language Servers
+
 - **ruby_ls**: Ruby development with bundle gem paths integration
 - **ts_ls**: TypeScript/JavaScript development
 - **lua_ls**: Lua development with Neovim API support
@@ -105,12 +113,14 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - **html_ls**: HTML development
 
 ### LSP Keybindings (available when LSP is attached)
+
 - `<leader>rn` - Rename symbol
 - `<leader>ca` - Code actions
 - `gD` - Go to declaration
 - Telescope integration for references, definitions, implementations
 
 ### Formatting
+
 - `<leader>F` - Format buffer using conform.nvim
 - Auto-format on save (disabled for C/C++)
 - Ruby: rubocop via bundle exec
@@ -121,14 +131,18 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 ## Ruby Development Workflow
 
 ### Testing Commands
+
 The configuration includes vim-test integration:
+
 - `<leader>rt` - Test current file
 - `<leader>rs` - Test nearest (single test)
 - `<leader>rl` - Test last
 - `<leader>ra` - Test suite (all tests)
 
 ### Rails Support
+
 vim-rails provides navigation commands:
+
 - `:Emodel` - Jump to model
 - `:Eview` - Jump to view
 - `:Econtroller` - Jump to controller
@@ -136,6 +150,7 @@ vim-rails provides navigation commands:
 - `:Emigration` - Jump to migration
 
 ### Ruby LSP Features
+
 - Bundle gem paths automatically detected
 - Rubocop integration for diagnostics and formatting
 - Experimental features enabled
@@ -144,6 +159,7 @@ vim-rails provides navigation commands:
 ## Terminal Integration
 
 ### Claude Code Integration
+
 - `<leader>cc` - Toggle Claude Code
 - `<leader>cC` - Claude Code with continue flag
 - `<leader>cR` - Resume Claude Code
@@ -151,6 +167,7 @@ vim-rails provides navigation commands:
 - Auto-session integration preserves claude-code terminal state
 
 ### Terminal Commands
+
 - `<leader>tt` - Open terminal
 - `<Esc>` in terminal - Enter normal mode
 - `<Esc><Esc>` in terminal - Close terminal
@@ -158,6 +175,7 @@ vim-rails provides navigation commands:
 ## Session Management
 
 Auto-session is configured with:
+
 - Automatic session save/restore per directory
 - Scratch buffer cleanup before save
 - Claude-code terminal state preservation
@@ -166,6 +184,7 @@ Auto-session is configured with:
 ## Plugin Ecosystem
 
 ### Essential Plugins
+
 - **Telescope**: Fuzzy finding with extensions (fzf-native, ui-select, undo, live-grep-args)
 - **Trouble**: Diagnostics and quickfix list management
 - **Gitsigns**: Git integration with current line blame
@@ -176,6 +195,7 @@ Auto-session is configured with:
 - **Yazi**: File manager integration
 
 ### Development Tools
+
 - **Neogit**: Git interface
 - **Gitlinker**: Generate and open Git URLs
 - **Cronex**: Cron expression documentation
@@ -184,6 +204,7 @@ Auto-session is configured with:
 ## File Manager Integration
 
 Yazi file manager is integrated with:
+
 - `<leader>f-` - Open yazi at current file
 - `<leader>fcw` - Open yazi in working directory
 - `<leader>fcr` - Resume last yazi session
@@ -191,12 +212,14 @@ Yazi file manager is integrated with:
 ## Dependencies
 
 ### Required External Tools
+
 - `git`, `make`, `unzip`, C compiler
 - `ripgrep` (for telescope grep)
 - Clipboard tool (platform-dependent)
 - Nerd Font (optional, controlled by `vim.g.have_nerd_font`)
 
 ### Language-Specific Dependencies
+
 - **Ruby**: `ruby-lsp`, `rubocop` (via Bundle)
 - **JavaScript/TypeScript**: `eslint_d`
 - **Lua**: `stylua`
@@ -205,15 +228,19 @@ Yazi file manager is integrated with:
 ## Customization Points
 
 ### Adding New LSP Servers
+
 1. Create configuration file in `lsp/` directory
 2. Add `vim.lsp.enable 'server_name'` to `lua/lsp/init.lua:215-220`
 3. Add formatter configuration to `lua/lsp/init.lua:252-262` if needed
 
 ### Adding New Keybindings
+
 - Edit `lua/custom/keymaps.lua` following the established category structure
 - Update which-key groups in `init.lua:201-228` for documentation
 
 ### Modifying Plugin Configuration
+
 - Plugin definitions: `lua/custom/plugins/init.lua`
 - Telescope configuration: `lua/custom/plugins/telescope/init.lua`
 - LSP and completion: `lua/lsp/init.lua`
+
