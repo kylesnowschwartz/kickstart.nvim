@@ -3,12 +3,14 @@
 ----------------------------------------------------------------------------------
 -- TERMINAL COMMANDS
 --------------------------------------------------------------------------------
--- Single ESC to enter normal mode, <Esc><Esc> to close terminal
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Terminal: Enter normal mode' })
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>:bd!<CR>', { desc = 'Terminal: Close terminal' })
+-- Snacks terminal handles escape behavior with smart double-escape pattern
+-- Single <Esc> passes through to terminal (Claude Code can halt)
+-- Double <Esc><Esc> within 200ms switches to normal mode
 
--- Open a terminal buffer
-vim.keymap.set('n', '<leader>tt', ':terminal<CR>i', { desc = '[T]erminal: Open [t]erminal' })
+-- Open a terminal buffer using snacks.nvim
+vim.keymap.set('n', '<leader>tt', function()
+  require('snacks').terminal()
+end, { desc = '[T]erminal: Open [t]erminal' })
 
 -- Disable line numbers in terminal buffers
 vim.api.nvim_create_autocmd('TermOpen', {

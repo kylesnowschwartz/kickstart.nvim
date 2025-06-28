@@ -32,6 +32,33 @@ return {
     },
   },
   {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    opts = {
+      terminal = {
+        enabled = true,
+        auto_insert = false, -- Don't auto-enter insert mode when focusing terminal
+        start_insert = false, -- Don't start in insert mode when opening terminal
+        interactive = false, -- Disable all auto-behaviors for manual control
+      },
+      styles = {
+        terminal = {
+          keys = {
+            term_normal_ctrl_n = {
+              '<C-n>',
+              function()
+                vim.cmd 'stopinsert'
+              end,
+              mode = 't',
+              desc = 'Ctrl+N to normal mode',
+            },
+          },
+        },
+      },
+    },
+  },
+  {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require('colorizer').setup()
@@ -190,7 +217,10 @@ return {
     end,
   },
   {
-    'rachartier/tiny-code-action.nvim',
+    -- 'rachartier/tiny-code-action.nvim',
+    name = 'tiny-code-action.nvim',
+    dir = '/Users/kyle/Code/tiny-code-action.nvim',
+    dev = true,
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
