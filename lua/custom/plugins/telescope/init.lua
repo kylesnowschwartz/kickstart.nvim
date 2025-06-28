@@ -78,12 +78,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
           -- sorting_strategy = 'ascending',
           mappings = {
             i = {
-              ["<c-d>"] = "delete_buffer",
+              ['<c-d>'] = 'delete_buffer',
             },
             n = {
-              ["d"] = "delete_buffer",
-            }
-          }
+              ['d'] = 'delete_buffer',
+            },
+          },
         },
         find_files = {
           -- hidden = true,

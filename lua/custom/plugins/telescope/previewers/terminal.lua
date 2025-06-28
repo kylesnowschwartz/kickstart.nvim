@@ -111,7 +111,7 @@ function TerminalBufferPreviewer:new(opts)
 
         -- Highlight command prompts like $, >, etc.
         if line:match '[%$#>]%s' then
-          local prompt_start = line:find('[%$#>]')
+          local prompt_start = line:find '[%$#>]'
           if prompt_start then
             local prompt_end = prompt_start + 1
             vim.api.nvim_buf_add_highlight(self.state.bufnr, namespace, 'TelescopePromptPrefix', i - 1, prompt_start, prompt_end)

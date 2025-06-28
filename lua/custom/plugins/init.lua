@@ -189,4 +189,46 @@ return {
       vim.g.loaded_netrwPlugin = 1
     end,
   },
+  {
+    'rachartier/tiny-code-action.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    event = 'LspAttach',
+    opts = {
+      -- Use delta since you have it installed - much better than vim default
+      backend = 'delta',
+
+      -- Use telescope since it's your primary picker throughout config
+      picker = 'telescope',
+
+      backend_opts = {
+        delta = {
+          -- Keep delta headers minimal for cleaner output
+          header_lines_to_remove = 4,
+          args = {
+            '--line-numbers',
+            '--side-by-side', -- Good for code actions
+            '--width',
+            '120', -- Reasonable width
+          },
+        },
+      },
+
+      -- Your config uses Nerd Fonts, so keep the nice icons
+      signs = {
+        quickfix = { '󰁨', { link = 'DiagnosticWarn' } },
+        others = { '󰌶', { link = 'DiagnosticHint' } },
+        refactor = { '󱖣', { link = 'DiagnosticInfo' } },
+        ['refactor.move'] = { '󰪹', { link = 'DiagnosticInfo' } },
+        ['refactor.extract'] = { '󰄵', { link = 'DiagnosticError' } },
+        ['source.organizeImports'] = { '󰒺', { link = 'DiagnosticWarn' } },
+        ['source.fixAll'] = { '󰃢', { link = 'DiagnosticError' } },
+        ['source'] = { '󰏖', { link = 'DiagnosticError' } },
+        ['rename'] = { '󰑕', { link = 'DiagnosticWarn' } },
+        ['codeAction'] = { '󰌵', { link = 'DiagnosticInfo' } },
+      },
+    },
+  },
 }
