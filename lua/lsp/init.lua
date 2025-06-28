@@ -292,6 +292,15 @@ return {
         zsh = { 'shfmt' },
       },
       formatters = {
+        prettier = {
+          -- Prettier automatically finds config files (.prettierrc, .editorconfig, etc.)
+          -- Override default indentation to 2 spaces if no config found
+          args = { '--stdin-filepath', '$FILENAME', '--tab-width', '2', '--use-tabs', 'false' },
+        },
+        shfmt = {
+          -- Use 2-space indentation instead of tabs
+          prepend_args = { '-i', '2' },
+        },
         rubocop = {
           command = 'bundle',
           prepend_args = { 'exec', 'rubocop' },
