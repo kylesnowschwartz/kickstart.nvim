@@ -285,6 +285,18 @@ vim.keymap.set('n', '<leader>FM', function()
   vim.api.nvim_put({ line }, 'l', true, true)
 end, { desc = '[F]ormat add custom [M]odeline' })
 
+-- Tabularize alignment (leader + Fta + alignment char)
+vim.keymap.set('v', '<leader>Fta=', ':Tabularize /=<CR>', { desc = '[F]ormat [t]abularize [a]lign on [=] signs' })
+vim.keymap.set('v', '<leader>Fta:', ':Tabularize /:<CR>', { desc = '[F]ormat [t]abularize [a]lign on [:] colons' })
+vim.keymap.set('v', '<leader>Fta>', ':Tabularize /=><CR>', { desc = '[F]ormat [t]abularize [a]lign on [>] arrows' })
+vim.keymap.set('v', '<leader>Fta|', ':Tabularize /|<CR>', { desc = '[F]ormat [t]abularize [a]lign on [|] pipes' })
+vim.keymap.set('v', '<leader>Fta,', ':Tabularize /,<CR>', { desc = '[F]ormat [t]abularize [a]lign on [,] commas' })
+vim.keymap.set('v', '<leader>Fta/', ':Tabularize ///<CR>', { desc = '[F]ormat [t]abularize [a]lign on [/] comments' })
+vim.keymap.set('v', '<leader>Fta"', ':Tabularize /"<CR>', { desc = '[F]ormat [t]abularize [a]lign on ["] quotes' })
+vim.keymap.set('v', '<leader>Fta&', ':Tabularize /&<CR>', { desc = '[F]ormat [t]abularize [a]lign on [&] ampersands' })
+vim.keymap.set('v', '<leader>Fta<Space>', ':Tabularize / <CR>', { desc = '[F]ormat [t]abularize [a]lign on [ ] spaces' })
+vim.keymap.set('v', '<leader>Ftac', ':Tabularize /', { desc = '[F]ormat [t]abularize [a]lign [c]ustom pattern' })
+
 --------------------------------------------------------------------------------
 -- MISC
 --------------------------------------------------------------------------------
