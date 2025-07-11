@@ -165,10 +165,15 @@ return {
   --
   {
     'coder/claudecode.nvim',
+    -- name = 'claudecode.nvim',
+    -- dir = '/Users/kyle/Code/claudecode.nvim',
+    -- dev = true,
+
     dependencies = { 'folke/snacks.nvim' },
-    opts = {
-      log_level = 'debug',
-    },
+    config = true,
+    -- opts = {
+    --   log_level = 'debug',
+    -- },
     keys = {
       { '<leader>a', nil, desc = 'AI/Claude Code' },
       { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
@@ -192,7 +197,8 @@ return {
     'fabridamicelli/cronex.nvim',
     config = function()
       require('cronex').setup {
-        file_patterns = { '*.yaml', '*.yml', '*.tf', '*.cfg', '*.config', '*.conf', '*.crontab' },
+        -- file_patterns = { '*.yaml', '*.yml', '*.tf', '*.cfg', '*.config', '*.conf', '*.crontab' },
+        file_patterns = { '*.crontab' },
         extractor = {
           cron_from_line = require('cronex.cron_from_line').cron_from_line_crontab,
           extract = require('cronex.extract').extract,
@@ -287,4 +293,5 @@ return {
       },
     },
   },
+  { 'godlygeek/tabular' },
 }
