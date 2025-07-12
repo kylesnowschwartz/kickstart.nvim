@@ -294,4 +294,61 @@ return {
     },
   },
   { 'godlygeek/tabular' },
+  {
+    'nvim-pack/nvim-spectre',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    keys = {
+      { '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', desc = 'Toggle [S]pectre' },
+      { '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', desc = '[S]earch current [w]ord with Spectre' },
+      { '<leader>sw', '<cmd>lua require("spectre").open_visual()<CR>', mode = 'v', desc = '[S]earch selection [w]ith Spectre' },
+      { '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', desc = '[S]earch in current file with S[p]ectre' },
+    },
+    opts = {
+      color_devicons = true,
+      live_update = false, -- Performance: don't auto-update on every keystroke
+      open_cmd = 'vnew', -- Open in vertical split
+      find_engine = {
+        -- Use ripgrep (which you already have for Telescope)
+        ['rg'] = {
+          cmd = 'rg',
+          args = {
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+          },
+          options = {
+            ['ignore-case'] = {
+              value = '--ignore-case',
+              icon = '[I]',
+              desc = 'ignore case',
+            },
+            ['hidden'] = {
+              value = '--hidden',
+              desc = 'hidden file',
+              icon = '[H]',
+            },
+          },
+        },
+      },
+      replace_engine = {
+        ['sed'] = {
+          cmd = 'sed',
+          args = nil,
+        },
+      },
+      default = {
+        find = {
+          cmd = 'rg',
+          options = { 'ignore-case' },
+        },
+        replace = {
+          cmd = 'sed',
+        },
+      },
+    },
+  },
 }
