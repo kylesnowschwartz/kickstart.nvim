@@ -129,6 +129,9 @@ vim.keymap.set('n', '<leader>el', vim.diagnostic.setloclist, { desc = 'Open diag
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- Augment Code
+-- vim.g.augment_workspace_folders = { '~/Code/market/marketplace/' }
+
 --  Uncomment the following line and add your keymaps to `lua/custom/keymaps/*.lua` to get going.
 require 'custom.keymaps'
 require 'custom.ghostty'

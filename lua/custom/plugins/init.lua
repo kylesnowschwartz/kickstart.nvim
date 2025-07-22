@@ -170,10 +170,10 @@ return {
     -- dev = true,
 
     dependencies = { 'folke/snacks.nvim' },
-    config = true,
-    -- opts = {
-    --   log_level = 'debug',
-    -- },
+    opts = {
+      terminal_cmd = '/Users/kyle/.claude-wrapper',
+      log_level = 'info',
+    },
     keys = {
       { '<leader>a', nil, desc = 'AI/Claude Code' },
       { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
@@ -351,4 +351,8 @@ return {
       },
     },
   },
+  -- {
+  --   -- Your other plugins here
+  --   'augmentcode/augment.vim',
+  -- },
 }
