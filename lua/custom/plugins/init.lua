@@ -354,4 +354,45 @@ return {
   {
     'augmentcode/augment.vim',
   },
+  {
+    'vhyrro/luarocks.nvim',
+    priority = 1001, -- this plugin needs to run before anything else
+    opts = {
+      rocks = { 'magick' },
+    },
+  },
+  {
+    dir = '/Users/kyle/Code/image.nvim',
+    name = 'image.nvim',
+    -- build = false, -- No build needed for magick_cli
+    config = function()
+      require('image').setup {
+        -- Using ueberzug backend - correct choice for iTerm2
+        backend = 'ueberzug',
+        -- processor = 'magick_cli',
+        processor = 'magick_rock',
+
+        -- Optimized for direct image viewing
+        max_width_window_percentage = nil, -- Allow full width
+        max_height_window_percentage = 80, -- Increased from 50% for better viewing
+
+        -- File patterns for direct image opening
+        hijack_file_patterns = { '*.png', '*.jpg', '*.jpeg', '*.gif', '*.webp', '*.avif' },
+
+        -- Disable features not needed for direct viewing
+        window_overlap_clear_enabled = false, -- Prevents clearing images when windows overlap
+        editor_only_render_when_focused = false, -- Keep images visible when not focused
+        tmux_show_only_in_active_window = false, -- Show in all tmux windows
+
+        -- Disable integrations since you're not using markdown/html
+        integrations = {
+          markdown = { enabled = false },
+          neorg = { enabled = false },
+          typst = { enabled = false },
+          html = { enabled = false },
+          css = { enabled = false },
+        },
+      }
+    end,
+  },
 }
