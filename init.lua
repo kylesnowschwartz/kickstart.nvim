@@ -14,23 +14,23 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 -- relative numbers only in Normal mode and absolute numbers while typing
 local autocmd = vim.api.nvim_create_autocmd -- define the helper *first*
-local number_toggle = vim.api.nvim_create_augroup('number_toggle', { clear = true })
-autocmd('InsertEnter', {
-  group = number_toggle,
-  callback = function()
-    vim.opt.relativenumber = false
-  end,
-})
-
-autocmd('InsertLeave', {
-  group = number_toggle,
-  callback = function()
-    vim.opt.relativenumber = true
-  end,
-})
+-- local number_toggle = vim.api.nvim_create_augroup('number_toggle', { clear = true })
+-- autocmd('InsertEnter', {
+--   group = number_toggle,
+--   callback = function()
+--     vim.opt.relativenumber = false
+--   end,
+-- })
+--
+-- autocmd('InsertLeave', {
+--   group = number_toggle,
+--   callback = function()
+--     vim.opt.relativenumber = true
+--   end,
+-- })
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -130,11 +130,10 @@ vim.keymap.set('n', '<leader>el', vim.diagnostic.setloclist, { desc = 'Open diag
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Augment Code
--- vim.g.augment_workspace_folders = { '~/Code/market/marketplace/' }
+vim.g.augment_workspace_folders = { '~/Code/market/marketplace/', '~/.config/nvim/' }
 
 --  Uncomment the following line and add your keymaps to `lua/custom/keymaps/*.lua` to get going.
 require 'custom.keymaps'
-require 'custom.ghostty'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -336,7 +335,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'ruby' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -361,6 +360,7 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   { import = 'custom.plugins' },
+  require 'custom.plugins.yazi',
 
   -- Local development: prompt-tower-nvim plugin
   {
