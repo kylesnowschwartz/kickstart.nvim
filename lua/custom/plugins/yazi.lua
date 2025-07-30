@@ -40,7 +40,7 @@ return {
     -- floating_window_scaling_factor = 0.9,
 
     -- the transparency of the yazi floating window (0-100). See :h winblend
-    yazi_floating_window_winblend = 15,
+    yazi_floating_window_winblend = 20,
 
     -- the type of border to use for the floating window. Can be many values,
     -- including 'none', 'rounded', 'single', 'double', 'shadow', etc. For
@@ -57,7 +57,7 @@ return {
     -- - you can customize only some of the keymaps (not all of them)
     -- - you can opt out of all keymaps by setting `keymaps = false`
     keymaps = {
-      -- show_help = '?',
+      show_help = '?',
       open_file_in_vertical_split = '<c-v>',
       open_file_in_horizontal_split = '<c-x>',
       open_file_in_tab = '<c-t>',

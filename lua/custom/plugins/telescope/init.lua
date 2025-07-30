@@ -102,6 +102,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         },
       },
       defaults = {
+        winblend = 20, -- 15% transparency
         mappings = {
           i = { -- Insert mode mapping
             ['<C-T>'] = open_with_trouble,
