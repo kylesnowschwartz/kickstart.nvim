@@ -135,34 +135,6 @@ return {
       { '<leader>gl', '<cmd>Neogit log<cr>', desc = 'Neogit Log (project)' },
     },
   },
-  -- {
-  --   'greggh/claude-code.nvim',
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim', -- Required for git operations
-  --   },
-  --   config = function()
-  --     require('claude-code').setup {
-  --       command = '/Users/kyle/.claude-wrapper',
-  --       window = {
-  --         start_in_normal_mode = true, -- Start the terminal in normal mode instead of insert mode
-  --         position = 'vsplit',
-  --         split_ratio = 0.4,
-  --         hide_numbers = true,
-  --       },
-  --       keymaps = {
-  --         toggle = {
-  --           normal = '<leader>cc', -- Normal mode keymap for toggling Claude Code, false to disable
-  --           variants = {
-  --             continue = '<leader>cC', -- Normal mode keymap for Claude Code with continue flag
-  --             resume = '<leader>cR', -- Normal mode keymap for Claude Code with verbose flag
-  --             verbose = '<leader>cV', -- Normal mode keymap for Claude Code with verbose flag
-  --           },
-  --         },
-  --       },
-  --     }
-  --   end,
-  -- },
-  --
   {
     'coder/claudecode.nvim',
     -- name = 'claudecode.nvim',
@@ -173,11 +145,30 @@ return {
     opts = {
       terminal_cmd = '/Users/kyle/.claude-wrapper',
       log_level = 'info',
+      terminal = {
+        snacks_win_opts = {
+          position = 'float',
+          width = 0.8, -- 80% of screen width
+          height = 0.8, -- 80% of screen height
+          wo = {
+            winblend = 20, -- 20% transparency
+          },
+          keys = {
+            claude_hide = {
+              '<C-,>', -- Ctrl+comma to hide
+              function(self)
+                self:hide()
+              end,
+              mode = 't',
+              desc = 'Hide Claude',
+            },
+          },
+        },
+      },
     },
     keys = {
       { '<leader>a', nil, desc = 'AI/Claude Code' },
-      { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
-      { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
+      { '<leader>ac', '<cmd>ClaudeCodeFocus<cr>', desc = 'Toggle Claude (Float)' },
       { '<leader>aR', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
       { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
       { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
@@ -206,48 +197,6 @@ return {
       }
     end,
   },
-  -- {
-  --   'mikavilpas/yazi.nvim',
-  --   event = 'VeryLazy',
-  --   dependencies = {
-  --     -- check the installation instructions at
-  --     -- https://github.com/folke/snacks.nvim
-  --     'folke/snacks.nvim',
-  --   },
-  --   keys = {
-  --     -- 👇 in this section, choose your own keymappings!
-  --     {
-  --       '<leader>f-',
-  --       mode = { 'n', 'v' },
-  --       '<cmd>Yazi<cr>',
-  --       desc = 'Open yazi at the current file',
-  --     },
-  --     {
-  --       -- Open in the current working directory
-  --       '<leader>fcw',
-  --       '<cmd>Yazi cwd<cr>',
-  --       desc = "Open the file manager in nvim's working directory",
-  --     },
-  --     {
-  --       '<leader>fcr',
-  --       '<cmd>Yazi toggle<cr>',
-  --       desc = 'Resume the last yazi session',
-  --     },
-  --   },
-  --   opts = {
-  --     -- if you want to open yazi instead of netrw, see below for more info
-  --     open_for_directories = true,
-  --     keymaps = {
-  --       show_help = '<f1>',
-  --     },
-  --   },
-  --   -- 👇 if you use `open_for_directories=true`, this is recommended
-  --   init = function()
-  --     -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
-  --     -- vim.g.loaded_netrw = 1
-  --     vim.g.loaded_netrwPlugin = 1
-  --   end,
-  -- },
   {
     -- 'rachartier/tiny-code-action.nvim',
     name = 'tiny-code-action.nvim',
