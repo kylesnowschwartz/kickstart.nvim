@@ -384,3 +384,11 @@ vim.keymap.set('n', '<leader>cm', function()
 
   print 'Press yG to copy all messages to clipboard, q to close'
 end, { desc = 'Open [M]essages buffer with copy support' })
+
+--------------------------------------------------------------------------------
+-- FOLDING COMMANDS
+--------------------------------------------------------------------------------
+-- Leader-based fold commands
+vim.keymap.set('n', '<leader>z', 'za', { desc = 'Toggle fold' })
+vim.keymap.set('n', '<leader>zo', 'zR', { desc = 'Open all folds' })
+vim.keymap.set('n', '<leader>zc', 'zM', { desc = 'Close all folds' })

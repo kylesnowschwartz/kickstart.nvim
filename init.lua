@@ -109,6 +109,11 @@ vim.opt.scrolloff = 10
 -- See `:help 'confirm'`
 vim.opt.confirm = true
 
+-- Folding configuration
+vim.opt.foldmethod = 'indent'
+vim.opt.foldlevel = 99
+vim.opt.foldenable = true
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -242,6 +247,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>W', group = '[W]orkspace' },
         { '<leader>w', group = '[W]indow' },
+        { '<leader>z', group = '[Z]folding' },
         { '<leader>T', group = '[T]oggle' },
         { '<leader>t', group = '[T]erminal' },
         { '<leader>x', group = 'Trouble/Diagnostics' },
