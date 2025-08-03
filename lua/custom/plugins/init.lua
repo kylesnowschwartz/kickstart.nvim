@@ -354,4 +354,14 @@ return {
       require('mcphub').setup()
     end,
   },
+  {
+    'zaldih/themery.nvim',
+    lazy = false,
+    config = function()
+      require('themery').setup {
+        themes = { 'gruvbox', 'dawnfox', 'dayfox', 'nightfox' },
+        livePreview = true,
+      }
+    end,
+  },
 }
