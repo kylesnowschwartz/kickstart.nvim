@@ -51,4 +51,5 @@ repos:
     hooks:
       - id: prettier
         files: '\.(json)$'
+        exclude: 'lazy-lock\.json$'
         args: ["--tab-width=2"]
