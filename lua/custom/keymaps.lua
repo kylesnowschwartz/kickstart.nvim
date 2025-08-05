@@ -31,7 +31,8 @@ vim.keymap.set('n', '<leader>bd', ':bp | bd #<CR>', { desc = '[B]uffer [k]ill (p
 
 -- Remap Macros
 vim.keymap.set('n', 'q', '<Nop>', { noremap = true, desc = 'Disabled default macro key' })
-vim.keymap.set('n', '<leader>m', 'q', { noremap = true, desc = 'Start recording macro' })
+vim.keymap.set('n', '<leader>M', 'q', { noremap = true, desc = 'Start recording macro' })
+vim.keymap.set('n', 'M', 'q', { noremap = true, desc = 'Stop recording macro' })
 
 -- Quick kill help menus
 vim.api.nvim_create_autocmd('FileType', {
