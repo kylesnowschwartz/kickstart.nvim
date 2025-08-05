@@ -6,37 +6,33 @@ function M.setup_lsp_keymaps(bufnr)
     vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
   end
 
-  -- Jump to the definition of the word under your cursor.
-  --  This is where a variable was first declared, or where a function is defined, etc.
-  --  To jump back, press <C-t>.
-  map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+  -- Override default LSP mappings with Telescope equivalents
+  -- Default: grr -> vim.lsp.buf.references()
+  map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
-  -- Find references for the word under your cursor.
-  map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-  -- Jump to the implementation of the word under your cursor.
-  --  Useful when your language has ways of declaring types without an actual implementation.
-  map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
-  -- Jump to the type of the word under your cursor.
-  --  Useful when you're not sure what type a variable is and you want to see
-  --  the definition of its *type*, not where it was *defined*.
-  map('<leader>dt', require('telescope.builtin').lsp_type_definitions, '[D]efinition [T]ype')
-
-  -- Fuzzy find all the symbols in your current document.
-  --  Symbols are things like variables, functions, types, etc.
-  map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-
-  -- Fuzzy find all the symbols in your current workspace.
-  --  Similar to document symbols, except searches over your entire project.
-  map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-
-  -- Common LSP keymaps
-  map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  map('<leader>ca', function()
+  -- Default: gra -> vim.lsp.buf.code_action()
+  map('gra', function()
     require('tiny-code-action').code_action {}
   end, '[C]ode [A]ction')
-  map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+  -- Default: grn -> vim.lsp.buf.rename()
+  map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+
+  -- Default: gri -> vim.lsp.buf.implementation()
+  map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+
+  -- Default: grd -> vim.lsp.buf.definition()
+  map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+
+  -- Default: grD -> vim.lsp.buf.declaration()
+  map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+  -- Default: gy -> vim.lsp.buf.type_definition()
+  map('gy', require('telescope.builtin').lsp_type_definitions, '[G]oto T[y]pe Definition')
+
+  -- Keep some custom leader-based mappings for discoverability
+  -- map('<leader>lds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+  -- map('<leader>lws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 end
 
 return M
