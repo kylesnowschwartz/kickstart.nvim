@@ -1,7 +1,4 @@
 tags
-test.sh
-.luarc.json
-
-spell/
 
 **/.claude/settings.local.json
+node_modules/
