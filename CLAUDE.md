@@ -243,4 +243,3 @@ Yazi file manager is integrated with:
 - Plugin definitions: `lua/custom/plugins/init.lua`
 - Telescope configuration: `lua/custom/plugins/telescope/init.lua`
 - LSP and completion: `lua/lsp/init.lua`
-
