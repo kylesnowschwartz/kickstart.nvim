@@ -30,6 +30,13 @@ function M.setup_lsp_keymaps(bufnr)
   -- Fuzzy find all the symbols in your current workspace.
   --  Similar to document symbols, except searches over your entire project.
   map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+  -- Common LSP keymaps
+  map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  map('<leader>ca', function()
+    require('tiny-code-action').code_action {}
+  end, '[C]ode [A]ction')
+  map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 end
 
 return M
