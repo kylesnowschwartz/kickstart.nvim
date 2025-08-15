@@ -315,6 +315,10 @@ return {
     name = 'image.nvim',
     -- build = false, -- No build needed for magick_cli
     config = function()
+      -- Skip image.nvim setup in headless mode (like when running tests)
+      if #vim.api.nvim_list_uis() == 0 then
+        return
+      end
       require('image').setup {
         -- Using ueberzug backend - correct choice for iTerm2
         backend = 'ueberzug',
@@ -359,7 +363,7 @@ return {
     lazy = false,
     config = function()
       require('themery').setup {
-        themes = { 'gruvbox', 'dawnfox', 'dayfox', 'nightfox' },
+        themes = { 'gruvbox', 'techbase', 'dawnfox', 'dayfox', 'nightfox' },
         livePreview = true,
       }
     end,
@@ -374,5 +378,22 @@ return {
     keys = {
       { '<leader>ch', '<cmd>ClaudeHistory<cr>', desc = 'Claude History' },
     },
+  },
+  {
+    'cc-tui.nvim',
+    dev = true, -- Uses local development version
+    dir = '/Users/kyle/Code/cc-tui.nvim',
+    lazy = false, -- Load immediately, no lazy loading
+    config = function()
+      require('cc-tui').setup {
+        debug = true, -- Enable debug logging for development
+      }
+    end,
+  },
+  {
+    'avifenesh/claucode.nvim',
+    config = function()
+      require('claucode').setup()
+    end,
   },
 }
