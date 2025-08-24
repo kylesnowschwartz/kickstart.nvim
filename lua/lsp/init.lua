@@ -2,7 +2,10 @@
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    'folke/lazydev.nvim',
+    -- 'folke/lazydev.nvim',
+    'JanikkinaJ/lazydev.nvim',
+    commit = 'ca311b83bdf511a238b0bc4383676549717dfb40',
+    pin = true,
     ft = 'lua',
     opts = {
       library = {
@@ -80,7 +83,7 @@ return {
         },
         opts = {},
       },
-      'folke/lazydev.nvim',
+      -- 'folke/lazydev.nvim',
     },
     --- @type blink.cmp.Config
     opts = {
