@@ -198,10 +198,10 @@ return {
     end,
   },
   {
-    -- 'rachartier/tiny-code-action.nvim',
-    name = 'tiny-code-action.nvim',
-    dir = '/Users/kyle/Code/tiny-code-action.nvim',
-    dev = true,
+    'rachartier/tiny-code-action.nvim',
+    -- name = 'tiny-code-action.nvim',
+    -- dir = '/Users/kyle/Code/meta-claude/tiny-code-action.nvim',
+    -- dev = true,
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
@@ -308,9 +308,10 @@ return {
     },
   },
   {
-    dir = '/Users/kyle/Code/image.nvim',
-    name = 'image.nvim',
+    -- dir = '/Users/kyle/Code/image.nvim',
+    -- name = 'image.nvim',
     -- build = false, -- No build needed for magick_cli
+    '3rd/image.nvim',
     config = function()
       -- Skip image.nvim setup in headless mode (like when running tests)
       if #vim.api.nvim_list_uis() == 0 then
@@ -376,21 +377,25 @@ return {
       { '<leader>ch', '<cmd>ClaudeHistory<cr>', desc = 'Claude History' },
     },
   },
-  {
-    'cc-tui.nvim',
-    dev = true, -- Uses local development version
-    dir = '/Users/kyle/Code/cc-tui.nvim',
-    lazy = false, -- Load immediately, no lazy loading
-    config = function()
-      require('cc-tui').setup {
-        debug = true, -- Enable debug logging for development
-      }
-    end,
-  },
+  -- {
+  --   'cc-tui.nvim',
+  --   dev = true, -- Uses local development version
+  --   dir = '/Users/kyle/Code/meta-claude/cc-tui.nvim',
+  --   lazy = false, -- Load immediately, no lazy loading
+  --   config = function()
+  --     require('cc-tui').setup {
+  --       debug = true, -- Enable debug logging for development
+  --     }
+  --   end,
+  -- },
   {
     'avifenesh/claucode.nvim',
     config = function()
       require('claucode').setup()
     end,
+  },
+  {
+    'chrisgrieser/nvim-tinygit',
+    dependencies = 'nvim-telescope/telescope.nvim', -- only for interactive staging
   },
 }

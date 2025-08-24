@@ -339,6 +339,19 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 --------------------------------------------------------------------------------
+-- TINY GIT
+--------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>tga', function()
+  require('tinygit').interactiveStaging()
+end, { desc = 'Tiny [g]it [a]dd' })
+vim.keymap.set('n', '<leader>tgc', function()
+  require('tinygit').smartCommit()
+end, { desc = 'Tiny [g]it [c]ommit' })
+vim.keymap.set('n', '<leader>tgp', function()
+  require('tinygit').push()
+end, { desc = 'Tiny [g]it [p]ush' })
+
+--------------------------------------------------------------------------------
 -- GIT LINKER
 --------------------------------------------------------------------------------
 vim.keymap.set(
