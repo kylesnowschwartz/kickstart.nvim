@@ -156,9 +156,6 @@ vim.keymap.set('n', '<leader>w=', '<C-W>=', { desc = '[W]indow resize [=]' })
 -- Close current split
 vim.keymap.set('n', '<leader>wd', ':q<CR>', { desc = '[W]indow [d]elete' })
 
--- Jump among splits (via vim-tmux-navigator plugin)
--- These are now defined in lua/custom/plugins/init.lua
-
 -- Switch split windows (rotate focus)
 vim.keymap.set('n', '<leader>ww', '<C-W><C-W>', { desc = '[W]indow cycle' })
 
@@ -406,3 +403,14 @@ end, { desc = 'Open [M]essages buffer with copy support' })
 vim.keymap.set('n', '<leader>z', 'za', { desc = 'Toggle fold' })
 vim.keymap.set('n', '<leader>zo', 'zR', { desc = 'Open all folds' })
 vim.keymap.set('n', '<leader>zc', 'zM', { desc = 'Close all folds' })
+
+--------------------------------------------------------------------------------
+-- MOTION COMMANDS
+--------------------------------------------------------------------------------
+--- nvim-spider
+-- positions spider's `w` will move to
+-- if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
+-- -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
+vim.keymap.set({ 'n', 'o', 'x' }, 'w', "<cmd>lua require('spider').motion('w')<CR>")
+vim.keymap.set({ 'n', 'o', 'x' }, 'e', "<cmd>lua require('spider').motion('e')<CR>")
+vim.keymap.set({ 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>")

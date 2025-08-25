@@ -73,7 +73,7 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 
 - `<leader>w-` - Horizontal split
 - `<leader>w/` - Vertical split
-- `<leader>wh/j/k/l` - Navigate windows (tmux-navigator)
+- `<leader>wh/j/k/l` - Navigate windows
 - `<leader>wH/J/K/L` - Move windows
 - `<leader>wd` - Close window
 - `<leader>wm` - Maximize window

@@ -65,24 +65,6 @@ return {
     end,
   },
   {
-    'christoomey/vim-tmux-navigator',
-    enabled = true,
-    cmd = {
-      'TmuxNavigateLeft',
-      'TmuxNavigateDown',
-      'TmuxNavigateUp',
-      'TmuxNavigateRight',
-      'TmuxNavigatePrevious',
-      'TmuxNavigatorProcessList',
-    },
-    keys = {
-      { '<leader>wh', '<cmd>TmuxNavigateLeft<cr>' },
-      { '<leader>wj', '<cmd>TmuxNavigateDown<cr>' },
-      { '<leader>wk', '<cmd>TmuxNavigateUp<cr>' },
-      { '<leader>wl', '<cmd>TmuxNavigateRight<cr>' },
-    },
-  },
-  {
     'folke/trouble.nvim',
     opts = {
       focus = true,
@@ -333,7 +315,6 @@ return {
         -- Disable features not needed for direct viewing
         window_overlap_clear_enabled = false, -- Prevents clearing images when windows overlap
         editor_only_render_when_focused = false, -- Keep images visible when not focused
-        tmux_show_only_in_active_window = false, -- Show in all tmux windows
 
         -- Disable integrations since you're not using markdown/html
         integrations = {
@@ -361,7 +342,7 @@ return {
     lazy = false,
     config = function()
       require('themery').setup {
-        themes = { 'gruvbox', 'techbase', 'dawnfox', 'dayfox', 'nightfox' },
+        themes = { 'gruvbox', 'dawnfox', 'dayfox', 'nightfox' },
         livePreview = true,
       }
     end,
@@ -397,5 +378,18 @@ return {
   {
     'chrisgrieser/nvim-tinygit',
     dependencies = 'nvim-telescope/telescope.nvim', -- only for interactive staging
+  },
+  { 'chrisgrieser/nvim-spider', lazy = true },
+  -- lazy.nvim
+  {
+    'chrisgrieser/nvim-origami',
+    event = 'VeryLazy',
+    opts = {}, -- needed even when using default config
+
+    -- recommended: disable vim's auto-folding
+    init = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
+    end,
   },
 }

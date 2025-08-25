@@ -293,13 +293,6 @@ require('lazy').setup({
     end,
   },
   { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true, opts = {} },
-  {
-    'mcauley-penney/techbase.nvim',
-    config = function(_, opts)
-      vim.cmd.colorscheme 'techbase'
-    end,
-    priority = 1000,
-  },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
