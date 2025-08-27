@@ -8,6 +8,7 @@ local FLOAT_BLEND = 10
 -- Common keybindings
 local HIDE_KEY = '<C-,>'
 local TOGGLE_KEY = '<C-f>'
+local FOCUS_KEY = '<C-Space>'
 local KEY_MODES = { 't', 'n' }
 
 -- Common positions
@@ -18,6 +19,7 @@ local RELATIVE_EDITOR = 'editor'
 -- Key descriptions
 local HIDE_DESC = 'Hide Claude'
 local TOGGLE_DESC = 'Toggle Float/Embedded Mode'
+local FOCUS_DESC = 'Toggle Focus (Claude/Editor)'
 
 -- Create hide key configuration
 local function create_hide_key(action_fn)
@@ -26,6 +28,16 @@ local function create_hide_key(action_fn)
     action_fn,
     mode = KEY_MODES,
     desc = HIDE_DESC,
+  }
+end
+
+-- Create focus toggle key configuration
+local function create_focus_key()
+  return {
+    FOCUS_KEY,
+    '<cmd>ClaudeCodeFocus<cr>',
+    mode = KEY_MODES,
+    desc = FOCUS_DESC,
   }
 end
 
@@ -85,6 +97,7 @@ local function toggle_claude_mode(self)
         term_self:hide()
       end),
       claude_float = create_toggle_key(),
+      claude_focus = create_focus_key(),
     }
 
     local opts = is_float and create_embedded_config(keys) or create_float_config(keys)
@@ -124,6 +137,7 @@ return {
             self:hide()
           end),
           claude_float = create_toggle_key(),
+          claude_focus = create_focus_key(),
         },
       },
     },
