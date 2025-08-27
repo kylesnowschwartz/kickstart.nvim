@@ -7,7 +7,7 @@ local FLOAT_BLEND = 10
 
 -- Common keybindings
 local HIDE_KEY = '<C-,>'
-local TOGGLE_KEY = '<C-F>'
+local TOGGLE_KEY = '<C-S-f>'
 local FOCUS_KEY = '<C-f>'
 local KEY_MODES = { 't', 'n' }
 
