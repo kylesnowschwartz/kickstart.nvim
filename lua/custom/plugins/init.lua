@@ -330,17 +330,17 @@ return {
     'chrisgrieser/nvim-tinygit',
     dependencies = 'nvim-telescope/telescope.nvim', -- only for interactive staging
   },
-  { 'chrisgrieser/nvim-spider', lazy = true },
+  -- { 'chrisgrieser/nvim-spider', lazy = true },
   -- lazy.nvim
-  {
-    'chrisgrieser/nvim-origami',
-    event = 'VeryLazy',
-    opts = {}, -- needed even when using default config
-
-    -- recommended: disable vim's auto-folding
-    init = function()
-      vim.opt.foldlevel = 99
-      vim.opt.foldlevelstart = 99
-    end,
-  },
+  -- {
+  --   'chrisgrieser/nvim-origami',
+  --   event = 'VeryLazy',
+  --   opts = {}, -- needed even when using default config
+  --
+  --   -- recommended: disable vim's auto-folding
+  --   init = function()
+  --     vim.opt.foldlevel = 99
+  --     vim.opt.foldlevelstart = 99
+  --   end,
+  -- },
 }
