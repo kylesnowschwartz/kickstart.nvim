@@ -40,67 +40,19 @@ lsp/                       # Legacy LSP configs (individual server files)
 
 The configuration uses a structured keybinding approach with `<Space>` as the leader key, organized by functional categories:
 
-### File Operations (`<leader>f`)
+Custom keymaps are defined in @/Users/kyle/.config/nvim/lua/custom/keymaps.lua
 
-- `<leader>fed` - Edit init.lua
-- `<leader>fec` - Edit custom/keymaps.lua
-- `<leader>fep` - Edit custom/plugins/init.lua
-- `<leader>fs` - Save current file
-- `<leader>fS` - Save all files
-- `<leader>fyy` - Yank relative file path
-- `<leader>fyY` - Yank absolute file path
+### File Operations (`<leader>f`)
 
 ### Buffer Management (`<leader>b`)
 
-- `<leader>bd` - Kill buffer (preserve window)
-- `<leader>bn` - Next buffer
-- `<leader>bp` - Previous buffer
-- `<leader>bR` - Reload current buffer
-- `<leader>bs` - Create scratch buffer
-- `<leader>bb` - Telescope buffer picker
-
 ### Search Operations (`<leader>s`)
-
-- `<leader>sf` / `<leader>ff` - Find files
-- `<leader>sg` / `<leader>s/` - Live grep with args
-- `<leader>ss` / `<leader>/` - Search in current buffer (Swiper)
-- `<leader>sr` - Resume last search
-- `<leader>s.` - Recent files
-- `<leader>sh` - Help tags
-- `<leader>sk` - Keymaps
 
 ### Window Management (`<leader>w`)
 
-- `<leader>w-` - Horizontal split
-- `<leader>w/` - Vertical split
-- `<leader>wh/j/k/l` - Navigate windows
-- `<leader>wH/J/K/L` - Move windows
-- `<leader>wd` - Close window
-- `<leader>wm` - Maximize window
-
 ### Git Operations (`<leader>g`)
 
-- `<leader>gf` / `<leader>pf` - Git files
-- `<leader>gs` - Git status
-- `<leader>gc` - Git commits
-- `<leader>gb` - Git buffer commits
-- `<leader>gB` - Git branches
-- `<leader>gg` - Neogit
-- `<leader>gyy` - Git yank URL
-
-### Ruby Development (`<leader>r`)
-
-- `<leader>rt` - Run test file
-- `<leader>rs` - Run single test
-- `<leader>rl` - Run last test
-- `<leader>ra` - Run all tests
-
 ### Diagnostics/Trouble (`<leader>x`)
-
-- `<leader>xx` - Toggle Trouble
-- `<leader>xd` - Document diagnostics
-- `<leader>xw` - Workspace diagnostics
-- `<leader>xr` - LSP references
 
 ## LSP Configuration
 
@@ -114,11 +66,6 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 
 ### LSP Keybindings (available when LSP is attached)
 
-- `<leader>rn` - Rename symbol
-- `<leader>ca` - Code actions
-- `gD` - Go to declaration
-- Telescope integration for references, definitions, implementations
-
 ### Formatting
 
 - `<leader>F` - Format buffer using conform.nvim
@@ -128,49 +75,11 @@ The configuration uses a structured keybinding approach with `<Space>` as the le
 - Lua: stylua
 - YAML/JSON/Markdown: prettier
 
-## Ruby Development Workflow
-
-### Testing Commands
-
-The configuration includes vim-test integration:
-
-- `<leader>rt` - Test current file
-- `<leader>rs` - Test nearest (single test)
-- `<leader>rl` - Test last
-- `<leader>ra` - Test suite (all tests)
-
-### Rails Support
-
-vim-rails provides navigation commands:
-
-- `:Emodel` - Jump to model
-- `:Eview` - Jump to view
-- `:Econtroller` - Jump to controller
-- `:Ehelper` - Jump to helper
-- `:Emigration` - Jump to migration
-
-### Ruby LSP Features
-
-- Bundle gem paths automatically detected
-- Rubocop integration for diagnostics and formatting
-- Experimental features enabled
-- Full feature set: completion, hover, diagnostics, formatting, code actions
-
 ## Terminal Integration
 
 ### Claude Code Integration
 
-- `<leader>cc` - Toggle Claude Code
-- `<leader>cC` - Claude Code with continue flag
-- `<leader>cR` - Resume Claude Code
-- `<leader>cV` - Verbose Claude Code
-- Auto-session integration preserves claude-code terminal state
-
 ### Terminal Commands
-
-- `<leader>tt` - Open terminal
-- `<Esc>` in terminal - Enter normal mode
-- `<Esc><Esc>` in terminal - Close terminal
 
 ## Session Management
 
@@ -186,44 +95,17 @@ Auto-session is configured with:
 ### Essential Plugins
 
 - **Telescope**: Fuzzy finding with extensions (fzf-native, ui-select, undo, live-grep-args)
-- **Trouble**: Diagnostics and quickfix list management
 - **Gitsigns**: Git integration with current line blame
 - **Which-key**: Keybinding discovery and documentation
 - **Mini.nvim**: Multiple utilities (surround, statusline, ai textobjects, trailspace)
 - **Treesitter**: Syntax highlighting and code analysis
 - **Auto-session**: Session management
 - **Yazi**: File manager integration
-
-### Development Tools
-
-- **Neogit**: Git interface
-- **Gitlinker**: Generate and open Git URLs
-- **Cronex**: Cron expression documentation
-- **Colorizer**: Color preview in code
+- **ClaudeCode**: File manager integration
 
 ## File Manager Integration
 
-Yazi file manager is integrated with:
-
-- `<leader>f-` - Open yazi at current file
-- `<leader>fcw` - Open yazi in working directory
-- `<leader>fcr` - Resume last yazi session
-
-## Dependencies
-
-### Required External Tools
-
-- `git`, `make`, `unzip`, C compiler
-- `ripgrep` (for telescope grep)
-- Clipboard tool (platform-dependent)
-- Nerd Font (optional, controlled by `vim.g.have_nerd_font`)
-
-### Language-Specific Dependencies
-
-- **Ruby**: `ruby-lsp`, `rubocop` (via Bundle)
-- **JavaScript/TypeScript**: `eslint_d`
-- **Lua**: `stylua`
-- **General**: `prettier` for YAML/JSON/Markdown
+Yazi file manager and neo-tree
 
 ## Customization Points
 
