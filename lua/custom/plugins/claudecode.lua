@@ -1,3 +1,107 @@
+-- Common configuration values
+local EMBEDDED_WIDTH = 0.30
+local FLOAT_WIDTH = 0.8
+local FLOAT_HEIGHT = 0.8
+local EMBEDDED_BLEND = 0
+local FLOAT_BLEND = 10
+
+-- Common keybindings
+local HIDE_KEY = '<C-,>'
+local TOGGLE_KEY = '<C-f>'
+local KEY_MODES = { 't', 'n' }
+
+-- Common positions
+local POSITION_LEFT = 'left'
+local POSITION_FLOAT = 'float'
+local RELATIVE_EDITOR = 'editor'
+
+-- Key descriptions
+local HIDE_DESC = 'Hide Claude'
+local TOGGLE_DESC = 'Toggle Float/Embedded Mode'
+
+-- Create hide key configuration
+local function create_hide_key(action_fn)
+  return {
+    HIDE_KEY,
+    action_fn,
+    mode = KEY_MODES,
+    desc = HIDE_DESC,
+  }
+end
+
+-- Define the functions in proper order to avoid circular references
+local function create_embedded_opts(keys)
+  return {
+    position = POSITION_LEFT,
+    width = EMBEDDED_WIDTH,
+    height = 0,
+    relative = RELATIVE_EDITOR,
+    wo = { winblend = EMBEDDED_BLEND },
+    keys = keys,
+  }
+end
+
+local function create_float_opts(keys)
+  return {
+    position = POSITION_FLOAT,
+    width = FLOAT_WIDTH,
+    height = FLOAT_HEIGHT,
+    relative = RELATIVE_EDITOR,
+    wo = { winblend = FLOAT_BLEND },
+    keys = keys,
+  }
+end
+
+local function create_embedded_config(keys)
+  return {
+    split_side = POSITION_LEFT,
+    split_width_percentage = EMBEDDED_WIDTH,
+    auto_close = false, -- Disable auto_close to prevent error messages during toggle
+    snacks_win_opts = create_embedded_opts(keys),
+  }
+end
+
+local function create_float_config(keys)
+  return {
+    auto_close = false, -- Disable auto_close to prevent error messages during toggle
+    snacks_win_opts = create_float_opts(keys),
+  }
+end
+
+-- Forward declaration for circular reference
+local create_toggle_key
+
+-- Single shared toggle function that works from any mode
+local function toggle_claude_mode(self)
+  local is_float = self:is_floating()
+  local claudecode_terminal = require 'claudecode.terminal'
+
+  claudecode_terminal.close()
+
+  vim.schedule(function()
+    -- Create the same keys for the new window
+    local keys = {
+      claude_hide = create_hide_key(function(term_self)
+        term_self:hide()
+      end),
+      claude_float = create_toggle_key(),
+    }
+
+    local opts = is_float and create_embedded_config(keys) or create_float_config(keys)
+    claudecode_terminal.open(opts, '--continue')
+  end)
+end
+
+-- Create toggle key configuration
+create_toggle_key = function()
+  return {
+    TOGGLE_KEY,
+    toggle_claude_mode,
+    mode = KEY_MODES,
+    desc = TOGGLE_DESC,
+  }
+end
+
 return {
   'coder/claudecode.nvim',
   dependencies = { 'folke/snacks.nvim' },
@@ -5,124 +109,21 @@ return {
     terminal_cmd = '/Users/kyle/.claude-wrapper',
     log_level = 'info',
     terminal = {
-      split_side = 'left',
-      split_width_percentage = 0.30,
+      split_side = POSITION_LEFT,
+      split_width_percentage = EMBEDDED_WIDTH,
+      auto_close = false, -- Disable auto_close to prevent error messages during toggle
       snacks_win_opts = {
-        position = 'left',
-        width = 0.30,
+        position = POSITION_LEFT,
+        width = EMBEDDED_WIDTH,
         height = 0,
         wo = {
-          winblend = 0,
+          winblend = EMBEDDED_BLEND,
         },
         keys = {
-          claude_hide = {
-            '<C-,>',
-            function(self)
-              self:hide()
-            end,
-            mode = { 't', 'n' },
-            desc = 'Hide Claude',
-          },
-          claude_float = {
-            '<C-f>',
-            function(self)
-              local is_float = self:is_floating()
-
-              print('DEBUG: Current mode is_float =', is_float)
-              print('DEBUG: Window config =', vim.inspect(vim.api.nvim_win_get_config(self.win)))
-
-              local claudecode_terminal = require 'claudecode.terminal'
-              claudecode_terminal.close()
-
-              vim.schedule(function()
-                local shared_keys = {
-                  claude_hide = {
-                    '<C-,>',
-                    function(term_self)
-                      term_self:hide()
-                    end,
-                    mode = { 't', 'n' },
-                    desc = 'Hide Claude',
-                  },
-                  claude_float = {
-                    '<C-f>',
-                    function(term_self)
-                      local is_float = term_self:is_floating()
-                      print('DEBUG: Recursive toggle - Current mode is_float =', is_float)
-
-                      claudecode_terminal.close()
-
-                      vim.schedule(function()
-                        local recursive_opts = {}
-                        if is_float then
-                          recursive_opts = {
-                            split_side = 'left',
-                            split_width_percentage = 0.30,
-                            snacks_win_opts = {
-                              position = 'left',
-                              width = 0.30,
-                              height = 0,
-                              relative = 'editor',
-                              wo = { winblend = 0 },
-                              keys = shared_keys,
-                            },
-                          }
-                        else
-                          recursive_opts = {
-                            snacks_win_opts = {
-                              position = 'float',
-                              width = 0.8,
-                              height = 0.8,
-                              relative = 'editor',
-                              wo = { winblend = 10 },
-                              keys = shared_keys,
-                            },
-                          }
-                        end
-                        claudecode_terminal.open(recursive_opts, '--continue')
-                      end)
-                    end,
-                    mode = { 't', 'n' },
-                    desc = 'Toggle Float/Embedded Mode',
-                  },
-                }
-
-                local opts_override = {}
-
-                if is_float then
-                  opts_override = {
-                    split_side = 'left',
-                    split_width_percentage = 0.30,
-                    snacks_win_opts = {
-                      position = 'left',
-                      width = 0.30,
-                      height = 0,
-                      relative = 'editor',
-                      wo = { winblend = 0 },
-                      keys = shared_keys,
-                    },
-                  }
-                  print('DEBUG: Opening embedded with opts_override =', vim.inspect(opts_override))
-                else
-                  opts_override = {
-                    snacks_win_opts = {
-                      position = 'float',
-                      width = 0.8,
-                      height = 0.8,
-                      relative = 'editor',
-                      wo = { winblend = 10 },
-                      keys = shared_keys,
-                    },
-                  }
-                  print('DEBUG: Opening float with opts_override =', vim.inspect(opts_override))
-                end
-
-                claudecode_terminal.open(opts_override, '--continue')
-              end)
-            end,
-            mode = { 't', 'n' },
-            desc = 'Toggle Float/Embedded Mode',
-          },
+          claude_hide = create_hide_key(function(self)
+            self:hide()
+          end),
+          claude_float = create_toggle_key(),
         },
       },
     },
