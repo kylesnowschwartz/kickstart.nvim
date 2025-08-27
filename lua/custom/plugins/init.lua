@@ -118,55 +118,6 @@ return {
     },
   },
   {
-    'coder/claudecode.nvim',
-    -- name = 'claudecode.nvim',
-    -- dir = '/Users/kyle/Code/claudecode.nvim',
-    -- dev = true,
-
-    dependencies = { 'folke/snacks.nvim' },
-    opts = {
-      terminal_cmd = '/Users/kyle/.claude-wrapper',
-      log_level = 'info',
-      terminal = {
-        snacks_win_opts = {
-          position = 'float',
-          width = 0.8, -- 80% of screen width
-          height = 0.8, -- 80% of screen height
-          wo = {
-            winblend = 20, -- 20% transparency
-          },
-          keys = {
-            claude_hide = {
-              '<C-,>', -- Ctrl+comma to hide
-              function(self)
-                self:hide()
-              end,
-              mode = 't',
-              desc = 'Hide Claude',
-            },
-          },
-        },
-      },
-    },
-    keys = {
-      { '<leader>a', nil, desc = 'AI/Claude Code' },
-      { '<leader>ac', '<cmd>ClaudeCodeFocus<cr>', desc = 'Toggle Claude (Float)' },
-      { '<leader>aR', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
-      { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
-      { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
-      { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
-      {
-        '<leader>as',
-        '<cmd>ClaudeCodeTreeAdd<cr>',
-        desc = 'Add file',
-        ft = { 'NvimTree', 'neo-tree', 'oil' },
-      },
-      -- Diff management
-      { '<leader>aa', '<cmd>ClaudeCodeDiffAccept<cr>', desc = 'Accept diff' },
-      { '<leader>ad', '<cmd>ClaudeCodeDiffDeny<cr>', desc = 'Deny diff' },
-    },
-  },
-  {
     'fabridamicelli/cronex.nvim',
     config = function()
       require('cronex').setup {

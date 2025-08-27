@@ -165,6 +165,12 @@ vim.keymap.set('n', '<leader>wm', ':only<CR>', { desc = '[W]indow [m]aximize' })
 --------------------------------------------------------------------------------
 -- SPACEMACS WINDOW COMMANDS (leader + w)
 --------------------------------------------------------------------------------
+-- Window navigation
+vim.keymap.set('n', '<leader>wh', '<C-w>h', { desc = '[W]indow navigate left' })
+vim.keymap.set('n', '<leader>wj', '<C-w>j', { desc = '[W]indow navigate down' })
+vim.keymap.set('n', '<leader>wk', '<C-w>k', { desc = '[W]indow navigate up' })
+vim.keymap.set('n', '<leader>wl', '<C-w>l', { desc = '[W]indow navigate right' })
+
 -- Window movement (not navigation)
 vim.keymap.set('n', '<leader>wH', '<C-w>H', { desc = '[W]indow move window to left' })
 vim.keymap.set('n', '<leader>wJ', '<C-w>J', { desc = '[W]indow move window to bottom' })
