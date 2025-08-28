@@ -35,7 +35,17 @@ end
 local function create_focus_key()
   return {
     FOCUS_KEY,
-    '<cmd>ClaudeCodeFocus<cr>',
+    function(self)
+      local current_win = vim.api.nvim_get_current_win()
+      if self.win == current_win then
+        -- Currently in terminal - switch to previous window
+        vim.cmd 'wincmd p'
+      else
+        -- Not in terminal - focus the terminal and enter insert mode
+        self:focus()
+        vim.cmd 'startinsert'
+      end
+    end,
     mode = KEY_MODES,
     desc = FOCUS_DESC,
   }
@@ -144,7 +154,7 @@ return {
   },
   keys = {
     { '<leader>a', nil, desc = 'AI/Claude Code' },
-    { '<leader>ac', '<cmd>ClaudeCodeFocus<cr>', desc = 'Toggle Claude (Float)', mode = { 'n', 'v' } },
+    { '<leader>ac', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude', mode = { 'n', 'v' } },
     { '<leader>aR', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
     { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
     { '<leader>ab', '<cmd>ClaudeCodeAdd %<cr>', desc = 'Add current buffer' },
