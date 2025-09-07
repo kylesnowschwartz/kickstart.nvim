@@ -15,20 +15,6 @@ return {
           return require('custom.plugins.auto-session.helpers').cleanup_scratch_buffers()
         end,
       },
-
-      -- Save claude-code instances state
-      save_extra_cmds = {
-        function()
-          -- return require('custom.plugins.auto-session.helpers').save_claude_code_state()
-        end,
-      },
-
-      -- Restore claude-code terminal after session load
-      post_restore_cmds = {
-        function()
-          -- return require('custom.plugins.auto-session.helpers').restore_claude_code()
-        end,
-      },
     },
   },
   {
@@ -63,36 +49,6 @@ return {
     config = function()
       require('colorizer').setup()
     end,
-  },
-  {
-    'folke/trouble.nvim',
-    opts = {
-      focus = true,
-      win = {
-        type = 'split',
-        position = 'right',
-        size = 0.5, -- Proportion of the editor's width
-        -- type = 'float', -- Use a floating window
-        -- position = 'bottom', -- Position of the floating window
-        -- height = 10, -- Height of the floating window
-        -- width = 50, -- Width of the floating window
-        -- border = 'rounded', -- Border style: "single", "double", "rounded", "shadow", or a table of border characters
-      },
-      auto_preview = true,
-      fold_open = '▾',
-      fold_closed = '▸',
-      indent_lines = true,
-      use_diagnostic_signs = true,
-    },
-    cmd = 'Trouble',
-    keys = {
-      { '<leader>xx', '<cmd>Trouble<cr>', desc = 'Trouble Toggle' },
-      { '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>', desc = 'Trouble Workspace Diagnostics' },
-      { '<leader>xd', '<cmd>Trouble document_diagnostics<cr>', desc = 'Trouble Document Diagnostics' },
-      { '<leader>xl', '<cmd>Trouble loclist<cr>', desc = 'Trouble Location List' },
-      { '<leader>xq', '<cmd>Trouble quickfix<cr>', desc = 'Trouble Quickfix' },
-      { '<leader>xr', '<cmd>Trouble lsp_references<cr>', desc = 'Trouble References' },
-    },
   },
   {
     'ruifm/gitlinker.nvim',
@@ -299,28 +255,6 @@ return {
     end,
   },
   {
-    'kylesnowschwartz/claude-fzf-history.nvim',
-    dependencies = { 'ibhagwan/fzf-lua' },
-    config = function()
-      require('claude-fzf-history').setup()
-    end,
-    cmd = { 'ClaudeHistory', 'ClaudeHistoryDebug' },
-    keys = {
-      { '<leader>ch', '<cmd>ClaudeHistory<cr>', desc = 'Claude History' },
-    },
-  },
-  -- {
-  --   'cc-tui.nvim',
-  --   dev = true, -- Uses local development version
-  --   dir = '/Users/kyle/Code/meta-claude/cc-tui.nvim',
-  --   lazy = false, -- Load immediately, no lazy loading
-  --   config = function()
-  --     require('cc-tui').setup {
-  --       debug = true, -- Enable debug logging for development
-  --     }
-  --   end,
-  -- },
-  {
     'avifenesh/claucode.nvim',
     config = function()
       require('claucode').setup()
@@ -330,17 +264,17 @@ return {
     'chrisgrieser/nvim-tinygit',
     dependencies = 'nvim-telescope/telescope.nvim', -- only for interactive staging
   },
-  -- { 'chrisgrieser/nvim-spider', lazy = true },
-  -- lazy.nvim
-  -- {
-  --   'chrisgrieser/nvim-origami',
-  --   event = 'VeryLazy',
-  --   opts = {}, -- needed even when using default config
-  --
-  --   -- recommended: disable vim's auto-folding
-  --   init = function()
-  --     vim.opt.foldlevel = 99
-  --     vim.opt.foldlevelstart = 99
-  --   end,
-  -- },
+  { 'RRethy/nvim-treesitter-endwise' },
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {
+      enable_close = true, -- Auto close tags
+      enable_rename = true, -- Auto rename pairs of tags
+      enable_close_on_slash = false, -- Auto close on trailing </
+      aliases = {
+        ['eruby'] = 'html', -- Support for .html.erb files
+      },
+    },
+  },
 }
