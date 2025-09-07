@@ -59,10 +59,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
     },
   },
   config = function()
-    local open_with_trouble = require('trouble.sources.telescope').open
-
-    -- Use this to add more results without clearing the trouble lis
-    -- local add_to_trouble = require('trouble.sources.telescope').add
     local actions = require 'telescope.actions'
     require('telescope').setup {
       -- You can put your default mappings / updates / etc. in here
@@ -105,11 +101,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
         winblend = 20, -- 15% transparency
         mappings = {
           i = { -- Insert mode mapping
-            ['<C-T>'] = open_with_trouble,
             ['<C-F>'] = 'to_fuzzy_refine',
           },
           n = { -- Normal mode mapping
-            ['<C-T>'] = open_with_trouble,
             ['<C-K>'] = actions.preview_scrolling_up,
             ['<C-J>'] = actions.preview_scrolling_down,
             ['<C-F>'] = 'to_fuzzy_refine',

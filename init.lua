@@ -125,6 +125,9 @@ vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
 vim.opt.foldenable = true
 
+-- Open special buffers in splits
+vim.opt.switchbuf = 'vsplit'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -352,14 +355,6 @@ require('lazy').setup({
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   { import = 'custom.plugins' },
   require 'custom.plugins.yazi',
-
-  -- Local development: prompt-tower-nvim plugin
-  {
-    'kylesnowschwartz/prompt-tower.nvim',
-    -- dir = '/Users/kyle/Code/prompt-tower.nvim',
-    -- name = 'prompt-tower-nvim',
-    -- dev = true,
-  },
 
   -- Rails development enhancements
   {

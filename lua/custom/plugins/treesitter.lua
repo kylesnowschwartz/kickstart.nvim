@@ -18,10 +18,13 @@ return {
         'luadoc',
         'markdown',
         'markdown_inline',
+        'javascript',
+        'typescript',
         'query',
         'vim',
         'vimdoc',
         'ruby',
+        'rust',
       }
 
       -- Enable treesitter features per filetype
