@@ -48,7 +48,6 @@ This is a sophisticated Neovim configuration based on kickstart.nvim with extens
 init.lua                    # Main entry point with basic Vim options and plugin loading
 lua/custom/                 # Custom configurations
 ├── keymaps.lua            # All custom keybindings organized by category
-├── ghostty.lua            # Ghostty terminal integration
 └── plugins/               # Custom plugin configurations
     ├── init.lua           # Plugin definitions and setup
     ├── claudecode.lua     # Claude Code integration

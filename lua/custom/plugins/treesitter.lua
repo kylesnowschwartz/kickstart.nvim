@@ -23,6 +23,7 @@ return {
         'query',
         'vim',
         'vimdoc',
+        'python',
         'ruby',
         'rust',
       }

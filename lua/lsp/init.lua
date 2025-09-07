@@ -27,6 +27,7 @@ return {
         'prettier', -- JS/TS/CSS/HTML/JSON/YAML/Markdown
         'eslint_d', -- JS/TS linting
         'black', -- Python
+        'ruff', -- Python
         'isort', -- Python import sorting
         'shfmt', -- Shell scripts
       }
@@ -233,6 +234,7 @@ return {
       vim.lsp.enable 'ruby_ls'
       vim.lsp.enable 'bash_ls'
       vim.lsp.enable 'html_ls'
+      vim.lsp.enable 'python_ls'
       -- TODO: vim.lsp.enable({ "ts_ls", "cssls", "tailwindcssls" })
       -- https://github.com/Rishabh672003/Neovim/blob/main/lua/rj/lsp.lua
     end,
@@ -268,7 +270,7 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        python = { 'isort', 'black' },
+        python = { 'ruff', 'isort', 'black' },
         javascript = { 'eslint_d', 'prettier', stop_after_first = true },
         javascriptreact = { 'eslint_d', 'prettier', stop_after_first = true },
         typescript = { 'eslint_d', 'prettier', stop_after_first = true },

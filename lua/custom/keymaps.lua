@@ -102,9 +102,6 @@ vim.keymap.set('n', '<leader>fec', ':e /Users/kyle/.config/nvim/lua/custom/keyma
 -- Edit Neovim config (replace with your actual init.lua path, if desired)
 vim.keymap.set('n', '<leader>fep', ':e /Users/kyle/.config/nvim/lua/custom/plugins/init.lua<CR>', { desc = 'custom/plugins/init.lua' })
 
--- Open Ghostty documentation
-vim.keymap.set('n', '<leader>fg', ':GhosttyDocs<CR>', { desc = '[F]ile [g]hostty docs' })
-
 -- Reloading not supported with lazy.nvim
 -- vim.keymap.set('n', '<leader>feR', ':source $MYVIMRC', { desc = 'reload init.lua' })
 
