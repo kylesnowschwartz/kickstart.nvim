@@ -23,6 +23,50 @@ return {
       window = {
         mappings = {
           ['\\'] = 'close_window',
+          -- Play audio files on Enter instead of opening them
+          ['<CR>'] = function(state)
+            local node = state.tree:get_node()
+
+            -- Audio file extensions to handle (case-insensitive)
+            local audio_extensions = {
+              wav = true,
+              mp3 = true,
+              m4a = true,
+              aac = true,
+              ogg = true,
+              flac = true,
+            }
+
+            if node.type == 'file' and audio_extensions[node.ext:lower()] then
+              -- Cross-platform audio playback
+              local play_cmd
+              if vim.fn.has 'mac' == 1 then
+                play_cmd = { 'afplay', node:get_id() }
+              elseif vim.fn.has 'unix' == 1 then
+                play_cmd = { 'paplay', node:get_id() }
+              elseif vim.fn.has 'win32' == 1 then
+                play_cmd = { 'powershell', '-c', "(New-Object Media.SoundPlayer '" .. node:get_id() .. "').PlaySync()" }
+              end
+
+              if play_cmd then
+                vim.fn.jobstart(play_cmd, {
+                  detach = true,
+                  on_exit = function(_, exit_code)
+                    if exit_code ~= 0 then
+                      vim.notify('Failed to play audio file: ' .. node.name, vim.log.levels.ERROR)
+                    end
+                  end,
+                })
+                vim.notify('Playing: ' .. node.name, vim.log.levels.INFO)
+              else
+                vim.notify('Audio playback not supported on this platform', vim.log.levels.WARN)
+              end
+              return
+            end
+
+            -- Default file opening behavior for non-audio files
+            require('neo-tree.sources.filesystem.commands').open(state)
+          end,
         },
       },
     },
