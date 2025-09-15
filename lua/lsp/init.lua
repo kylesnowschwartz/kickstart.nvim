@@ -270,7 +270,7 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        python = { 'ruff', 'isort', 'black' },
+        python = { 'ruff_format', 'ruff_organize_imports' },
         javascript = { 'eslint_d', 'prettier', stop_after_first = true },
         javascriptreact = { 'eslint_d', 'prettier', stop_after_first = true },
         typescript = { 'eslint_d', 'prettier', stop_after_first = true },
@@ -278,7 +278,7 @@ return {
         ruby = { 'rubocop' },
         yaml = { 'prettier' },
         json = { 'prettier' },
-        markdown = { 'prettier_markdown' },
+        -- markdown = { 'prettier_markdown' }, -- Disabled to prevent escaping underscores
         css = { 'prettier' },
         scss = { 'prettier' },
         html = { 'prettier' },
@@ -287,6 +287,16 @@ return {
         zsh = { 'shfmt' },
       },
       formatters = {
+        ruff_format = {
+          command = 'ruff',
+          args = { 'format', '--stdin-filename', '$FILENAME', '--config', 'indent-width=2', '-' },
+          stdin = true,
+        },
+        ruff_organize_imports = {
+          command = 'ruff',
+          args = { 'check', '--fix', '--select', 'I', '--stdin-filename', '$FILENAME', '--config', 'indent-width=2', '-' },
+          stdin = true,
+        },
         prettier = {
           -- Prettier automatically finds config files (.prettierrc, .editorconfig, etc.)
           -- Override default indentation to 2 spaces if no config found

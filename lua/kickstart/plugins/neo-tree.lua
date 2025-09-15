@@ -37,7 +37,7 @@ return {
               flac = true,
             }
 
-            if node.type == 'file' and audio_extensions[node.ext:lower()] then
+            if node.type == 'file' and node.ext and audio_extensions[node.ext:lower()] then
               -- Cross-platform audio playback
               local play_cmd
               if vim.fn.has 'mac' == 1 then

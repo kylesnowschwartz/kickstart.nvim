@@ -174,6 +174,19 @@ vim.api.nvim_create_autocmd('VimLeave', {
   end,
 })
 
+-- Set Python indentation to 2 spaces
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Set Python indentation to 2 spaces',
+  pattern = 'python',
+  group = vim.api.nvim_create_augroup('python-indent', { clear = true }),
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
