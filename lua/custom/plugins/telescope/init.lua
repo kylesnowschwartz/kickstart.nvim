@@ -52,10 +52,10 @@ return { -- Fuzzy Finder (files, lsp, etc)
       end,
     },
     {
-      'nvim-telescope/telescope-live-grep-args.nvim',
-      -- This will not install any breaking changes.
-      -- For major updates, this must be adjusted manually.
-      version = '^1.0.0',
+      -- Using local development version with built-in help feature
+      dir = '/Users/kyle/Code/meta-nvim/telescope-live-grep-args.nvim',
+      name = 'telescope-live-grep-args.nvim',
+      dev = true,
     },
   },
   config = function()
@@ -116,6 +116,15 @@ return { -- Fuzzy Finder (files, lsp, etc)
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
+        },
+        live_grep_args = {
+          -- The help keymap (?) is enabled by default
+          -- You can customize mappings here if needed:
+          -- mappings = {
+          --   i = {
+          --     ["<C-h>"] = require("telescope-live-grep-args.actions").show_help,
+          --   }
+          -- }
         },
       },
     }
