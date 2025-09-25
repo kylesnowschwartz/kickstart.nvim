@@ -129,7 +129,7 @@ return {
   'coder/claudecode.nvim',
   dependencies = { 'folke/snacks.nvim' },
   opts = {
-    terminal_cmd = '/Users/kyle/.claude-wrapper',
+    terminal_cmd = '/home/kyle/.claude-wrapper',
     log_level = 'info',
     terminal = {
       split_side = POSITION_LEFT,

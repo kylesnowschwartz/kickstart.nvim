@@ -53,9 +53,10 @@ return { -- Fuzzy Finder (files, lsp, etc)
     },
     {
       -- Using local development version with built-in help feature
-      dir = '/Users/kyle/Code/meta-nvim/telescope-live-grep-args.nvim',
-      name = 'telescope-live-grep-args.nvim',
-      dev = true,
+      -- dir = '/home/kyle/Code/meta-nvim/telescope-live-grep-args.nvim',
+      -- name = 'telescope-live-grep-args.nvim',
+      -- dev = true,
+      'nvim-telescope/telescope-live-grep-args.nvim',
     },
   },
   config = function()

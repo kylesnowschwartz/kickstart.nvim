@@ -97,10 +97,10 @@ end, { desc = '[B]uffer [Y]ank qualified name' })
 vim.keymap.set('n', '<leader>fed', ':e $MYVIMRC<CR>', { desc = '/init.lua' })
 
 -- Edit Neovim config (replace with your actual init.lua path, if desired)
-vim.keymap.set('n', '<leader>fec', ':e /Users/kyle/.config/nvim/lua/custom/keymaps.lua<CR>', { desc = 'custom/keymaps.lua' })
+vim.keymap.set('n', '<leader>fec', ':e /home/kyle/.config/nvim/lua/custom/keymaps.lua<CR>', { desc = 'custom/keymaps.lua' })
 
 -- Edit Neovim config (replace with your actual init.lua path, if desired)
-vim.keymap.set('n', '<leader>fep', ':e /Users/kyle/.config/nvim/lua/custom/plugins/init.lua<CR>', { desc = 'custom/plugins/init.lua' })
+vim.keymap.set('n', '<leader>fep', ':e /home/kyle/.config/nvim/lua/custom/plugins/init.lua<CR>', { desc = 'custom/plugins/init.lua' })
 
 -- Reloading not supported with lazy.nvim
 -- vim.keymap.set('n', '<leader>feR', ':source $MYVIMRC', { desc = 'reload init.lua' })
