@@ -12,8 +12,11 @@ return {
       require('nvim-treesitter').install {
         'bash',
         'c',
+        'css',
+        'scss',
         'diff',
         'html',
+        'json',
         'lua',
         'luadoc',
         'markdown',

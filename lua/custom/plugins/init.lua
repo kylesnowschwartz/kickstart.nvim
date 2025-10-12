@@ -249,7 +249,7 @@ return {
     lazy = false,
     config = function()
       require('themery').setup {
-        themes = { 'gruvbox', 'dawnfox', 'dayfox', 'nightfox' },
+        themes = { 'gruvbox', 'dawnfox', 'dayfox', 'nightfox', 'cobalt' },
         livePreview = true,
       }
     end,

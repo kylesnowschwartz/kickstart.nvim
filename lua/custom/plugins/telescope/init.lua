@@ -95,6 +95,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         current_buffer_fuzzy_find = {
           sorting_strategy = 'ascending', -- Enable ascending sort for consistency
           prompt_title = 'Swiper <3',
+          results_ts_highlight = true,
         },
       },
       defaults = {
@@ -188,7 +189,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         require('telescope.builtin').current_buffer_fuzzy_find(config)
       else
         -- For normal buffers, use the default ivy theme
-        local config = {
+        local ivy_config = require('telescope.themes').get_ivy {
           sorting_strategy = 'ascending', -- Make results go from top to bottom for consistency
           layout_config = {
             height = 0.6,
@@ -197,7 +198,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
         }
 
         -- Run with standard configuration
-        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_ivy(config))
+        require('telescope.builtin').current_buffer_fuzzy_find(ivy_config)
       end
     end
     vim.keymap.set('n', '<leader>/', swiper, { desc = '[/] Fuzzy search in buffer', silent = true })
