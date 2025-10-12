@@ -291,6 +291,7 @@ require('lazy').setup({
         { 'd', group = '[D]elete' },
         { 'cs', desc = 'Change [S]urround' },
         { 'ds', desc = 'Delete [S]urround' },
+        { 'gr', group = 'Goto [R]references LSP' },
       },
     },
   },

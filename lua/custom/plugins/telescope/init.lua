@@ -149,7 +149,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = '[B]uffers Find existing buffers' })
     vim.keymap.set('n', '<leader>s"', builtin.registers, { desc = '[S]earch ["]Registers' })
-    -- These are also set in LSP attach keymaps - removing duplicates here
 
     -- Git Telescope keymaps
     vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = '[G]it [F]iles (tracked)' })
