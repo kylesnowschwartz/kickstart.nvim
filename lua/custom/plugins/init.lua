@@ -14,6 +14,10 @@ return {
         function()
           return require('custom.plugins.auto-session.helpers').cleanup_scratch_buffers()
         end,
+        -- Close all diffview tabs before saving session
+        function()
+          vim.cmd 'silent! DiffviewClose'
+        end,
       },
     },
   },
