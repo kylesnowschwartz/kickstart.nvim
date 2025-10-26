@@ -133,6 +133,10 @@ return {
   },
   { 'godlygeek/tabular' },
   {
+    'github/copilot.vim',
+    event = 'InsertEnter',
+  },
+  {
     'nvim-pack/nvim-spectre',
     dependencies = {
       'nvim-lua/plenary.nvim',
