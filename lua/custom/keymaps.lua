@@ -12,6 +12,12 @@ vim.keymap.set('n', '<leader>tt', function()
   require('snacks').terminal()
 end, { desc = '[T]erminal: Open [t]erminal' })
 
+--------------------------------------------------------------------------------
+-- TAB COMMANDS
+--------------------------------------------------------------------------------
+-- Close current tab
+vim.keymap.set('n', '<leader>td', ':tabclose<CR>', { desc = '[T]ab [d]elete (close)' })
+
 -- Disable line numbers in terminal buffers
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('terminal_settings', { clear = true }),
@@ -366,6 +372,28 @@ vim.keymap.set(
   '<cmd>lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".open_in_browser})<cr>',
   { silent = true, desc = 'Git [Y]ank and browse URL (selection)' }
 )
+
+--------------------------------------------------------------------------------
+-- DIFFVIEW
+--------------------------------------------------------------------------------
+-- Open diffview against base branch (auto-detects main/master)
+vim.keymap.set('n', '<leader>gd', function()
+  -- Try to detect base branch (main or master)
+  local handle = io.popen 'git rev-parse --verify origin/main 2>/dev/null'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    if result ~= '' then
+      vim.cmd 'DiffviewOpen origin/main...HEAD'
+      return
+    end
+  end
+  -- Fallback to master if main doesn't exist
+  vim.cmd 'DiffviewOpen origin/master...HEAD'
+end, { desc = 'Git [d]iff vs base branch' })
+
+-- Close diffview
+vim.keymap.set('n', '<leader>gD', ':DiffviewClose<CR>', { desc = 'Git [D]iff close' })
 
 --------------------------------------------------------------------------------
 -- MESSAGES

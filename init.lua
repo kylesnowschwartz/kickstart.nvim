@@ -266,6 +266,7 @@ require('lazy').setup({
         { '<leader>b', group = '[b]uffer' },
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
+        { '<leader>go', group = '[O]cto/GitHub' },
         { '<leader>gy', group = 'Git [Y]ank URL', mode = { 'n', 'v' } },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>p', group = '[P]roject' },
