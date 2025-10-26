@@ -23,6 +23,19 @@ return {
       window = {
         mappings = {
           ['\\'] = 'close_window',
+          ['y'] = {
+            function(state)
+              local node = state.tree:get_node()
+              if not node or node.type == 'message' then
+                return
+              end
+              local path = node:get_id()
+              vim.fn.setreg('+', path, 'c')
+              vim.notify('Copied path: ' .. path, vim.log.levels.INFO)
+            end,
+            desc = 'Copy full path to clipboard',
+          },
+          ['Y'] = 'copy_to_clipboard',
           ['<tab>'] = function(state)
             local node = state.tree:get_node()
             if require('neo-tree.utils').is_expandable(node) then
