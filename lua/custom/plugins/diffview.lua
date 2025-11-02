@@ -31,6 +31,10 @@ return {
         diff_buf_read = function(bufnr)
           vim.opt_local.wrap = true
           vim.opt_local.list = false
+
+          -- Set buffer-local keymaps for hunk navigation
+          vim.keymap.set('n', 'n', ']c', { buffer = bufnr, desc = 'Next hunk' })
+          vim.keymap.set('n', 'N', '[c', { buffer = bufnr, desc = 'Previous hunk' })
         end,
       },
 
@@ -40,6 +44,7 @@ return {
           -- Arrow keys for scrolling diff view (replaces <C-f>/<C-b>)
           { 'n', '<Down>', actions.scroll_view(0.25), { desc = 'Scroll diff down' } },
           { 'n', '<Up>', actions.scroll_view(-0.25), { desc = 'Scroll diff up' } },
+          -- Note: n/N and ]c/[c for hunk navigation are set in diff_buf_read hook above
         },
         file_panel = {
           -- Disable default arrow key file navigation (use j/k for that)
