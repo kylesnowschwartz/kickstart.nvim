@@ -21,14 +21,15 @@ return {
       enhanced_diff_hl = true,
 
       -- Enable LSP features in diff buffers (recommended for PR review)
+      -- -w ignores whitespace changes
       default_args = {
-        DiffviewOpen = { '--imply-local' },
+        DiffviewOpen = { '--imply-local', '-w' },
       },
 
       -- Consistent buffer settings
       hooks = {
         diff_buf_read = function(bufnr)
-          vim.opt_local.wrap = false
+          vim.opt_local.wrap = true
           vim.opt_local.list = false
         end,
       },

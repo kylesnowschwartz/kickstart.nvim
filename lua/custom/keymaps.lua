@@ -376,21 +376,10 @@ vim.keymap.set(
 --------------------------------------------------------------------------------
 -- DIFFVIEW
 --------------------------------------------------------------------------------
--- Open diffview against base branch (auto-detects main/master)
+-- Open diffview (compares against base branch if available, otherwise shows local changes)
 vim.keymap.set('n', '<leader>gd', function()
-  -- Try to detect base branch (main or master)
-  local handle = io.popen 'git rev-parse --verify origin/main 2>/dev/null'
-  if handle then
-    local result = handle:read '*a'
-    handle:close()
-    if result ~= '' then
-      vim.cmd 'DiffviewOpen origin/main...HEAD'
-      return
-    end
-  end
-  -- Fallback to master if main doesn't exist
-  vim.cmd 'DiffviewOpen origin/master...HEAD'
-end, { desc = 'Git [d]iff vs base branch' })
+  require('custom.plugins.diffview.helpers').open_diff()
+end, { desc = 'Git [d]iff view' })
 
 -- Close diffview
 vim.keymap.set('n', '<leader>gD', ':DiffviewClose<CR>', { desc = 'Git [D]iff close' })
