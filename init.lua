@@ -268,7 +268,6 @@ require('lazy').setup({
         { '<leader>d', group = '[D]ocument' },
         { '<leader>go', group = '[O]cto/GitHub' },
         { '<leader>gy', group = 'Git [Y]ank URL', mode = { 'n', 'v' } },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>p', group = '[P]roject' },
         { '<leader>r', group = '[R]ename/[R]uby' },
         { '<leader>rt', group = '[R]uby [T]esting' },
