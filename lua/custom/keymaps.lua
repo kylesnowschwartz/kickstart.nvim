@@ -12,12 +12,6 @@ vim.keymap.set('n', '<leader>tt', function()
   require('snacks').terminal()
 end, { desc = '[T]erminal: Open [t]erminal' })
 
---------------------------------------------------------------------------------
--- TAB COMMANDS
---------------------------------------------------------------------------------
--- Close current tab
-vim.keymap.set('n', '<leader>td', ':tabclose<CR>', { desc = '[T]ab [d]elete (close)' })
-
 -- Disable line numbers in terminal buffers
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('terminal_settings', { clear = true }),
@@ -26,6 +20,12 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.opt_local.relativenumber = false
   end,
 })
+
+--------------------------------------------------------------------------------
+-- TAB COMMANDS
+--------------------------------------------------------------------------------
+-- Close current tab
+vim.keymap.set('n', '<leader>td', ':tabclose<CR>', { desc = '[T]ab [d]elete (close)' })
 
 --------------------------------------------------------------------------------
 -- BUFFER COMMANDS (leader + b)
@@ -305,6 +305,13 @@ vim.keymap.set('v', '<leader>Fta<Space>', ':Tabularize / <CR>', { desc = '[F]orm
 vim.keymap.set('v', '<leader>Ftac', ':Tabularize /', { desc = '[F]ormat [t]abularize [a]lign [c]ustom pattern' })
 
 --------------------------------------------------------------------------------
+-- YANK/PASTE
+--------------------------------------------------------------------------------
+-- Swap p and P in visual mode - lowercase p should do the smart thing (paste without clobbering clipboard)
+vim.keymap.set('v', 'p', 'P', { desc = 'Paste without yanking deleted text' })
+vim.keymap.set('v', 'P', 'p', { desc = 'Paste and yank deleted text' })
+
+--------------------------------------------------------------------------------
 -- MISC
 --------------------------------------------------------------------------------
 -- Re-indent entire buffer
@@ -347,15 +354,9 @@ vim.api.nvim_create_autocmd('FileType', {
 --------------------------------------------------------------------------------
 -- TINY GIT
 --------------------------------------------------------------------------------
-vim.keymap.set('n', '<leader>tga', function()
-  require('tinygit').interactiveStaging()
-end, { desc = 'Tiny [g]it [a]dd' })
-vim.keymap.set('n', '<leader>tgc', function()
-  require('tinygit').smartCommit()
-end, { desc = 'Tiny [g]it [c]ommit' })
-vim.keymap.set('n', '<leader>tgp', function()
-  require('tinygit').push()
-end, { desc = 'Tiny [g]it [p]ush' })
+vim.keymap.set('n', '<leader>tga', ':Tinygit interactiveStaging<CR>', { desc = 'Tiny [g]it [a]dd' })
+vim.keymap.set('n', '<leader>tgc', ':Tinygit smartCommit<CR>', { desc = 'Tiny [g]it [c]ommit' })
+vim.keymap.set('n', '<leader>tgp', ':Tinygit push<CR>', { desc = 'Tiny [g]it [p]ush' })
 
 --------------------------------------------------------------------------------
 -- GIT LINKER
@@ -423,14 +424,3 @@ end, { desc = 'Open [M]essages buffer with copy support' })
 vim.keymap.set('n', '<leader>z', 'za', { desc = 'Toggle fold' })
 vim.keymap.set('n', '<leader>zo', 'zR', { desc = 'Open all folds' })
 vim.keymap.set('n', '<leader>zc', 'zM', { desc = 'Close all folds' })
-
---------------------------------------------------------------------------------
--- MOTION COMMANDS
---------------------------------------------------------------------------------
---- nvim-spider
--- positions spider's `w` will move to
--- if foo:find("%d") and foo == bar then print("[foo] has" .. bar) end
--- -- ^   ^      ^   ^   ^   ^  ^   ^    ^       ^    ^    ^  ^    ^  -> 14
--- vim.keymap.set({ 'n', 'o', 'x' }, 'w', "<cmd>lua require('spider').motion('w')<CR>")
--- vim.keymap.set({ 'n', 'o', 'x' }, 'e', "<cmd>lua require('spider').motion('e')<CR>")
--- vim.keymap.set({ 'n', 'o', 'x' }, 'b', "<cmd>lua require('spider').motion('b')<CR>")

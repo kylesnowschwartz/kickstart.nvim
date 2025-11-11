@@ -271,6 +271,14 @@ return {
   {
     'chrisgrieser/nvim-tinygit',
     dependencies = 'nvim-telescope/telescope.nvim', -- only for interactive staging
+    config = function()
+      require('tinygit').setup {
+        stage = {
+          -- use telescope for interactive staging
+          contextSize = 2,
+        },
+      }
+    end,
   },
   { 'RRethy/nvim-treesitter-endwise' },
   {
