@@ -234,7 +234,7 @@ return {
       vim.lsp.enable 'ruby_ls'
       vim.lsp.enable 'bash_ls'
       vim.lsp.enable 'html_ls'
-      vim.lsp.enable 'python_ls'
+      -- vim.lsp.enable 'python_ls' -- Disabled: basedpyright-langserver not installed
       -- TODO: vim.lsp.enable({ "ts_ls", "cssls", "tailwindcssls" })
       -- https://github.com/Rishabh672003/Neovim/blob/main/lua/rj/lsp.lua
     end,
