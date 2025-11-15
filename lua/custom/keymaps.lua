@@ -1,6 +1,15 @@
 -- Custom Keymaps
 --
 ----------------------------------------------------------------------------------
+-- MOTION REMAPS
+--------------------------------------------------------------------------------
+-- Make j/k move by display lines (don't skip wrapped lines)
+vim.keymap.set('n', 'j', 'gj', { desc = 'Move down (display line)' })
+vim.keymap.set('n', 'k', 'gk', { desc = 'Move up (display line)' })
+vim.keymap.set('n', 'gj', 'j', { desc = 'Move down (actual line)' })
+vim.keymap.set('n', 'gk', 'k', { desc = 'Move up (actual line)' })
+
+----------------------------------------------------------------------------------
 -- TERMINAL COMMANDS
 --------------------------------------------------------------------------------
 -- Snacks terminal handles escape behavior with smart double-escape pattern

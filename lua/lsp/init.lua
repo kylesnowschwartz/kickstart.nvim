@@ -259,6 +259,13 @@ return {
       -- log_level = vim.log.levels.DEBUG, -- Uncomment for debugging
       format_on_save = function(bufnr)
         local disable_filetypes = { c = true, cpp = true }
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+
+        -- Disable formatting for init.lua to preserve manual alignment
+        if bufname:match '/init%.lua$' then
+          return nil
+        end
+
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else

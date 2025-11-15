@@ -1,60 +1,49 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.g.have_nerd_font = true -- Set to true if you have a Nerd Font installed and selected
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
+-- UI =========================================================================
+vim.opt.number = true          -- Show line numbers
+vim.opt.relativenumber = false -- Use absolute line numbers
+vim.opt.cursorline = true      -- Highlight current line
+vim.opt.signcolumn = 'yes'     -- Always show sign column to prevent layout shift
+vim.opt.showmode = false       -- Don't show mode in command line (statusline shows it)
+vim.opt.list = true            -- Show certain whitespace characters
+vim.opt.scrolloff = 10         -- Minimal lines above/below cursor
+vim.opt.colorcolumn = '+1'     -- Shows column right after textwidth
+vim.opt.breakindent = true     -- Indent wrapped lines to match line start
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣', extends = '…', precedes = '…' } -- Define whitespace characters
 
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+-- Input ======================================================================
+vim.opt.mouse = 'a'                  -- Enable mouse for all modes (useful for resizing splits)
+vim.opt.timeoutlen = 300             -- Time to wait for mapped sequence (ms)
+vim.opt.confirm = true               -- Ask to save changes instead of failing
+vim.opt.mousescroll = 'ver:3,hor:6'  -- Customizes mouse scroll speed (smoother scrolling)
 
--- Make line numbers default
-vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = false
--- relative numbers only in Normal mode and absolute numbers while typing
-local autocmd = vim.api.nvim_create_autocmd -- define the helper *first*
--- local number_toggle = vim.api.nvim_create_augroup('number_toggle', { clear = true })
--- autocmd('InsertEnter', {
---   group = number_toggle,
---   callback = function()
---     vim.opt.relativenumber = false
---   end,
--- })
---
--- autocmd('InsertLeave', {
---   group = number_toggle,
---   callback = function()
---     vim.opt.relativenumber = true
---   end,
--- })
+-- Display ====================================================================
+vim.opt.breakindentopt = 'list:-1' -- Adds padding for list continuations when wrapping
+vim.opt.linebreak = true           -- Wraps at word boundaries (looks cleaner when wrap is on)
+vim.opt.pumheight = 10             -- Limits popup menu height to 10 items (prevents giant completion menus)
+vim.opt.ruler = false              -- Disables cursor position in cmdline (statusline shows it anyway)
+vim.opt.shortmess = 'CFOSWaco'     -- Reduces verbose completion/search messages
+vim.opt.splitkeep = 'screen'       -- Keeps content stable during split operations (less jarring)
+vim.opt.winborder = 'single'       -- Adds borders to floating windows
 
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
-
--- Don't show the mode, since it's already in the status line
-vim.opt.showmode = false
-
+-- Clipboard ==================================================================
 vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
+  vim.opt.clipboard = 'unnamedplus' -- Use system clipboard (scheduled to avoid startup delay)
 end)
 
--- Enable break indent
-vim.opt.breakindent = true
+-- Files ======================================================================
+vim.opt.undofile = true -- Save undo history to file
+vim.opt.autoread = true -- Auto-reload files changed externally
 
--- Save undo history
-vim.opt.undofile = true
-
--- Auto-reload files when changed externally
-vim.opt.autoread = true
+-- Autocommand helper
+local autocmd = vim.api.nvim_create_autocmd
 
 -- Auto-refresh files when they change externally
 local autorefresh_group = vim.api.nvim_create_augroup('autorefresh', { clear = true })
-
--- Check for external file changes on various events
 autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
   group = autorefresh_group,
   callback = function()
@@ -72,7 +61,36 @@ autocmd('FileChangedShell', {
   end,
 })
 
--- provides an experimental commandline and message UI intended to replace the message grid in the TUI
+-- Search =====================================================================
+vim.opt.ignorecase = true    -- Case-insensitive search by default
+vim.opt.smartcase = true     -- Case-sensitive if search contains uppercase
+vim.opt.inccommand = 'split' -- Preview substitutions live as you type
+vim.opt.incsearch = true     -- Show matches while typing search
+
+-- Editing ====================================================================
+vim.opt.formatoptions = 'rqnl1j' -- Smart comment formatting and joining
+vim.opt.virtualedit = 'block'  -- Allow cursor past EOL in visual block mode
+vim.opt.spelloptions = 'camel' -- Spell-check CamelCase words correctly
+vim.opt.infercase = true       -- Smart case handling in keyword completion
+
+-- Splits =====================================================================
+vim.opt.splitright = true    -- Vertical splits open to the right
+vim.opt.splitbelow = true    -- Horizontal splits open below
+vim.opt.switchbuf = 'usetab' -- Reuse existing tabs when switching buffers
+-- vim.opt.switchbuf = 'vsplit' -- Open special buffers in vertical splits
+
+-- Performance ================================================================
+vim.opt.updatetime = 250 -- Faster completion and swap file writes (ms)
+
+-- Folding ====================================================================
+vim.opt.foldmethod = 'indent' -- Use indentation for folding
+vim.opt.foldlevel = 10        -- Change to 99 to start with all folds open
+vim.opt.foldenable = true     -- Enable folding
+vim.opt.foldnestmax = 10      -- Maximum 10 nested fold levels (prevents performance issues)
+vim.opt.foldtext = ''         -- Use default fold display with syntax highlighting
+
+-- Experimental UI ============================================================
+-- Provides an experimental commandline and message UI
 require('vim._extui').enable {
   enable = true, -- Whether to enable or disable the UI.
   msg = { -- Options related to the message module.
@@ -82,51 +100,6 @@ require('vim._extui').enable {
     timeout = 4000, -- Time a message is visible in the message window.
   },
 }
-
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-
--- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
-
--- Decrease update time
-vim.opt.updatetime = 250
-
--- Decrease mapped sequence wait time
-vim.opt.timeoutlen = 300
-
--- Configure how new splits should be opened
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-
--- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
-
--- Show which line your cursor is on
-vim.opt.cursorline = true
-
--- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
-
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
--- See `:help 'confirm'`
-vim.opt.confirm = true
-
--- Folding configuration
-vim.opt.foldmethod = 'indent'
-vim.opt.foldlevel = 99
-vim.opt.foldenable = true
-
--- Open special buffers in splits
-vim.opt.switchbuf = 'vsplit'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -326,6 +299,13 @@ require('lazy').setup({
       -- Work with trailing whitespace
       --
       require('mini.trailspace').setup()
+
+      -- Align text interactively
+      --
+      -- Examples:
+      --  - gaip= - [G]o [A]lign [I]nner [P]aragraph around '='
+      --  - gai'-- - [G]o [A]lign [I]nside quotes around '--'
+      require('mini.align').setup()
 
       -- Better Around/Inside textobjects
       --
