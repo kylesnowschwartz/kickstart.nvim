@@ -102,28 +102,29 @@ return { -- Fuzzy Finder (files, lsp, etc)
         winblend = 20, -- 15% transparency
 
         -- Flex layout: auto-switches between horizontal/vertical based on window size
+        -- Note: flip_columns/flip_lines CANNOT be set here - they're flex-specific
+        -- and would break other layouts (bottom_pane, center, cursor, etc).
+        -- Flex uses horizontal.preview_cutoff as flip_columns fallback,
+        -- and vertical.preview_cutoff as flip_lines fallback.
         layout_strategy = 'flex',
         layout_config = {
-          -- Switch to vertical when width < 120 columns
-          flip_columns = 120,
-          -- Require at least 30 lines for vertical mode
-          flip_lines = 30,
-
           -- Horizontal mode (wide screens): preview on right
+          -- preview_cutoff also serves as flip_columns for flex layout
           horizontal = {
             width = 0.9,
             height = 0.85,
             preview_width = 0.55,
-            preview_cutoff = 100, -- Show preview at 100+ cols (lower than default 120)
+            preview_cutoff = 100, -- Switch to vertical when width < 100 cols
             prompt_position = 'bottom',
           },
 
           -- Vertical mode (narrow screens): preview on top
+          -- preview_cutoff also serves as flip_lines for flex layout
           vertical = {
             width = 0.95,
             height = 0.9,
             preview_height = 0.4,
-            preview_cutoff = 15, -- Almost always show preview in vertical mode
+            preview_cutoff = 30, -- Require 30+ lines for vertical mode
             prompt_position = 'bottom',
           },
         },
@@ -215,16 +216,15 @@ return { -- Fuzzy Finder (files, lsp, etc)
         -- Run with our custom previewer
         require('telescope.builtin').current_buffer_fuzzy_find(config)
       else
-        -- For normal buffers, use the default ivy theme
+        -- For normal buffers, use ivy theme (bottom_pane layout)
         local ivy_config = require('telescope.themes').get_ivy {
-          sorting_strategy = 'ascending', -- Make results go from top to bottom for consistency
+          sorting_strategy = 'ascending',
           layout_config = {
             height = 0.6,
             prompt_position = 'bottom',
           },
         }
 
-        -- Run with standard configuration
         require('telescope.builtin').current_buffer_fuzzy_find(ivy_config)
       end
     end
