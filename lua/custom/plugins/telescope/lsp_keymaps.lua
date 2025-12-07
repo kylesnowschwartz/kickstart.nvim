@@ -6,10 +6,13 @@ function M.setup_lsp_keymaps(bufnr)
     vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
   end
 
-  map('grr', vim.lsp.buf.references, '[G]oto [R]eferences')
-  map('grd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  map('gri', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  map('gy', vim.lsp.buf.type_definition, '[G]oto T[y]pe Definition')
+  local builtin = require 'telescope.builtin'
+
+  map('grr', builtin.lsp_references, '[G]oto [R]eferences')
+  map('gd', builtin.lsp_definitions, '[G]oto [D]efinition')
+  map('grd', builtin.lsp_definitions, '[G]oto [D]efinition')
+  map('gri', builtin.lsp_implementations, '[G]oto [I]mplementation')
+  map('gy', builtin.lsp_type_definitions, '[G]oto T[y]pe Definition')
 
   -- Keep code action with tiny-code-action
   map('gra', function()
