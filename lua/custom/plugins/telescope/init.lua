@@ -100,6 +100,34 @@ return { -- Fuzzy Finder (files, lsp, etc)
       },
       defaults = {
         winblend = 20, -- 15% transparency
+
+        -- Flex layout: auto-switches between horizontal/vertical based on window size
+        layout_strategy = 'flex',
+        layout_config = {
+          -- Switch to vertical when width < 120 columns
+          flip_columns = 120,
+          -- Require at least 30 lines for vertical mode
+          flip_lines = 30,
+
+          -- Horizontal mode (wide screens): preview on right
+          horizontal = {
+            width = 0.9,
+            height = 0.85,
+            preview_width = 0.55,
+            preview_cutoff = 100, -- Show preview at 100+ cols (lower than default 120)
+            prompt_position = 'bottom',
+          },
+
+          -- Vertical mode (narrow screens): preview on top
+          vertical = {
+            width = 0.95,
+            height = 0.9,
+            preview_height = 0.4,
+            preview_cutoff = 15, -- Almost always show preview in vertical mode
+            prompt_position = 'bottom',
+          },
+        },
+
         mappings = {
           i = { -- Insert mode mapping
             ['<C-F>'] = 'to_fuzzy_refine',
