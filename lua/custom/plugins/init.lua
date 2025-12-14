@@ -198,16 +198,6 @@ return {
     },
   },
   {
-    'vhyrro/luarocks.nvim',
-    priority = 1001, -- this plugin needs to run before anything else
-    opts = {
-      rocks = { 'magick' },
-    },
-  },
-  {
-    -- dir = '/Users/kyle/Code/image.nvim',
-    -- name = 'image.nvim',
-    -- build = false, -- No build needed for magick_cli
     '3rd/image.nvim',
     config = function()
       -- Skip image.nvim setup in headless mode (like when running tests)
@@ -215,10 +205,11 @@ return {
         return
       end
       require('image').setup {
-        -- Using ueberzug backend - correct choice for iTerm2
-        backend = 'ueberzug',
-        -- processor = 'magick_cli',
-        processor = 'magick_rock',
+        -- Kitty graphics protocol - native support in Ghostty, best performance
+        backend = 'kitty',
+        -- magick_cli uses ImageMagick CLI tools (convert, identify) instead of the Lua rock
+        -- This avoids the luarocks.nvim dependency which has broken shebangs on Apple Silicon
+        processor = 'magick_cli',
 
         -- Optimized for direct image viewing
         max_width_window_percentage = nil, -- Allow full width
