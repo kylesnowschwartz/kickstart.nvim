@@ -245,11 +245,40 @@ return {
     end,
   },
   {
+    'zenbones-theme/zenbones.nvim',
+    dependencies = 'rktjmp/lush.nvim',
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    dir = '/Users/kyle/Code/my-projects/cobalt-neon.nvim',
+    priority = 1000,
+    config = function()
+      require('cobalt-neon').setup {
+        italic = { comments = true },
+      }
+      vim.cmd.colorscheme 'cobalt-neon'
+    end,
+  },
+  {
     'zaldih/themery.nvim',
     lazy = false,
     config = function()
       require('themery').setup {
-        themes = { 'gruvbox', 'dawnfox', 'dayfox', 'nightfox', 'cobalt' },
+        themes = {
+          'gruvbox',
+          'dawnfox',
+          'dayfox',
+          'nightfox',
+          'cobalt',
+          'cobalt-neon',
+          -- zenbones family
+          'zenbones',
+          'nordbones',
+          'tokyobones',
+          'seoulbones',
+          'duckbones',
+        },
         livePreview = true,
       }
     end,

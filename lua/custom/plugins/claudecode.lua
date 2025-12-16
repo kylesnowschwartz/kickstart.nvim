@@ -1,5 +1,5 @@
 -- Common configuration values
-local EMBEDDED_WIDTH = 0.30
+local EMBEDDED_WIDTH = 0.5
 local FLOAT_WIDTH = 0.8
 local FLOAT_HEIGHT = 0.8
 local EMBEDDED_BLEND = 0
@@ -12,7 +12,7 @@ local FOCUS_KEY = '<C-f>'
 local KEY_MODES = { 't', 'n' }
 
 -- Common positions
-local POSITION_LEFT = 'left'
+local POSITION_EMBEDDED = 'right'
 local POSITION_FLOAT = 'float'
 local RELATIVE_EDITOR = 'editor'
 
@@ -54,7 +54,7 @@ end
 -- Define the functions in proper order to avoid circular references
 local function create_embedded_opts(keys)
   return {
-    position = POSITION_LEFT,
+    position = POSITION_EMBEDDED,
     width = EMBEDDED_WIDTH,
     height = 0,
     relative = RELATIVE_EDITOR,
@@ -76,7 +76,7 @@ end
 
 local function create_embedded_config(keys)
   return {
-    split_side = POSITION_LEFT,
+    split_side = POSITION_EMBEDDED,
     split_width_percentage = EMBEDDED_WIDTH,
     auto_close = false, -- Disable auto_close to prevent error messages during toggle
     snacks_win_opts = create_embedded_opts(keys),
@@ -133,11 +133,12 @@ return {
     terminal_cmd = 'claude',
     log_level = 'info',
     terminal = {
-      split_side = POSITION_LEFT,
+      provider = 'native', -- Use native Neovim terminal for normal window behavior
+      split_side = POSITION_EMBEDDED,
       split_width_percentage = EMBEDDED_WIDTH,
       auto_close = false, -- Disable auto_close to prevent error messages during toggle
       snacks_win_opts = {
-        position = POSITION_LEFT,
+        position = POSITION_EMBEDDED,
         width = EMBEDDED_WIDTH,
         height = 0,
         wo = {
