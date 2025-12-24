@@ -30,6 +30,8 @@ return {
         'ruff', -- Python
         'isort', -- Python import sorting
         'shfmt', -- Shell scripts
+        'gofumpt', -- Go (stricter gofmt)
+        'goimports', -- Go import management
       }
 
       local registry = require 'mason-registry'
@@ -234,6 +236,7 @@ return {
       vim.lsp.enable 'ruby_ls'
       vim.lsp.enable 'bash_ls'
       vim.lsp.enable 'html_ls'
+      vim.lsp.enable 'gopls'
       -- vim.lsp.enable 'python_ls' -- Disabled: basedpyright-langserver not installed
       -- TODO: vim.lsp.enable({ "ts_ls", "cssls", "tailwindcssls" })
       -- https://github.com/Rishabh672003/Neovim/blob/main/lua/rj/lsp.lua
@@ -292,6 +295,7 @@ return {
         sh = { 'shfmt' },
         bash = { 'shfmt' },
         zsh = { 'shfmt' },
+        go = { 'goimports', 'gofumpt' },
       },
       formatters = {
         ruff_format = {

@@ -29,11 +29,15 @@ return {
         'python',
         'ruby',
         'rust',
+        'go',
+        'gomod',
+        'gosum',
+        'gowork',
       }
 
       -- Enable treesitter features per filetype
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'bash', 'c', 'diff', 'html', 'lua', 'markdown', 'vim', 'ruby' },
+        pattern = { 'bash', 'c', 'diff', 'html', 'lua', 'markdown', 'vim', 'ruby', 'go', 'gomod' },
         callback = function()
           -- Enable highlighting (provided by Neovim)
           vim.treesitter.start()
