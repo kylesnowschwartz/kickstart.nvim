@@ -237,6 +237,7 @@ return {
       vim.lsp.enable 'bash_ls'
       vim.lsp.enable 'html_ls'
       vim.lsp.enable 'gopls'
+      vim.lsp.enable 'astro'
       -- vim.lsp.enable 'python_ls' -- Disabled: basedpyright-langserver not installed
       -- TODO: vim.lsp.enable({ "ts_ls", "cssls", "tailwindcssls" })
       -- https://github.com/Rishabh672003/Neovim/blob/main/lua/rj/lsp.lua
@@ -285,6 +286,7 @@ return {
         javascriptreact = { 'eslint_d', 'prettier', stop_after_first = true },
         typescript = { 'eslint_d', 'prettier', stop_after_first = true },
         typescriptreact = { 'eslint_d', 'prettier', stop_after_first = true },
+        astro = { 'prettier' },
         ruby = { 'rubocop' },
         -- yaml = { 'prettier' },
         -- json = { 'prettier' },
