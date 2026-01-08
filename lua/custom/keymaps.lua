@@ -384,15 +384,10 @@ vim.keymap.set(
 )
 
 --------------------------------------------------------------------------------
--- DIFFVIEW
+-- CODEDIFF
 --------------------------------------------------------------------------------
--- Open diffview (compares against base branch if available, otherwise shows local changes)
-vim.keymap.set('n', '<leader>gd', function()
-  require('custom.plugins.diffview.helpers').open_diff()
-end, { desc = 'Git [d]iff view' })
-
--- Close diffview
-vim.keymap.set('n', '<leader>gD', ':DiffviewClose<CR>', { desc = 'Git [D]iff close' })
+-- Open CodeDiff view (git diff explorer)
+vim.keymap.set('n', '<leader>gd', ':CodeDiff<CR>', { desc = 'Git [d]iff (CodeDiff)' })
 
 --------------------------------------------------------------------------------
 -- MESSAGES

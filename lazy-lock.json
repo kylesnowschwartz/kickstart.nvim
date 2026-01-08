@@ -5,6 +5,7 @@
   "claucode.nvim": { "branch": "main", "commit": "7dde5e214600886d81ff7c6e7b9a3f03afcd12e9" },
   "claudecode.nvim": { "branch": "main", "commit": "6091df0e8edcdc92526cec23bbb42f63c0bb5ff2" },
   "cobalt.nvim": { "branch": "main", "commit": "9a5e401a686cfb7ad08acae8c4430ac28138d023" },
+  "codediff.nvim": { "branch": "main", "commit": "e6d0efcf20197b266deeb8e4b6a2bbe7f0e8c6ec" },
   "conform.nvim": { "branch": "master", "commit": "ffe26e8df8115c9665d24231f8a49fadb2d611ce" },
   "copilot.vim": { "branch": "release", "commit": "f89e977c87180519ba3b942200e3d05b17b1e2fc" },
   "cronex.nvim": { "branch": "main", "commit": "669711a6293fef20934622a556fcc65678a23809" },

@@ -313,6 +313,14 @@ return {
   },
   { 'RRethy/nvim-treesitter-endwise' },
   {
+    'esmuellert/codediff.nvim',
+    dependencies = { 'MunifTanjim/nui.nvim' },
+    cmd = 'CodeDiff',
+    config = function()
+      require('custom.codediff').setup()
+    end,
+  },
+  {
     'windwp/nvim-ts-autotag',
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
