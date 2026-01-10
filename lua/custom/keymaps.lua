@@ -226,12 +226,10 @@ vim.keymap.set('n', '<leader>ep', ':lprev<CR>', { desc = '[E]rror [p]revious (lo
 --------------------------------------------------------------------------------
 -- FORMATTING (leader + F)
 --------------------------------------------------------------------------------
--- Text formatting with gq (for which-key popup)
-vim.keymap.set('n', '<leader>Fp', 'gqap', { desc = '[F]ormat [p]aragraph' })
-vim.keymap.set('n', '<leader>Fl', 'gqq', { desc = '[F]ormat [l]ine' })
-vim.keymap.set('v', '<leader>Fs', 'gq', { desc = '[F]ormat [s]election' })
-vim.keymap.set('n', '<leader>Ff', 'mzggVGgq`z', { desc = '[F]ormat entire [f]ile (gq)' })
-vim.keymap.set('n', '<leader>Fi', 'gqip', { desc = '[F]ormat [i]nner paragraph' })
+-- NOTE: Use gq{motion} directly for text formatting (see which-key hints for g)
+--   gqap = format paragraph, gqq = format line, gqip = format inner paragraph
+-- NOTE: Use ga{motion}{char} for alignment via mini.align
+--   gaip= = align inner paragraph on '=', ga|= in visual mode, etc.
 
 -- Reflow paragraph (join lines then reformat to new width)
 vim.keymap.set('n', '<leader>Fr', 'vipJgwap', { desc = '[F]ormat [r]eflow paragraph' })
@@ -300,18 +298,6 @@ vim.keymap.set('n', '<leader>FM', function()
   local line = get_modeline_comment(content)
   vim.api.nvim_put({ line }, 'l', true, true)
 end, { desc = '[F]ormat add custom [M]odeline' })
-
--- Tabularize alignment (leader + Fta + alignment char)
-vim.keymap.set('v', '<leader>Fta=', ':Tabularize /=<CR>', { desc = '[F]ormat [t]abularize [a]lign on [=] signs' })
-vim.keymap.set('v', '<leader>Fta:', ':Tabularize /:<CR>', { desc = '[F]ormat [t]abularize [a]lign on [:] colons' })
-vim.keymap.set('v', '<leader>Fta>', ':Tabularize /=><CR>', { desc = '[F]ormat [t]abularize [a]lign on [>] arrows' })
-vim.keymap.set('v', '<leader>Fta|', ':Tabularize /|<CR>', { desc = '[F]ormat [t]abularize [a]lign on [|] pipes' })
-vim.keymap.set('v', '<leader>Fta,', ':Tabularize /,<CR>', { desc = '[F]ormat [t]abularize [a]lign on [,] commas' })
-vim.keymap.set('v', '<leader>Fta/', ':Tabularize ///<CR>', { desc = '[F]ormat [t]abularize [a]lign on [/] comments' })
-vim.keymap.set('v', '<leader>Fta"', ':Tabularize /"<CR>', { desc = '[F]ormat [t]abularize [a]lign on ["] quotes' })
-vim.keymap.set('v', '<leader>Fta&', ':Tabularize /&<CR>', { desc = '[F]ormat [t]abularize [a]lign on [&] ampersands' })
-vim.keymap.set('v', '<leader>Fta<Space>', ':Tabularize / <CR>', { desc = '[F]ormat [t]abularize [a]lign on [ ] spaces' })
-vim.keymap.set('v', '<leader>Ftac', ':Tabularize /', { desc = '[F]ormat [t]abularize [a]lign [c]ustom pattern' })
 
 --------------------------------------------------------------------------------
 -- YANK/PASTE

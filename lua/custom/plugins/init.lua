@@ -135,7 +135,7 @@ return {
       },
     },
   },
-  { 'godlygeek/tabular' },
+  -- NOTE: Tabular removed - use mini.align instead (ga{motion}{char})
   {
     'github/copilot.vim',
     event = 'InsertEnter',
@@ -291,12 +291,6 @@ return {
         },
         livePreview = true,
       }
-    end,
-  },
-  {
-    'avifenesh/claucode.nvim',
-    config = function()
-      require('claucode').setup()
     end,
   },
   {

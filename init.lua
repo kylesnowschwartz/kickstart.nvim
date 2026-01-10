@@ -4,31 +4,31 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true -- Set to true if you have a Nerd Font installed and selected
 
 -- UI =========================================================================
-vim.opt.number = true          -- Show line numbers
+vim.opt.number = true -- Show line numbers
 vim.opt.relativenumber = false -- Use absolute line numbers
-vim.opt.cursorline = true      -- Highlight current line
-vim.opt.signcolumn = 'yes'     -- Always show sign column to prevent layout shift
-vim.opt.showmode = false       -- Don't show mode in command line (statusline shows it)
-vim.opt.list = true            -- Show certain whitespace characters
-vim.opt.scrolloff = 10         -- Minimal lines above/below cursor
-vim.opt.colorcolumn = '+1'     -- Shows column right after textwidth
-vim.opt.breakindent = true     -- Indent wrapped lines to match line start
+vim.opt.cursorline = true -- Highlight current line
+vim.opt.signcolumn = 'yes' -- Always show sign column to prevent layout shift
+vim.opt.showmode = false -- Don't show mode in command line (statusline shows it)
+vim.opt.list = true -- Show certain whitespace characters
+vim.opt.scrolloff = 10 -- Minimal lines above/below cursor
+vim.opt.colorcolumn = '+1' -- Shows column right after textwidth
+vim.opt.breakindent = true -- Indent wrapped lines to match line start
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣', extends = '…', precedes = '…' } -- Define whitespace characters
 
 -- Input ======================================================================
-vim.opt.mouse = 'a'                  -- Enable mouse for all modes (useful for resizing splits)
-vim.opt.timeoutlen = 300             -- Time to wait for mapped sequence (ms)
-vim.opt.confirm = true               -- Ask to save changes instead of failing
-vim.opt.mousescroll = 'ver:3,hor:6'  -- Customizes mouse scroll speed (smoother scrolling)
+vim.opt.mouse = 'a' -- Enable mouse for all modes (useful for resizing splits)
+vim.opt.timeoutlen = 300 -- Time to wait for mapped sequence (ms)
+vim.opt.confirm = true -- Ask to save changes instead of failing
+vim.opt.mousescroll = 'ver:3,hor:6' -- Customizes mouse scroll speed (smoother scrolling)
 
 -- Display ====================================================================
 vim.opt.breakindentopt = 'list:-1' -- Adds padding for list continuations when wrapping
-vim.opt.linebreak = true           -- Wraps at word boundaries (looks cleaner when wrap is on)
-vim.opt.pumheight = 10             -- Limits popup menu height to 10 items (prevents giant completion menus)
-vim.opt.ruler = false              -- Disables cursor position in cmdline (statusline shows it anyway)
-vim.opt.shortmess = 'CFOSWaco'     -- Reduces verbose completion/search messages
-vim.opt.splitkeep = 'screen'       -- Keeps content stable during split operations (less jarring)
-vim.opt.winborder = 'single'       -- Adds borders to floating windows
+vim.opt.linebreak = true -- Wraps at word boundaries (looks cleaner when wrap is on)
+vim.opt.pumheight = 10 -- Limits popup menu height to 10 items (prevents giant completion menus)
+vim.opt.ruler = false -- Disables cursor position in cmdline (statusline shows it anyway)
+vim.opt.shortmess = 'CFOSWaco' -- Reduces verbose completion/search messages
+vim.opt.splitkeep = 'screen' -- Keeps content stable during split operations (less jarring)
+vim.opt.winborder = 'single' -- Adds borders to floating windows
 
 -- Clipboard ==================================================================
 vim.schedule(function()
@@ -62,20 +62,20 @@ autocmd('FileChangedShell', {
 })
 
 -- Search =====================================================================
-vim.opt.ignorecase = true    -- Case-insensitive search by default
-vim.opt.smartcase = true     -- Case-sensitive if search contains uppercase
+vim.opt.ignorecase = true -- Case-insensitive search by default
+vim.opt.smartcase = true -- Case-sensitive if search contains uppercase
 vim.opt.inccommand = 'split' -- Preview substitutions live as you type
-vim.opt.incsearch = true     -- Show matches while typing search
+vim.opt.incsearch = true -- Show matches while typing search
 
 -- Editing ====================================================================
 vim.opt.formatoptions = 'rqnl1j' -- Smart comment formatting and joining
-vim.opt.virtualedit = 'block'  -- Allow cursor past EOL in visual block mode
+vim.opt.virtualedit = 'block' -- Allow cursor past EOL in visual block mode
 vim.opt.spelloptions = 'camel' -- Spell-check CamelCase words correctly
-vim.opt.infercase = true       -- Smart case handling in keyword completion
+vim.opt.infercase = true -- Smart case handling in keyword completion
 
 -- Splits =====================================================================
-vim.opt.splitright = true    -- Vertical splits open to the right
-vim.opt.splitbelow = true    -- Horizontal splits open below
+vim.opt.splitright = true -- Vertical splits open to the right
+vim.opt.splitbelow = true -- Horizontal splits open below
 vim.opt.switchbuf = 'usetab' -- Reuse existing tabs when switching buffers
 -- vim.opt.switchbuf = 'vsplit' -- Open special buffers in vertical splits
 
@@ -84,10 +84,10 @@ vim.opt.updatetime = 250 -- Faster completion and swap file writes (ms)
 
 -- Folding ====================================================================
 vim.opt.foldmethod = 'indent' -- Use indentation for folding
-vim.opt.foldlevel = 10        -- Change to 99 to start with all folds open
-vim.opt.foldenable = true     -- Enable folding
-vim.opt.foldnestmax = 10      -- Maximum 10 nested fold levels (prevents performance issues)
-vim.opt.foldtext = ''         -- Use default fold display with syntax highlighting
+vim.opt.foldlevel = 10 -- Change to 99 to start with all folds open
+vim.opt.foldenable = true -- Enable folding
+vim.opt.foldnestmax = 10 -- Maximum 10 nested fold levels (prevents performance issues)
+vim.opt.foldtext = '' -- Use default fold display with syntax highlighting
 
 -- Experimental UI ============================================================
 -- Provides an experimental commandline and message UI
@@ -259,12 +259,31 @@ require('lazy').setup({
         { '<leader>y', group = '[Y]azi' },
         { '<leader>yZ', group = '[Y]azi Resume' },
 
-        -- 🔧 New non-leader mappings:
+        -- Non-leader mappings
         { 'c', group = '[C]hange' },
         { 'd', group = '[D]elete' },
         { 'cs', desc = 'Change [S]urround' },
         { 'ds', desc = 'Delete [S]urround' },
-        { 'gr', group = 'Goto [R]references LSP' },
+        { 'gr', group = 'LSP [R]eferences' },
+
+        -- g commands (built-in Vim)
+        { 'g', group = '[G]o / Misc' },
+        { 'gq', desc = 'Format motion (textwidth)' },
+        { 'gw', desc = 'Format motion (no cursor move)' },
+        { 'gu', desc = 'Lowercase motion' },
+        { 'gU', desc = 'Uppercase motion' },
+        { 'g~', desc = 'Toggle case motion' },
+        { 'gJ', desc = 'Join lines (no space)' },
+        { 'gv', desc = 'Reselect last visual' },
+        { 'gn', desc = 'Select next search match' },
+        { 'gN', desc = 'Select prev search match' },
+        { 'g;', desc = 'Go to older change' },
+        { 'g,', desc = 'Go to newer change' },
+        { 'gi', desc = 'Insert at last insert pos' },
+        { 'ga', desc = 'Align (mini.align)' },
+        { 'gf', desc = 'Go to file under cursor' },
+        { 'gx', desc = 'Open URL under cursor' },
+        { 'g<C-g>', desc = 'Show cursor position info' },
       },
     },
   },
