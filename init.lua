@@ -363,6 +363,12 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      -- Command line enhancements
+      --
+      -- Provides autocomplete, autocorrect, and autopeek (shows range in floating window)
+      -- Requires Neovim>=0.11, Neovim>=0.12 recommended
+      require('mini.cmdline').setup()
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
