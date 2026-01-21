@@ -3,6 +3,12 @@ return {
     'rmagatti/auto-session',
     lazy = false,
 
+    -- Remove 'folds' from sessionoptions before auto-session loads
+    -- Treesitter computes folds dynamically - saving them creates stale state
+    init = function()
+      vim.opt.sessionoptions:remove 'folds'
+    end,
+
     ---enables autocomplete for opts
     ---@module "auto-session"
     ---@type AutoSession.Config
@@ -271,11 +277,20 @@ return {
     end,
   },
   {
+    dir = '/Users/kyle/Code/my-projects/claude-inline.nvim',
+    config = function()
+      require('claude-inline').setup {
+        debug = true,
+      }
+    end,
+  },
+  {
     'zaldih/themery.nvim',
     lazy = false,
     config = function()
       require('themery').setup {
         themes = {
+          'bleu',
           'gruvbox',
           'dawnfox',
           'dayfox',

@@ -58,7 +58,31 @@ return {
 
       -- Enable treesitter features per filetype
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'bash', 'c', 'diff', 'html', 'lua', 'markdown', 'vim', 'ruby', 'go', 'gomod' },
+        pattern = {
+          'bash',
+          'sh',
+          'c',
+          'css',
+          'diff',
+          'go',
+          'gomod',
+          'html',
+          'javascript',
+          'json',
+          'lua',
+          'make',
+          'markdown',
+          'python',
+          'ruby',
+          'rust',
+          'scss',
+          'toml',
+          'tsx',
+          'typescript',
+          'vim',
+          'xml',
+          'yaml',
+        },
         callback = function()
           -- Enable highlighting (provided by Neovim)
           vim.treesitter.start()
