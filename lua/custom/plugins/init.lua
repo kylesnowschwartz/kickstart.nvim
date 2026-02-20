@@ -141,7 +141,6 @@ return {
       },
     },
   },
-  -- NOTE: Tabular removed - use mini.align instead (ga{motion}{char})
   {
     'github/copilot.vim',
     event = 'InsertEnter',
@@ -249,23 +248,17 @@ return {
       }
     end,
   },
-  {
-    'ravitemer/mcphub.nvim',
-    enabled = false,
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    build = 'npm install -g mcp-hub@latest', -- Installs `mcp-hub` node binary globally
-    config = function()
-      require('mcphub').setup()
-    end,
-  },
-  {
-    'zenbones-theme/zenbones.nvim',
-    dependencies = 'rktjmp/lush.nvim',
-    lazy = false,
-    priority = 1000,
-  },
+  -- {
+  --   'ravitemer/mcphub.nvim',
+  --   enabled = false,
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --   },
+  --   build = 'npm install -g mcp-hub@latest', -- Installs `mcp-hub` node binary globally
+  --   config = function()
+  --     require('mcphub').setup()
+  --   end,
+  -- },
   {
     dir = '/Users/kyle/Code/my-projects/cobalt-neon.nvim',
     priority = 1000,
@@ -274,6 +267,15 @@ return {
         italic = { comments = true },
       }
       vim.cmd.colorscheme 'cobalt-neon'
+    end,
+  },
+  {
+    dir = '/Users/kyle/Code/my-projects/tekapo-sunset.nvim',
+    priority = 1000,
+    config = function()
+      require('tekapo-sunset').setup {
+        italic = { comments = true },
+      }
     end,
   },
   {
@@ -291,44 +293,19 @@ return {
       require('themery').setup {
         themes = {
           'bleu',
-          'gruvbox',
           'dawnfox',
           'dayfox',
           'nightfox',
           'cobalt',
           'cobalt-neon',
-          -- zenbones family
-          'zenbones',
-          'nordbones',
-          'tokyobones',
-          'seoulbones',
-          'duckbones',
+          'tekapo-sunset-dark',
+          'tekapo-sunset-light',
         },
         livePreview = true,
       }
     end,
   },
-  {
-    'chrisgrieser/nvim-tinygit',
-    dependencies = 'nvim-telescope/telescope.nvim', -- only for interactive staging
-    config = function()
-      require('tinygit').setup {
-        stage = {
-          -- use telescope for interactive staging
-          contextSize = 2,
-        },
-      }
-    end,
-  },
   { 'RRethy/nvim-treesitter-endwise' },
-  {
-    'esmuellert/codediff.nvim',
-    dependencies = { 'MunifTanjim/nui.nvim' },
-    cmd = 'CodeDiff',
-    config = function()
-      require('custom.codediff').setup()
-    end,
-  },
   {
     'windwp/nvim-ts-autotag',
     event = { 'BufReadPre', 'BufNewFile' },

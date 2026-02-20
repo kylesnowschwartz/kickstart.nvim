@@ -414,3 +414,8 @@ end, { desc = 'Open [M]essages buffer with copy support' })
 vim.keymap.set('n', '<leader>z', 'za', { desc = 'Toggle fold' })
 vim.keymap.set('n', '<leader>zo', 'zR', { desc = 'Open all folds' })
 vim.keymap.set('n', '<leader>zc', 'zM', { desc = 'Close all folds' })
+
+--------------------------------------------------------------------------------
+-- THEMERY
+--------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>Tt', ':Themery<CR>', { desc = 'Toggle Themery' })
