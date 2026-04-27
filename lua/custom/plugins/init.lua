@@ -260,6 +260,15 @@ return {
   --   end,
   -- },
   {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    opts = {
+      flavour = 'latte',
+      italic_comments = true,
+    },
+  },
+  {
     dir = '/Users/kyle/Code/my-projects/cobalt-neon.nvim',
     priority = 1000,
     config = function()
@@ -287,12 +296,17 @@ return {
     end,
   },
   {
+    dir = '/Users/kyle/Code/my-projects/rustless/nvim',
+    config = true,
+  },
+  {
     'zaldih/themery.nvim',
     lazy = false,
     config = function()
       require('themery').setup {
         themes = {
           'bleu',
+          'catppuccin-latte',
           'dawnfox',
           'dayfox',
           'nightfox',
@@ -303,6 +317,29 @@ return {
         },
         livePreview = true,
       }
+    end,
+  },
+  {
+    dir = '/Users/kyle/Code/my-projects/nerdfont-preview.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {
+      filetypes = { 'go', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
+    },
+  },
+  {
+    dir = '/Users/kyle/Code/my-projects/ansi-color-preview.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = { filetypes = { 'go' } },
+  },
+  {
+    '2KAbhishek/nerdy.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    cmd = 'Nerdy',
+    keys = {
+      { '<leader>si', '<cmd>Telescope nerdy<cr>', desc = '[S]earch [I]cons (Nerd Font)' },
+    },
+    config = function()
+      require('telescope').load_extension 'nerdy'
     end,
   },
   { 'RRethy/nvim-treesitter-endwise' },
@@ -319,5 +356,12 @@ return {
         ['eruby'] = 'html', -- Support for .html.erb files
       },
     },
+  },
+  {
+    'MSmaili/wiremux.nvim',
+    dependencies = {
+      'ibhagwan/fzf-lua', -- optional, for better picker UI
+    },
+    opts = {},
   },
 }
