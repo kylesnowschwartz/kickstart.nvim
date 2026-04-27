@@ -166,23 +166,42 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
+
+    -- Lazy fff helpers so require('fff') runs only when the key is pressed.
+    local function fff_find(opts)
+      return function()
+        require('fff').find_files(opts)
+      end
+    end
+    local function fff_grep(opts)
+      return function()
+        require('fff').live_grep(opts)
+      end
+    end
+
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
+    -- File finding now powered by fff.nvim (warm Rust index, frecency, typo-tolerant).
+    vim.keymap.set('n', '<leader>sf', fff_find(), { desc = '[S]earch [F]iles (fff)' })
+    vim.keymap.set('n', '<leader>ff', fff_find(), { desc = '[F]ind [F]iles (fff)' })
     vim.keymap.set('n', '<leader>sS', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-    vim.keymap.set('n', '<leader>sW', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-    -- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+    -- Grep current word: pre-fill fff live_grep with <cword>.
+    vim.keymap.set('n', '<leader>sW', function()
+      require('fff').live_grep { query = vim.fn.expand '<cword>' }
+    end, { desc = '[S]earch current [W]ord (fff)' })
     vim.keymap.set('n', '<leader>sD', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = '[B]uffers Find existing buffers' })
     vim.keymap.set('n', '<leader>s"', builtin.registers, { desc = '[S]earch ["]Registers' })
 
-    -- Git Telescope keymaps
-    vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = '[G]it [F]iles (tracked)' })
-    vim.keymap.set('n', '<leader>pf', builtin.git_files, { desc = '[P]roject [F]iles (git tracked)' }) -- Alias for muscle memory
-    vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus (changed files)' })
+    -- Git keymaps: file-oriented git pickers go through fff (already git-aware,
+    -- annotates results with modified/staged/etc.). History pickers stay on Telescope.
+    vim.keymap.set('n', '<leader>gf', fff_find(), { desc = '[G]it [F]iles (fff, gitignore-aware)' })
+    vim.keymap.set('n', '<leader>pf', fff_find(), { desc = '[P]roject [F]iles (fff)' }) -- muscle-memory alias
+    -- git:modified is fff's constraint token; type more in the picker to refine
+    -- (e.g. add !test/ or src/**/*.rs). For staged/untracked/etc. swap the token.
+    vim.keymap.set('n', '<leader>gs', fff_find { query = 'git:modified' }, { desc = '[G]it [S]tatus (fff, modified files)' })
     vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[G]it [C]ommits (repo history)' })
     vim.keymap.set('n', '<leader>gb', builtin.git_bcommits, { desc = '[G]it [B]uffer Commits (current file)' })
     vim.keymap.set('n', '<leader>gB', builtin.git_branches, { desc = '[G]it [B]ranches (checkout)' })
@@ -231,25 +250,17 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>/', swiper, { desc = '[/] Fuzzy search in buffer', silent = true })
     vim.keymap.set('n', '<leader>ss', swiper, { desc = 'Swiper <3', silent = true })
 
-    vim.keymap.set('n', '<leader>s/', function()
-      require('telescope').extensions.live_grep_args.live_grep_args {
-        prompt_title = '[S]earch [/] (With Args)',
-        disable_coordinates = 'true',
-        wrap_results = false,
-      }
-    end, { desc = '[S]earch [/] (With Args)' })
-
-    vim.keymap.set('n', '<leader>sg', function() -- Alias
-      require('telescope').extensions.live_grep_args.live_grep_args {
-        prompt_title = '[S]earch [/] (With Args)',
-        disable_coordinates = 'true',
-        wrap_results = false,
-      }
-    end, { desc = '[S]earch [/] (With Args)' })
+    -- Live grep now powered by fff (typo-tolerant, mode cycling, query constraints).
+    -- Constraint cheat sheet: git:modified, !test/, src/**/*.rs, *.md, src/main.rs.
+    -- Cycle plain/regex/fuzzy with <S-Tab> inside the picker.
+    -- telescope-live-grep-args is still loaded (local dev fork) but unbound;
+    -- call it directly with require('telescope').extensions.live_grep_args.live_grep_args() if needed.
+    vim.keymap.set('n', '<leader>s/', fff_grep(), { desc = '[S]earch [/] (fff live grep)' })
+    vim.keymap.set('n', '<leader>sg', fff_grep(), { desc = '[S]earch by [G]rep (fff)' }) -- alias
 
     -- Shortcut for searching your Neovim configuration files
     vim.keymap.set('n', '<leader>sn', function()
-      builtin.find_files { cwd = vim.fn.stdpath 'config' }
-    end, { desc = '[S]earch [N]eovim files' })
+      require('fff').find_files_in_dir(vim.fn.stdpath 'config')
+    end, { desc = '[S]earch [N]eovim files (fff)' })
   end,
 }

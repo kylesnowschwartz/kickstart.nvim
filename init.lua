@@ -256,8 +256,6 @@ require('lazy').setup({
         { '<leader>F', group = '[F]ormat' },
         { '<leader>q', group = '[Q]uit' },
         { '<leader>e', group = '[E]rror/Location' },
-        { '<leader>y', group = '[Y]azi' },
-        { '<leader>yZ', group = '[Y]azi Resume' },
 
         -- Non-leader mappings
         { 'c', group = '[C]hange' },
@@ -379,7 +377,6 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   { import = 'custom.plugins' },
-  require 'custom.plugins.yazi',
 
   -- Rails development enhancements
   {
