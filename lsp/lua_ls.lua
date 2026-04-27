@@ -11,7 +11,14 @@ return {
         callSnippet = 'Replace',
       },
       diagnostics = {
-        disable = { 'missing-fields' },
+        -- `vim` is the Neovim API global; lazydev only attaches to files
+        -- under our config root, so declare it here for any lua file lua_ls
+        -- happens to traverse (third-party plugin sources in ~/Code, etc.).
+        globals = { 'vim' },
+        -- Plugin source files frequently reference undeclared LuaCATS types
+        -- and incomplete @class definitions; suppress the noise so our own
+        -- diagnostics stay legible.
+        disable = { 'missing-fields', 'undefined-doc-name', 'undefined-doc-param' },
       },
     },
   },

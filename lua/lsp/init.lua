@@ -32,6 +32,7 @@ return {
         'shfmt', -- Shell scripts
         'gofumpt', -- Go (stricter gofmt)
         'goimports', -- Go import management
+        'rubocop', -- Ruby formatting/linting
       }
 
       local registry = require 'mason-registry'
@@ -319,13 +320,26 @@ return {
           -- Use 2-space indentation instead of tabs
           prepend_args = { '-i', '2' },
         },
-        rubocop = {
-          command = 'bundle',
-          prepend_args = { 'exec', 'rubocop' },
-          args = { '-A', '--stderr', '--stdin', '$FILENAME', '--format', 'quiet' },
-          exit_codes = { 0, 1 },
-          timeout_ms = 10000,
-        },
+        rubocop = function()
+          -- Use bundle exec in projects with a Gemfile, Mason's rubocop otherwise.
+          local has_gemfile = vim.fn.filereadable(vim.fn.getcwd() .. '/Gemfile') == 1
+          if has_gemfile then
+            return {
+              command = 'bundle',
+              prepend_args = { 'exec', 'rubocop' },
+              args = { '-A', '--stderr', '--stdin', '$FILENAME', '--format', 'quiet' },
+              exit_codes = { 0, 1 },
+              timeout_ms = 10000,
+            }
+          else
+            return {
+              command = 'rubocop',
+              args = { '-A', '--stderr', '--stdin', '$FILENAME', '--format', 'quiet' },
+              exit_codes = { 0, 1 },
+              timeout_ms = 10000,
+            }
+          end
+        end,
         prettier_markdown = function()
           local prettier_base = require 'conform.formatters.prettier'
           local tw = vim.api.nvim_get_option_value('textwidth', { buf = 0 })
