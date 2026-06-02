@@ -364,4 +364,12 @@ return {
     },
     opts = {},
   },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    -- nvim-treesitter and mini.nvim are already top-level plugins; no deps needed here.
+    -- Icons fall back to nvim-web-devicons, which is already loaded.
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+  },
 }
