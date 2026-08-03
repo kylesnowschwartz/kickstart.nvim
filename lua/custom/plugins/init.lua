@@ -365,11 +365,23 @@ return {
     opts = {},
   },
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    -- nvim-treesitter and mini.nvim are already top-level plugins; no deps needed here.
-    -- Icons fall back to nvim-web-devicons, which is already loaded.
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
+    'OXY2DEV/markview.nvim',
+    -- Upstream self-lazy-loads; wrapping it in lazy.nvim's loader delays previews.
+    lazy = false,
+    opts = {
+      renderers = {
+        markdown_table = function(buffer, item)
+          require('markview-smart-tables').render(buffer, item)
+        end,
+      },
+    },
+  },
+  {
+    'gunasekar/markview-smart-tables.nvim',
+    dependencies = { 'OXY2DEV/markview.nvim' },
+    opts = {
+      wrap_width = 0.9, -- fraction of window width (>1 means absolute columns)
+      wrap_minwidth = 5, -- narrowest a column shrinks to before words hard-break
+    },
   },
 }
